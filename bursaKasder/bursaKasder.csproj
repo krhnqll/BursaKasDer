@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
+    <ContainerRuntimeIdentifier>win-x64</ContainerRuntimeIdentifier>
+    <ContainerBaseImage>mcr.microsoft.com/dotnet/aspnet:8.0-nanoserver-1809</ContainerBaseImage>
+    <EnableSdkContainerDebugging>True</EnableSdkContainerDebugging>
+    <UserSecretsId>e30bdc4f-7a1b-4ac4-8653-7b4fe9f78a18</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\css\styles-ltr.css" />
+    <Content Remove="wwwroot\css\vendors\all.min.css" />
+    <Content Remove="wwwroot\css\vendors\animate.css" />
+    <Content Remove="wwwroot\css\vendors\bootstrap.min.css" />
+    <Content Remove="wwwroot\css\vendors\jquery.fancybox.min.css" />
+    <Content Remove="wwwroot\css\vendors\swiper.min.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ContainerPort Include="8081" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\Home\Index.cshtml" />
+    <None Include="Views\Pages\KasderStructure.cshtml" />
+    <None Include="wwwroot\css\styles-ltr.css" />
+    <None Include="wwwroot\css\vendors\all.min.css" />
+    <None Include="wwwroot\css\vendors\animate.css" />
+    <None Include="wwwroot\css\vendors\bootstrap.min.css" />
+    <None Include="wwwroot\css\vendors\jquery.fancybox.min.css" />
+    <None Include="wwwroot\css\vendors\swiper.min.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+</Project>

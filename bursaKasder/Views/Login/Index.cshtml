@@ -1,0 +1,60 @@
+﻿@model bursaKasder.Models.EntityModels.LoginViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("Index", "Login", FormMethod.Post))
+{
+
+    @Html.AntiForgeryToken()
+
+    <section class="signing-page  d-flex align-items-center">
+        <div class="overlay-image-bg  "></div>
+        <div class="overlay-color"></div>
+        <div class="container">
+            <div class="sining-area">
+                <div class="row ">
+                    <div class="col-12   mx-auto">
+                        <div class="signing-wrap">
+                            <div class="content">
+                                <h1 class="sining-heading">Hoşgeldiniz</h1>
+                                @if (!ViewData.ModelState.IsValid)
+                                {
+                                    <div class="alert alert-danger">
+                                        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                                        {
+                                            <p>@error.ErrorMessage</p>
+                                        }
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 mx-auto ">
+                        <div class="main-form-wraper">
+                            <div class="row ">
+                                <div class="col-12 ">
+                                    <div class="   input-wraper">
+                                        <input class="text-input" id="adm_Username" name="adm_Username" type="text">
+                                        <label for="adm_Username">Kullanıcı Adı</label><span class="b-border"></span>
+                                    </div>
+                                </div>
+                                <div class="col-12 ">
+                                    <div class="   input-wraper">
+                                        <input class="text-input" id="adm_Password" name="adm_Password" type="password">
+                                        <label for="adm_Password">Şifre</label><span class="b-border"></span>
+                                    </div>
+                                </div>
+                                <div class="col-12 ">
+                                    <button class=" ma-btn-primary no-borders no-box-shadow w-100" type="submit"> Giriş</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+

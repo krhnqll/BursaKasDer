@@ -1,0 +1,163 @@
+﻿<!DOCTYPE html>
+<html lang="zxx">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Home</title>
+
+    <!-- jQuery (Önce Yüklenmeli) -->
+    <script src="~/js/vendors/jquery-3.6.1.min.js"></script>
+
+    <!-- Bootstrap CSS (CDN) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+
+    <!-- Favicon -->
+    <link rel="icon" href="~/assets/images/fav-icon/fav-icon.png">
+
+    <!-- 3. Parti Kütüphaneler -->
+    <link rel="stylesheet" href="~/css/vendors/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="~/css/vendors/animate.css">
+    <link rel="stylesheet" href="~/css/vendors/swiper.min.css">
+    <link rel="stylesheet" href="~/css/vendors/splitting.css">
+
+    <!-- FontAwesome (CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap">
+
+    <!-- Ana CSS Dosyası -->
+    <link rel="stylesheet" href="~/css/styles-ltr.css">
+
+
+
+</head>
+<body class=" overlay-is-linear-gradient ">
+    <header class="page-header menu-on-end " id="page-header">
+        <!--start navbar-->
+        <div class="container">
+            <nav class="main-navbar " id="main-nav">
+                <a class="navbar-brand " href="#"><img class="brand-logo light-logo img-fluid " src="assets/images/logo/logo-light.png" alt="" /><img class="brand-logo dark-logo img-fluid " src="assets/images/logo/logo-dark.png" alt="" /></a>
+                <div class="menu-toggler-btn"><span></span><span></span><span></span></div>
+                <div class=" navbar-menu-wraper  " id="navbar-menu-wraper">
+                    <ul class="navbar-nav  mobile-menu ">
+                        <li class="nav-item"><a class="nav-link  " asp-controller="Home" asp-action="Index">Anasayfa</a></li>
+                        <li class="nav-item"><a class="nav-link  " asp-controller="Pages" asp-action="about_us">Hakkımızda</a></li>
+                        <li class="nav-item"><a class="nav-link  " asp-controller="Pages" asp-action="KasderStructure">Derneğimiz</a></li>
+                        <li class="nav-item"><a class="nav-link  " asp-controller="Pages" asp-action="events">Etkinliklerimiz</a></li>
+                        <li class="nav-item has-sub-menu">
+                            <a class="nav-link  " href="#0">Haberler<i class="fas fa-chevron-down down-Arrow-icon"> </i></a>
+                            <ul class="sub-menu ">
+                                <li class="nav-item sub-menu-item"><a class="nav-link sub-menu-link  " asp-controller="Pages" asp-action="news_FromUs">Bizden Haberler</a></li>
+                                <li class="nav-item sub-menu-item"><a class="nav-link sub-menu-link  " asp-controller="Pages" asp-action="news_FromKast">Kastamonudan Haberler</a></li>
+                            </ul>
+                        </li>
+                        @* <li class="nav-item"><a class="nav-link  " asp-controller="" asp-action="">Duyurular</a></li> *@
+                        <li class="nav-item"><a class="nav-link  " asp-controller="Pages" asp-action="contact_us">İletişim - Bize Ulaşın</a></li>
+                    </ul>
+                </div><a class="header-cta  ma-btn-primary " asp-controller="Login" asp-action="Index">Giriş</a>
+            </nav>
+        </div>
+        <!--End navbar-->
+    </header>
+
+    <main role="main">
+        @RenderBody() <!-- Sayfaların içeriği buraya gelecek -->
+    </main>
+
+    <footer class="page-footer dark-color-footer" id="page-footer">
+        <div class="container">
+            <div class="row footer-cols">
+                <div class="col-12 col-md-8 col-lg-4  footer-col wow fadeInUp " data-wow-delay="0.3s">
+                    <h6 class=" footer-col-title  ">BURSA KASTAMONULULAR DAYANIŞMA DERNEĞİ</h6>
+                    <div class="footer-col-content-wrapper">
+                        <p class="footer-text-about-us ">
+                            ELSA YAZILIM
+                        </p>
+                        <div class="social-icons">
+                            <div class="sc-wraper dir-row sc-size-32">
+                                <ul class="sc-list">
+                                    <li class="sc-item" title="Facebook"><a class="sc-link" href="#0"><i class="fab fa-facebook-f sc-icon"></i></a></li>
+                                    <li class="sc-item" title="youtube"><a class="sc-link" href="#0"><i class="fab fa-youtube sc-icon"></i></a></li>
+                                    <li class="sc-item" title="instagram"><a class="sc-link" href="https://www.instagram.com/bursakastamonululardernegi/" target="_blank"><i class="fab fa-instagram sc-icon"></i></a></li>
+                                    <li class="sc-item" title="X"><a class="sc-link" href="#0"><i class="fab fa-x-twitter sc-icon"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-2  footer-col wow fadeInUp " data-wow-delay="0.5s">
+                </div>
+                <div class="col-12 col-md-6 col-lg-2 footer-col wow fadeInUp " data-wow-delay=".7s">
+                    <h6 class=" footer-col-title    ">Kaynaklar</h6>
+                    <div class="footer-col-content-wrapper">
+                        <ul class="footer-menu">
+                            <li class="footer-menu-item"><a class="footer-menu-link" href="#0">support</a></li>
+                            <li class="footer-menu-item"><a class="footer-menu-link" href="#0">dashboard</a></li>
+                            <li class="footer-menu-item"><a class="footer-menu-link" href="#0">drivers</a></li>
+                            <li class="footer-menu-item"><a class="footer-menu-link" href="#0">projects</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-12 col-md-8   col-lg-4 footer-col wow fadeInUp " data-wow-delay=".9s">
+                    <h6 class=" footer-col-title    ">İletişim Bilgileri</h6>
+                    <div class="footer-col-content-wrapper">
+                        <div class="contact-info-card"><i class="fas fa-envelope icon"></i><a class="text-lowercase  info" href="mailto:example@support.com">example@support.com</a></div>
+
+                        <div class="contact-info-card"><i class="fas fa-map-marker-alt icon"></i><span class="text-uppercase  info">Bursa, Türkiye.</span></div>
+                        <div class="contact-info-card"><i class="fas fa-mobile-alt icon"></i><a class="info" href="tel:+20123456789">+20123456789      </a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="copyrights ">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <p class="creadits">
+                            &copy; 2025
+                            Created by:
+                            <a class="link" href="https://www.elsayazilim.com/">ELSA YAZILIM</a>
+                        </p>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="terms-links">
+                            <a href="#0">Terms of Use </a>
+                            | <a href="#0">Privacy Policy</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="~/js/vendors/jquery-3.6.1.min.js"></script>
+
+    <!--     bootstrap     -->
+    <script src="~/js/vendors/bootstrap.bundle.min.js"></script>
+
+    <!--     fancybox     -->
+    <script src="~/js/vendors/jquery.fancybox.min.js"></script>
+
+    <!--     countTo     -->
+    <script src="~/js/vendors/jquery.countTo.js"></script>
+
+    <!--     wow     -->
+    <script src="~/js/vendors/wow.min.js"></script>
+
+    <!--     swiper     -->
+    <script src="~/js/vendors/swiper.min.js"></script>
+
+    <!--     isotope     -->
+    <script src="~/js/vendors/isotope-min.js"></script>
+
+    <!--     Splitting     -->
+    <script src="~/js/vendors/splitting.min.js"></script>
+
+    <!--     main     -->
+    <script src="~/js/main.js"></script>
+</body>
+</html>

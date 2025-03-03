@@ -1,0 +1,129 @@
+﻿@model IEnumerable<bursaKasder.Models.BKD_Admins>
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="pc-container">
+    <div class="pc-content">
+        <div class="alert alert-success d-none" id="successMessage">Yeni kullanıcı başarıyla eklendi.</div>
+        <div class="card shadow-lg mt-3">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h4 class="mb-0">Admin Paneli Kullanıcıları</h4>
+                <button class="btn btn-light text-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">
+                    <i class="ti ti-user-plus"></i> Yeni Kullanıcı Ekle
+                </button>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="usersTable" class="table table-striped table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>Ad</th>
+                                <th>Soyad</th>
+                                <th>Kullanıcı Adı</th>
+                                <th>Şifre</th>
+                                <th class="text-center">İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model == null || !Model.Any())
+                            {
+                                <tr>
+                                    <td colspan="6" class="text-center text-muted">Kayıtlı kullanıcı bulunamadı.</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                @foreach (var user in Model)
+                                {
+                                    <tr>
+                                        <td>@user.adm_ID</td>
+                                        <td>@user.adm_Name</td>
+                                        <td>@user.adm_Surname</td>
+                                        <td>@user.adm_Username</td>
+                                        <td>@(string.IsNullOrEmpty(user.adm_Password) ? "" : new string('*', user.adm_Password.Length))</td>
+                                        <td class="text-center">
+                                            <a href="@Url.Action("PageEditStudent", "Admin", new { UpdatingStudentID = user.adm_ID })" class="btn btn-warning btn-sm me-2">
+                                                <i class="ti ti-pencil"></i> Düzenle
+                                            </a>
+                                            <form action="@Url.Action("PageRemoveStudent", "Admin")" method="post" class="d-inline">
+                                                <input type="hidden" name="RemoStudent" value="@user.adm_ID" />
+                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Kaydı silmek istediğinize emin misiniz?');">
+                                                    <i class="ti ti-trash"></i> Sil
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Yeni Kullanıcı Ekle Modal -->
+<div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addUserModalLabel">Yeni Kullanıcı Ekle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="admin_addNewUser" asp-controller="Admin" method="post" onsubmit="showSuccessMessage(event)">
+                    <div class="mb-3">
+                        <label for="adm_Name" class="form-label">Ad</label>
+                        <input type="text" class="form-control" id="adm_Name" name="adm_Name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="adm_Surname" class="form-label">Soyad</label>
+                        <input type="text" class="form-control" id="adm_Surname" name="adm_Surname" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="adm_Username" class="form-label">Kullanıcı Adı</label>
+                        <input type="text" class="form-control" id="adm_Username" name="adm_Username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="adm_Password" class="form-label">Şifre</label>
+                        <input type="password" class="form-control" id="adm_Password" name="adm_Password" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                        <button type="submit" class="btn btn-primary">Kaydet</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- DataTables CSS & JS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#usersTable').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.11.5/i18n/Turkish.json"
+            },
+            "ordering": true,
+            "paging": true,
+            "searching": true
+        });
+    });
+
+    function showSuccessMessage(event) {
+        event.preventDefault();
+        $('#addUserModal').modal('hide');
+        $('#successMessage').removeClass('d-none');
+        setTimeout(() => {
+            location.reload();
+        }, 2000);
+    }
+</script>
