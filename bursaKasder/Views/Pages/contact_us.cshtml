@@ -1,4 +1,6 @@
-﻿@{
+﻿@model bursaKasder.Models.BKD_Contact
+
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -34,11 +36,7 @@
               <div class="info-panel wow fadeInUp" data-wow-delay=".2s"><i class="fas fa-map-marker-alt icon"></i>
                 <div class="info-content">
                   <h6 class="info-title">Konumumuz</h6>
-                  <p class="info-text">5 xyz st. elraml alexandria</p>
-                  <p class="info-text">
-                    10 abc st. elraml alexandria
-
-                  </p>
+                  <p class="info-text">@Model.con_Adress</p>
                 </div>
               </div>
             </div>
@@ -46,7 +44,7 @@
               <div class="info-panel wow fadeInUp" data-wow-delay=".4s"><i class="fas fa-phone icon"></i>
                 <div class="info-content">
                   <h6 class="info-title">Telefon Numaralarımız</h6>
-                  <p class="info-text"> <a class="tel link" href="tel:0123456789">(02) 0123456789</a><a class="tel link" href="tel:0123456789">(02) 9876543210</a></p>
+                  <p class="info-text"> <a class="tel link" href="">@Model.con_PhoneSecond</a><a class="tel link" href="tel:0123456789">@Model.con_Phone</a></p>
                 </div>
               </div>
             </div>
@@ -54,7 +52,7 @@
               <div class="info-panel wow fadeInUp" data-wow-delay=".6s"><i class="fas fa-envelope icon"></i>
                 <div class="info-content">
                   <h6 class="info-title">E-Mail</h6>
-                  <p class="info-text"> <a class="tel link" href="mailto:info@example.com">info@example.com</a><a class="tel link" href="mailto:support@example.com">support@example.com</a></p>
+                  <p class="info-text"> <a class="tel link" href="#">@Model.con_Email</a><a class="tel link" href="#">@Model.con_EmailSecond</a></p>
                 </div>
               </div>
             </div>

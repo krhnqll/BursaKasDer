@@ -29,7 +29,13 @@ namespace bursaKasder.Controllers
 
         public IActionResult contact_us()
         {
-            return View();
+            var contactData = _context.BKD_Contact.FirstOrDefault();
+
+            if (contactData == null)
+            {
+                return NotFound("Hakkımızda bilgisi bulunamadı.");
+            }
+            return View(contactData);
         }
 
         public IActionResult about_us()

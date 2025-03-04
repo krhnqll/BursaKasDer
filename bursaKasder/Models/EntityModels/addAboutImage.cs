@@ -15,7 +15,9 @@ namespace bursaKasder.Models.EntityModels
         public IFormFile ab_HistoryPhoto { get; set; }
 
         [Required]
-        public string ab_MisVis { get; set; }
+        public string ab_Mission { get; set; }
+        [Required]
+        public string ab_Vision { get; set; }
 
         [Required]
         public IFormFile ab_MisVisPhoto { get; set; }

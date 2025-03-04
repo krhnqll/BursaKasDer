@@ -415,7 +415,8 @@ namespace bursaKasder.Controllers
                 w.ab_HistoryPhoto = newImageHistory;
             }
 
-            w.ab_MisVis = about.ab_MisVis;
+            w.ab_Mission = about.ab_Mission;
+            w.ab_Vision = about.ab_Vision;
             w.ab_Status = 0;
             w.ab_History = about.ab_History;
          
@@ -427,5 +428,22 @@ namespace bursaKasder.Controllers
             
         }
 
+        [HttpGet]
+        public IActionResult addContact()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult addContact(BKD_Contact contact)
+        {
+            contact.con_Status = 0;
+
+            _context.BKD_Contact.Add(contact);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index", "Admin");
+            
+        }
     }
 }

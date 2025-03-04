@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using bursaKasder.HelperClasses;
 
@@ -11,9 +12,11 @@ using bursaKasder.HelperClasses;
 namespace bursaKasder.Migrations
 {
     [DbContext(typeof(DbContextManager))]
-    partial class DbContextManagerModelSnapshot : ModelSnapshot
+    [Migration("20250304173437_aboutHK")]
+    partial class aboutHK
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -137,15 +140,7 @@ namespace bursaKasder.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("con_EmailSecond")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("con_Phone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("con_PhoneSecond")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

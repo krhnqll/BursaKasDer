@@ -14,7 +14,9 @@ namespace bursaKasder.Models
         public string ab_HistoryPhoto { get; set; }
 
         [Required]
-        public string ab_MisVis { get; set; }
+        public string ab_Mission { get; set; }
+        [Required]
+        public string ab_Vision { get; set; }
 
         [Required]
         public string ab_MisVisPhoto { get; set ; }

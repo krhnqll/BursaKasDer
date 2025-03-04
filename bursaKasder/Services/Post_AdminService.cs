@@ -88,7 +88,8 @@ namespace bursaKasder.Services
                 return false;
             }
 
-            existingAboutInfo.ab_MisVis = UpdatedAbout.ab_MisVis;
+            existingAboutInfo.ab_Mission = UpdatedAbout.ab_Mission;
+            existingAboutInfo.ab_Vision = UpdatedAbout.ab_Vision;
             existingAboutInfo.ab_MisVisPhoto = UpdatedAbout.ab_MisVisPhoto;
             existingAboutInfo.ab_History = UpdatedAbout.ab_History;
             existingAboutInfo.ab_HistoryPhoto = UpdatedAbout.ab_HistoryPhoto;

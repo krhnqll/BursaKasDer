@@ -12,17 +12,19 @@ namespace bursaKasder.Models
 
         [Required]
         public string con_Phone { get; set; }
-
+        
+        public string con_PhoneSecond { get; set; }
         [Required]
         public string con_Email { get; set; }
 
-        [Required]
+        public string con_EmailSecond { get; set; }
+        
         public string con_URLInstagram { get; set; }
-        [Required]
+        
         public string con_URLFacebook { get; set; }
-        [Required]
+        
         public string con_URLYoutube { get; set; }
-        [Required]
+        
         public string con_URLX { get; set; }
 
         [Required]

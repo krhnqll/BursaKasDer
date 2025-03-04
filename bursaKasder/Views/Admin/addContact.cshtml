@@ -1,0 +1,63 @@
+﻿@model bursaKasder.Models.BKD_Contact
+
+@{
+    ViewData["Title"] = "İletişim Bilgileri";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<form class="form-group" method="post" enctype="multipart/form-data" asp-action="addContact" asp-controller="Admin">
+    <div class="pc-container">
+        <div class="pc-content">
+            <div class="col-12 grid-margin stretched-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">İletişim Bilgilerini Güncelle</h4>
+                        <div class="forms-sample">
+                            <div class="form-group">
+                                <label for="con_Adress">Adres</label>
+                                @Html.TextBoxFor(x => x.con_Adress, new { @class = "form-control", placeholder = "Adresinizi girin" })
+                            </div>
+                            <div class="form-group">
+                                <label for="con_Phone">Telefon</label>
+                                @Html.TextBoxFor(x => x.con_Phone, new { @class = "form-control", placeholder = "Telefon numarasını girin" })
+                            </div>
+                            <div class="form-group">
+                                <label for="con_PhoneSecond">İkincil Telefon Numarası</label>
+                                @Html.TextBoxFor(x => x.con_PhoneSecond, new { @class = "form-control", placeholder = "Telefon numarasını girin" })
+                            </div>
+                            <div class="form-group">
+                                <label for="con_Email">E-Posta</label>
+                                @Html.TextBoxFor(x => x.con_Email, new { @class = "form-control", placeholder = "E-posta adresinizi girin", type = "email" })
+                            </div>
+                            <div class="form-group">
+                                <label for="con_EmailSecond">İkincil E-Posta</label>
+                                @Html.TextBoxFor(x => x.con_EmailSecond, new { @class = "form-control", placeholder = "E-posta adresinizi girin", type = "email" })
+                            </div>
+                            <div class="form-group">
+                                <label for="con_URLInstagram">Instagram</label>
+                                @Html.TextBoxFor(x => x.con_URLInstagram, new { @class = "form-control", placeholder = "Instagram linki" })
+                            </div>
+                            <div class="form-group">
+                                <label for="con_URLFacebook">Facebook</label>
+                                @Html.TextBoxFor(x => x.con_URLFacebook, new { @class = "form-control", placeholder = "Facebook linki" })
+                            </div>
+                            <div class="form-group">
+                                <label for="con_URLYoutube">YouTube</label>
+                                @Html.TextBoxFor(x => x.con_URLYoutube, new { @class = "form-control", placeholder = "YouTube linki" })
+                            </div>
+                            <div class="form-group">
+                                <label for="con_URLX">X (Twitter)</label>
+                                @Html.TextBoxFor(x => x.con_URLX, new { @class = "form-control", placeholder = "X (Twitter) linki" })
+                            </div>
+                            <button type="submit" class="btn btn-gradient-primary mr-2">Güncelle</button>
+                            <a href="@Url.Action("Index", "Admin")" class="btn btn-light">İptal</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
