@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using bursaKasder.HelperClasses;
 
@@ -11,9 +12,11 @@ using bursaKasder.HelperClasses;
 namespace bursaKasder.Migrations
 {
     [DbContext(typeof(DbContextManager))]
-    partial class DbContextManagerModelSnapshot : ModelSnapshot
+    [Migration("20250304102203_4.03.2025")]
+    partial class _4032025
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -208,7 +211,7 @@ namespace bursaKasder.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("evP_ID"));
 
-                    b.Property<int?>("Eventev_ID")
+                    b.Property<int>("Eventev_ID")
                         .HasColumnType("int");
 
                     b.Property<int>("evP_EventId")
@@ -350,9 +353,11 @@ namespace bursaKasder.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OS_ID"));
 
                     b.Property<string>("OS_Comment")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OS_Degree")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OS_Name")
@@ -360,12 +365,14 @@ namespace bursaKasder.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OS_Photo")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("OS_Status")
                         .HasColumnType("int");
 
                     b.Property<string>("OS_Surname")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("OS_ID");
@@ -377,7 +384,9 @@ namespace bursaKasder.Migrations
                 {
                     b.HasOne("bursaKasder.Models.BKD_Events", "Event")
                         .WithMany("EventPhotos")
-                        .HasForeignKey("Eventev_ID");
+                        .HasForeignKey("Eventev_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Event");
                 });

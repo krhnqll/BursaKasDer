@@ -9,11 +9,11 @@ namespace bursaKasder.Models
         public int OS_ID { get; set; }
 
         [Required]
-        public string OS_Name { get; set; }
-        public string OS_Surname { get; set; }
-        public string OS_Degree { get; set; }
-        public string OS_Photo { get; set; }
-        public string OS_Comment { get; set; }
+        public string? OS_Name { get; set; }
+        public string? OS_Surname { get; set; }
+        public string? OS_Degree { get; set; }
+        public string? OS_Photo { get; set; }
+        public string? OS_Comment { get; set; }
         public int OS_Status { get; set; }
     }
 }

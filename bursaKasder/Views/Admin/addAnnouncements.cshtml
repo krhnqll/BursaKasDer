@@ -1,0 +1,41 @@
+﻿@model bursaKasder.Models.EntityModels.addAnnouncementsImage
+
+@{
+    ViewData["Title"] = "Duyuru Listesi";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<form class="form-group" method="post" enctype="multipart/form-data" asp-action="addAnnouncements" as-controller="Admin">
+    <div class="pc-container">
+        <div class="pc-content">
+            <div class="col-12 grid-margin stretched-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Yeni Duyuru Ekle</h4>
+                        <div class="forms-sample">
+                            <div class="form-group">
+                                <label for="ann_Title">Başlık</label>
+                                @Html.TextBoxFor(x => x.ann_Title, new { @class = "form-control", placeholder = "Duyuru Başlığını Girin" })
+                            </div>
+                            <div class="form-group">
+                                <label for="ann_Date">Tarih</label>
+                                @Html.TextBoxFor(x => x.ann_Date, new { @class = "form-control", type = "date" })
+                            </div>
+                            <div class="form-group">
+                                <label for="ann_Content">Açıklama</label>
+                                @Html.TextAreaFor(x => x.ann_Content, new { @class = "form-control", rows = "4", placeholder = "Duyuru Açıklamasını Girin" })
+                            </div>
+                            <div class="form-group">
+                                <label for="ann_Photo">Görsel</label>
+                                <input type="file" name="ann_Photo" class="form-control-file" />
+                            </div>
+                            <button type="submit" class="btn btn-gradient-primary mr-2">Ekle</button>
+                            <a href="@Url.Action("Index", "Announcements")" class="btn btn-light">İptal</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

@@ -12,12 +12,14 @@
     <meta name="keywords">
     <meta name="author" content="CodedThemes">
 
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
     <!-- jQuery'yi sayfanıza ekleyin -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <!-- SweetAlert2 Kütüphanesi -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap" id="main-font-link">
 
@@ -54,7 +56,7 @@
     <nav class="pc-sidebar">
         <div class="navbar-wrapper">
             <div class="m-header">
-                <a href="../dashboard/index.html" class="b-brand text-primary">
+                <a asp-action="Index" asp-controller="Home" class="b-brand text-primary">
                     <!-- ========   Change your logo from here   ============ -->
                     <img src="../assets/images/logo-dark.svg" class="img-fluid logo-lg" alt="logo">
                 </a>
@@ -62,61 +64,50 @@
             <div class="navbar-content">
                 <ul class="pc-navbar">
                     <li class="pc-item">
-                        <a href="../dashboard/index.html" class="pc-link">
-                            <span class="pc-micon"><i class="ti ti-dashboard"></i></span>
+                        <a asp-controller="Admin" asp-action="Index" class="pc-link">
+
                             <span class="pc-mtext">Anasayfa</span>
                         </a>
                     </li>
 
                     <li class="pc-item pc-caption">
-                        <label>UI Components</label>
+                        <label>Site Yönetimi</label>
                         <i class="ti ti-dashboard"></i>
                     </li>
                     <li class="pc-item">
                         <a href="../elements/bc_typography.html" class="pc-link">
-                            <span class="pc-micon"><i class="ti ti-typography"></i></span>
-                            <span class="pc-mtext">Typography</span>
+
+                            <span class="pc-mtext">Genel Site Ayarları</span>
                         </a>
                     </li>
                     <li class="pc-item">
                         <a href="../elements/bc_color.html" class="pc-link">
-                            <span class="pc-micon"><i class="ti ti-color-swatch"></i></span>
-                            <span class="pc-mtext">Color</span>
+
+                            <span class="pc-mtext">Etkinlikler</span>
+                        </a>
+                    </li>
+                    <li class="pc-item">
+                        <a asp-controller="Admin" asp-action="addAnnouncements" class="pc-link">
+    
+                            <span class="pc-mtext">Duyurular</span>
                         </a>
                     </li>
                     <li class="pc-item">
                         <a href="../elements/icon-tabler.html" class="pc-link">
-                            <span class="pc-micon"><i class="ti ti-plant-2"></i></span>
-                            <span class="pc-mtext">Icons</span>
-                        </a>
-                    </li>
 
-                    <li class="pc-item pc-caption">
-                        <label>Pages</label>
-                        <i class="ti ti-news"></i>
-                    </li>
-                    <li class="pc-item">
-                        <a href="../pages/login.html" class="pc-link">
-                            <span class="pc-micon"><i class="ti ti-lock"></i></span>
-                            <span class="pc-mtext">Login</span>
+                            <span class="pc-mtext">Bizimle İletişime Geçenler</span>
                         </a>
                     </li>
                     <li class="pc-item">
-                        <a href="../pages/register.html" class="pc-link">
-                            <span class="pc-micon"><i class="ti ti-user-plus"></i></span>
-                            <span class="pc-mtext">Register</span>
-                        </a>
-                    </li>
+                        <a href="/Admin/UserList" class="pc-link" >
 
-                    <li class="pc-item pc-caption">
-                        <label>Other</label>
-                        <i class="ti ti-brand-chrome"></i>
+                            <span class="pc-mtext">Kullanıcılar</span>
+                        </a>
                     </li>
                     <li class="pc-item pc-hasmenu">
                         <a href="#!" class="pc-link">
                             <span class="pc-micon"><i class="ti ti-menu"></i></span><span class="pc-mtext">
-                                Menu
-                                levels
+                                Diğer İşlemler
                             </span><span class="pc-arrow"><i data-feather="chevron-right"></i></span>
                         </a>
                         <ul class="pc-submenu">
@@ -151,12 +142,6 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="pc-item">
-                        <a href="/Admin/UserList" class="pc-link" >
-                            <span class="pc-micon"><i class="ti ti-brand-chrome"></i></span>
-                            <span class="pc-mtext">Kullanıcılar</span>
-                        </a>
-                    </li>
                 </ul>
 
             </div>
@@ -179,115 +164,20 @@
                             <i class="ti ti-menu-2"></i>
                         </a>
                     </li>
-                    <li class="dropdown pc-h-item d-inline-flex d-md-none">
-                        <a class="pc-head-link dropdown-toggle arrow-none m-0"
-                           data-bs-toggle="dropdown"
-                           role="button"
-                           aria-haspopup="false"
-                           aria-expanded="false">
-                            <i class="ti ti-search"></i>
-                        </a>
-                    </li>
+
                 </ul>
             </div>
             <!-- [Mobile Media Block end] -->
         <ul>
             <li class="dropdown pc-h-item header-user-profile">
-                <a class="pc-head-link dropdown-toggle arrow-none me-0"
-                   data-bs-toggle="dropdown"
-                   role="button"
-                   aria-haspopup="false"
-                   data-bs-auto-close="outside"
-                   aria-expanded="false">
-                    <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar">
-                    <span>@ViewData["UserName"] @ViewData["UserSurname"]</span>
-                </a>
-                <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
-                    <div class="dropdown-header">
-                        <div class="d-flex mb-1">
-                            <div class="flex-shrink-0">
-                                <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar wid-35">
-                            </div>
-                            <div class="flex-grow-1 ms-3">
-                                <h6 class="mb-1">@ViewData["UserName"] @ViewData["UserSurname"]</h6>
-                                <span>UI/UX Designer</span>
-                            </div>
-                            <a href="#!" class="pc-head-link bg-transparent"><i class="ti ti-power text-danger"></i></a>
-                        </div>
-                    </div>
-                    <ul class="nav drp-tabs nav-fill nav-tabs" id="mydrpTab" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link active"
-                                    id="drp-t1"
-                                    data-bs-toggle="tab"
-                                    data-bs-target="#drp-tab-1"
-                                    type="button"
-                                    role="tab"
-                                    aria-controls="drp-tab-1"
-                                    aria-selected="true">
-                                <i class="ti ti-user"></i> Profil
-                            </button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link"
-                                    id="drp-t2"
-                                    data-bs-toggle="tab"
-                                    data-bs-target="#drp-tab-2"
-                                    type="button"
-                                    role="tab"
-                                    aria-controls="drp-tab-2"
-                                    aria-selected="false">
-                                <i class="ti ti-settings"></i> Setting
-                            </button>
-                        </li>
-                    </ul>
+
                     <div class="tab-content" id="mysrpTabContent">
                         <div class="tab-pane fade show active" id="drp-tab-1" role="tabpanel" aria-labelledby="drp-t1" tabindex="0">
-                            <a href="#!" class="dropdown-item">
-                                <i class="ti ti-edit-circle"></i>
-                                <span>Edit Profile</span>
-                            </a>
-                            <a href="#!" class="dropdown-item">
-                                <i class="ti ti-user"></i>
-                                <span>View Profile</span>
-                            </a>
-                            <a href="#!" class="dropdown-item">
-                                <i class="ti ti-clipboard-list"></i>
-                                <span>Social Profile</span>
-                            </a>
-                            <a href="#!" class="dropdown-item">
-                                <i class="ti ti-wallet"></i>
-                                <span>Billing</span>
-                            </a>
-                            <a asp-controller="Login" asp-action="Logout" class="dropdown-item">
-                                <i class="ti ti-power"></i>
-                                <span>Logout</span>
-                            </a>
-                        </div>
-                        <div class="tab-pane fade" id="drp-tab-2" role="tabpanel" aria-labelledby="drp-t2" tabindex="0">
-                            <a href="#!" class="dropdown-item">
-                                <i class="ti ti-help"></i>
-                                <span>Support</span>
-                            </a>
-                            <a href="#!" class="dropdown-item">
-                                <i class="ti ti-user"></i>
-                                <span>Account Settings</span>
-                            </a>
-                            <a href="#!" class="dropdown-item">
-                                <i class="ti ti-lock"></i>
-                                <span>Privacy Center</span>
-                            </a>
-                            <a href="#!" class="dropdown-item">
-                                <i class="ti ti-messages"></i>
-                                <span>Feedback</span>
-                            </a>
-                            <a href="#!" class="dropdown-item">
-                                <i class="ti ti-list"></i>
-                                <span>History</span>
+                            <a asp-controller="Login" asp-action="Logout" class="dropdown-item">         
+                                <span>Çıkış</span>
                             </a>
                         </div>
                     </div>
-                </div>
             </li>
         </ul>
         </div>

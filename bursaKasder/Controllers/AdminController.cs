@@ -3,6 +3,8 @@ using bursaKasder.HelperClasses;
 using Microsoft.Identity.Client;
 using bursaKasder.Services;
 using bursaKasder.Models;
+using bursaKasder.Models.EntityModels;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 
 namespace bursaKasder.Controllers
@@ -52,7 +54,7 @@ namespace bursaKasder.Controllers
         }
 
         [HttpGet]
-        public IActionResult admin_addNewUser()
+        public IActionResult admin_add_NewUser()
         {
             return View(new BKD_Admins { });
         }
@@ -67,7 +69,7 @@ namespace bursaKasder.Controllers
                 return NotFound();
             }
 
-            return PartialView("admin_Edit_Profile", adminUser);
+            return View(adminUser);
         }
 
         [HttpGet]
@@ -77,7 +79,7 @@ namespace bursaKasder.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> admin_addNewUser(BKD_Admins newUser)
+        public async Task<IActionResult> admin_add_NewUser(BKD_Admins newUser)
         {
             if (ModelState.IsValid)
             {
@@ -109,15 +111,15 @@ namespace bursaKasder.Controllers
                     bool result = await _postAdminService.Post_admin_Edit_Profile(updatedUser);
                     if (result)
                     {
-                        return Json(new { success = true });
+                        return RedirectToAction("UserList", "Admin");
                     }
                 }
-                catch (Exception ex)
+                catch (Exception )
                 {
-                    return Json(new { success = false, message = ex.Message });
+                    return View(updatedUser);
                 }
             }
-            return Json(new { success = false, message = "Geçersiz giriş" });
+            return View(updatedUser);
         }
 
         [HttpPost]
@@ -205,10 +207,42 @@ namespace bursaKasder.Controllers
 
         //------------------------------------ Get And Post Operations ------------------------------------------
 
-        //AnnouncementsGet&Post
-        public IActionResult admin_add_Announcements()
+
+
+
+        [HttpGet]
+        public IActionResult addAnnouncements()
         {
-            return View();
+            var announcements = _context.BKD_Announcements.ToList();
+            return View(announcements);
+        }
+
+        [HttpPost] 
+        public IActionResult addAnnouncements(addAnnouncementsImage p)
+        {
+            BKD_Announcements w = new BKD_Announcements();
+
+            if(p.ann_Photo !=null)
+            {
+                var extension= Path.GetExtension(p.ann_Photo.FileName);
+                var newImageName = Guid.NewGuid()+extension;
+                var location = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UploadsAnnouncementsPhoto/",newImageName);
+
+                var stream = new FileStream(location, FileMode.Create);
+
+                p.ann_Photo.CopyTo(stream);
+                w.ann_Photo = newImageName;
+            }
+
+            w.ann_Title = p.ann_Title;
+            w.ann_Status = 0;
+            w.ann_Date = p.ann_Date;
+            w.ann_Content = p.ann_Content;
+            
+            _context.BKD_Announcements.Add(w);
+            _context.SaveChanges();
+
+            return RedirectToAction("addAnnouncements","Admin");
         }
 
         //EventsGet&Post

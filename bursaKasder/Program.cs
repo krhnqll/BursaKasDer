@@ -22,11 +22,10 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<SessionClass>();
-
 builder.Services.AddControllersWithViews();
-
 builder.Services.AddScoped<Post_AdminService>();
 builder.Services.AddScoped<Get_AdminService>();
 

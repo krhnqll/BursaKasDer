@@ -1,15 +1,18 @@
 ﻿using bursaKasder.HelperClasses;
 using bursaKasder.Models;
 
+
 namespace bursaKasder.Services
 {
     public class Post_AdminService
     {
         private readonly DbContextManager _context;
-
+        
         public Post_AdminService(DbContextManager context)
         {
             _context = context;
+            
+       
         }
         public enum AdminStatus
         {
@@ -25,6 +28,8 @@ namespace bursaKasder.Services
                 statusProperty.SetValue(entity, (int)status);
             }
         }
+
+
         public async Task<bool> Post_admin_add_NewUser(BKD_Admins NewUser)
         {
             SetStatus(NewUser, AdminStatus.Inactive);
@@ -192,25 +197,32 @@ namespace bursaKasder.Services
 
         }
 
-        public async Task<bool> Post_admin_edit_Announcements(BKD_Announcements UpdatedAnnouncements)
+        public async Task<bool> Post_admin_edit_Announcements(BKD_Announcements UpdatedAnnouncements, IFormFile photoFile)
         {
             var existingAnnoucementsInfo = await _context.BKD_Announcements.FindAsync(UpdatedAnnouncements.ann_ID);
 
-            if (existingAnnoucementsInfo == null)
-            {
-                return false;
-            }
+            //if (existingAnnoucementsInfo == null)
+            //{
+            //    return false;
+            //}
 
+            //if (photoFile != null && photoFile.Length > 0)
+            //{
+            //    string uploadedPhotoPath = await _fileService.UploadFileAsync(photoFile);
+            //    existingAnnoucementsInfo.ann_Photo = uploadedPhotoPath; 
+            //}
+
+            
             existingAnnoucementsInfo.ann_Title = UpdatedAnnouncements.ann_Title;
             existingAnnoucementsInfo.ann_Content = UpdatedAnnouncements.ann_Content;
-            existingAnnoucementsInfo.ann_Photo = UpdatedAnnouncements.ann_Photo;
             existingAnnoucementsInfo.ann_Date = UpdatedAnnouncements.ann_Date;
             SetStatus(existingAnnoucementsInfo, AdminStatus.Active);
 
             _context.BKD_Announcements.Update(existingAnnoucementsInfo);
-            return await _context.SaveChangesAsync() > 0 ? true : throw new Exception("Database update failed.");
 
+            return await _context.SaveChangesAsync() > 0 ? true : throw new Exception("Database update failed.");
         }
+
 
         //------------------------------------- Add Operations -------------------------------------------
 

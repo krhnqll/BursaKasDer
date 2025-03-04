@@ -18,7 +18,7 @@ namespace bursaKasder.Services
             return await _context.BKD_Admins.AsNoTracking().Where(adm => adm.adm_Status == 0 || adm.adm_Status == 1).ToListAsync();
         }
 
-        public async Task<BKD_Admins> Get_UserById(int? id_User)
+        public async Task<BKD_Admins?> Get_UserById(int? id_User)
         {
             return id_User == null ? null : await _context.BKD_Admins.FindAsync(id_User);
         }
@@ -28,7 +28,7 @@ namespace bursaKasder.Services
             return await _context.BKD_Announcements.AsNoTracking().ToListAsync();
         }
 
-        public async Task<BKD_Announcements> Get_AnnouncementsById(int? id_Announcements)
+        public async Task<BKD_Announcements?> Get_AnnouncementsById(int? id_Announcements)
         {
             return id_Announcements == null ? null : await _context.BKD_Announcements.FindAsync(id_Announcements);
         }
@@ -48,7 +48,7 @@ namespace bursaKasder.Services
             return await _context.BKD_ContactUs.AsNoTracking().ToListAsync();
         }
 
-        public async Task<BKD_ContactUs> Get_ContactUsById(int? id_ContactUs)
+        public async Task<BKD_ContactUs?> Get_ContactUsById(int? id_ContactUs)
         {
             return id_ContactUs == null ? null : await _context.BKD_ContactUs.FindAsync(id_ContactUs);
         }
@@ -58,7 +58,7 @@ namespace bursaKasder.Services
             return await _context.BKD_Events.AsNoTracking().ToListAsync();
         }
 
-        public async Task<BKD_Events> Get_EventById(int? id_Event)
+        public async Task<BKD_Events?> Get_EventById(int? id_Event)
         {
             return id_Event == null ? null : await _context.BKD_Events
                 .Include(e => e.EventPhotos)
@@ -76,7 +76,7 @@ namespace bursaKasder.Services
             return await _context.BKD_NewsFromUs.AsNoTracking().ToListAsync();
         }
 
-        public async Task<BKD_NewsFromUs> Get_NewsFromUsById(int? id_NewsFromUs)
+        public async Task<BKD_NewsFromUs?> Get_NewsFromUsById(int? id_NewsFromUs)
         {
             return id_NewsFromUs == null ? null : await _context.BKD_NewsFromUs.FindAsync(id_NewsFromUs);
         }

@@ -8,13 +8,13 @@ namespace bursaKasder.Models
         [Key]
         public int OI_ID { get; set; }
         [Required]
-        public string OI_Name { get; set; }
+        public string? OI_Name { get; set; }
         [Required]
-        public string OI_Logo { get; set; }
+        public string? OI_Logo { get; set; }
         [Required]
-        public string OI_StatuePhoto { get; set; }
+        public string? OI_StatuePhoto { get; set; }
         [Required]
-        public int OI_Status { get; set; }
+        public int? OI_Status { get; set; }
 
     }
 }
