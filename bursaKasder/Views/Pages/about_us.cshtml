@@ -1,4 +1,4 @@
-﻿
+﻿@model bursaKasder.Models.BKD_About
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -33,18 +33,14 @@
                         <span class="tag-line">Bursa Kastamonulular Dayanışma Derneği</span>
                         <h2 class=" about-title ">Tarihçe</h2>
                         <p class="about-text ">
-                            deneme
-
-                        </p>
-                        <p class="about-text ">
-                            deneme1
-
-
-                        </p>                            
+                            @Model.ab_History
+                        </p>                          
                     </div>
                 </div>
                 <div class="col-12 col-lg-6   d-flex align-items-center about-col order-0 order-lg-2 wow fadeInUp" data-wow-delay="0.4s">
-                    <div class="img-area  "><img class="about-img  img-fluid" src="assets/images/about/about-2_illustration.png" alt="Our vision"></div>
+                    <div class="img-area  ">
+                        <img class="about-img img-fluid" src="~/UploadsAboutPhoto/@Model.ab_HistoryPhoto" alt="Hakkımızda">
+                    </div>
                 </div>
             </div>
         </div>
@@ -65,7 +61,9 @@
         </div>
         <div class="row">
             <div class="col-12 col-lg-5">
-                <div class="faq-img wow fadeInUp  " data-wow-delay="0.4s"><img class="img-fluid " src="assets/images/faq/faq_photo.jpg" alt=""></div>
+                <div class="faq-img wow fadeInUp  " data-wow-delay="0.4s">
+                    <img class="about-img img-fluid" src="~/UploadsAboutPhoto/@Model.ab_MisVisPhoto" alt="Hakkımızda">
+                </div>
             </div>
             <div class="col-12 col-lg-7 ">
                 <!--Start Accordion List For FAQ-->
@@ -79,7 +77,7 @@
                         <div class="collapse 1 show" id="collapse-1" aria-labelledby="collapse-1" data-bs-parent="#accordion">
                             <div class="card-body">
                                 <p class="faq-answer">
-                                    MİSYON DENEME
+                                    @Model.ab_MisVis
                                 </p>
                             </div>
                         </div>

@@ -1,0 +1,136 @@
+﻿@model List<bursaKasder.Models.BKD_Announcements>
+
+@{
+    ViewData["Title"] = "AnnouncementsList";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Duyurular</h2>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Bootstrap JS (Modal için gerekli) -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<div class="pc-container">
+    <div class="pc-content">
+        <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#announcementModal">
+            Yeni Duyuru Ekle
+        </button>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Başlık</th>
+                    <th>Tarih</th>
+                    <th>Açıklama</th>
+                    <th>Görsel</th>             
+                </tr>
+
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {   
+                    <tr>
+                        <td>@item.ann_Title</td>
+                        <td>@item.ann_Date.ToString("dd.MM.yyyy")</td>
+                        <td>@item.ann_Content</td>
+                        <td>
+                            @if (!string.IsNullOrEmpty(item.ann_Photo))
+                            {
+                                <img src="~/UploadsAnnouncementsPhoto/@item.ann_Photo" alt="Duyuru Fotoğrafı" width="100">
+                            }
+                            else
+                            {
+                                <span>Fotoğraf Yok</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="announcementModal" tabindex="-1" role="dialog" aria-labelledby="announcementModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="announcementModalLabel">Yeni Duyuru Ekle</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="announcementFormContainer">
+                    <p>Yükleniyor...</p> <!-- İçerik AJAX ile yüklenecek -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editAnnouncementModal" tabindex="-1" aria-labelledby="editAnnouncementModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editAnnouncementModalLabel">Duyuru Düzenle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="editAnnouncementFormContainer">
+                    <p>Yükleniyor...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    
+    $(document).ready(function () {
+        
+        $("#announcementModal").on("show.bs.modal", function () {
+            $.ajax({
+                url: "/Admin/addAnnouncements", // Controller'daki ilgili action
+                type: "GET",
+                success: function (data) {
+                    $("#announcementFormContainer").html(data); // Gelen içeriği modal içine ekle
+                },
+                error: function () {
+                    $("#announcementFormContainer").html("<p>Form yüklenirken hata oluştu.</p>");
+                }
+            });
+        });
+    });
+
+        function editAnnouncement(id) {
+        $("#editAnnouncementModal").modal("show");
+        $.ajax({
+            url: "/Admin/EditAnnouncement/" + id,
+            type: "GET",
+            success: function (data) {
+                $("#editAnnouncementFormContainer").html(data);
+            },
+            error: function () {
+                $("#editAnnouncementFormContainer").html("<p>Form yüklenirken hata oluştu.</p>");
+            }
+        });
+    }
+
+
+    function deleteAnnouncement(id) {
+        if (confirm("Bu duyuruyu silmek istediğinize emin misiniz?")) {
+            $.ajax({
+                url: "/Admin/DeleteAnnouncement/" + id,
+                type: "POST",
+                success: function () {
+                    location.reload();
+                },
+                error: function () {
+                    alert("Silme işlemi başarısız oldu.");
+                }
+            });
+        }
+    }
+</script>
+

@@ -1,0 +1,45 @@
+﻿@model bursaKasder.Models.EntityModels.addAboutImage
+
+@{
+    ViewData["Title"] = "Hakkında ";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+<form class="form-group" method="post" enctype="multipart/form-data" asp-action="addAbout" as-controller="Admin">
+    <div class="pc-container">
+        <div class="pc-content">
+            <div class="col-12 grid-margin stretched-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Yeni Hakkında Ekle</h4>
+                        <div class="forms-sample">
+                            <div class="form-group">
+                                <label for="ab_History">his</label>
+                                @Html.TextBoxFor(x => x.ab_History, new { @class = "form-control", placeholder = "Duyuru Başlığını Girin." })
+                            </div>
+                            <div class="form-group">
+                                <label for="ab_MisVis">misvis</label>
+                                @Html.TextBoxFor(x => x.ab_MisVis, new { @class = "form-control", placeholder = "Misyon vizyon giriniz." })
+                            </div>
+                            <div class="form-group">
+                                <label for="ab_HistoryPhoto">Görsel history</label>
+                                <input type="file" name="ab_HistoryPhoto" class="form-control-file" />
+                            </div>
+                            <div class="form-group">
+                                <label for="ab_MisVisPhoto">Görsel MisVis</label>
+                                <input type="file" name="ab_MisVisPhoto" class="form-control-file" />
+                            </div>
+                            <button type="submit" class="btn btn-gradient-primary mr-2">Ekle</button>
+                            <a href="@Url.Action("Index", "Announcements")" class="btn btn-light">İptal</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
