@@ -522,9 +522,41 @@ namespace bursaKasder.Controllers
             m.newsU_Content = tt.newsU_Content;
             m.newsU_Date = tt.newsU_Date;
 
-
-
             _context.BKD_NewsFromUs.Add(m);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index", "Admin");
+        }
+
+        [HttpGet]
+        public IActionResult addOS()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult addOS(addOSImage OS)
+        {
+            BKD_OrganizationalStructure m = new BKD_OrganizationalStructure();
+
+            if (OS.OS_Photo != null)
+            {
+                var OILogo = Path.GetExtension(OS.OS_Photo.FileName);
+                var newImageLogo = Guid.NewGuid() + OILogo;
+                var location1 = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UploadOSPhoto/", newImageLogo);
+                var stream1 = new FileStream(location1, FileMode.Create);
+                OS.OS_Photo.CopyTo(stream1);
+                m.OS_Photo = newImageLogo;
+
+            }
+
+            m.OS_Name = OS.OS_Name;
+            m.OS_Status = 0;
+            m.OS_Surname = OS.OS_Surname;
+            m.OS_Degree = OS.OS_Degree;
+            m.OS_Comment = OS.OS_Comment;
+
+            _context.BKD_OrganizationalStructure.Add(m);
             _context.SaveChanges();
 
             return RedirectToAction("Index", "Admin");

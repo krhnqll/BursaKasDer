@@ -1,4 +1,4 @@
-﻿
+﻿@model List<bursaKasder.Models.BKD_OrganizationalStructure>
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -25,163 +25,58 @@
             </div>
         </div>
     </section>
-    <!-- End inner Page hero-->
-    <!-- Start  services_img-icon_start-aligned-->
-    <section class="services-boxed  mega-section section-bg-shade">
+    <section class="services-boxed mega-section section-bg-shade">
         <div class="container">
             <div class="section-heading center-heading">
                 <h2 class="section-title wow" data-splitting="words">Bursa Kastamonulular Dayanışma Derneği</h2>
-                
                 <div class="line line-solid-main-color wow fadeIn" data-wow-delay="1s"></div>
             </div>
-            <div class="row gx-4 gy-4 services-row ">
-                <div class="col-12 col-md-6  col-lg-4 mx-auto ">
-                    <!--Start First service box-->
-                    <div class="box service-box  wow fadeInUp" data-wow-offset="0" data-wow-delay=".1s">
-                        <div class="service-icon"><img class="img-icon" src="assets/images/services/1.png" alt="service image" draggable="false" /></div>
-                        <div class="service-content">
-                            <h3 class="service-title">Başkan</h3>
-                            <p class="service-text">
-                                Lorem ipsum dolor sit amet consecltetur adipisicing elit. Omnis tempore perfe rendis explicabo.
-                            </p>
+
+            <div class="row gx-4 gy-4 services-row">
+                <div class="col-12">
+                    @if (Model.Any())
+                    {
+                        var president = Model.FirstOrDefault(x => x.OS_Degree == "Yönetim Kurulu Başkanı");
+                        var others = Model.Where(x => x.OS_Degree != "Yönetim Kurulu Başkanı").ToList();
+
+                        @if (president != null)
+                        {
+                            <div class="col-12 text-center leader-box">
+                                <div class="box service-box wow fadeInUp" data-wow-offset="0" data-wow-delay=".1s">
+                                    <div class="service-icon">
+                                        <img class="img-icon" src="~/UploadOSPhoto/@president.OS_Photo" alt="OSPhoto image" draggable="false" />
+                                    </div>
+                                    <div class="service-content">
+                                        <h2 class="service-title">@president.OS_Name @president.OS_Surname</h2>
+                                        <h3 class="service-title">@president.OS_Degree</h3>
+                                        <p class="service-text">@president.OS_Comment</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        <div class="row col-12 services-row">
+                            @foreach (var os in others)
+                            {
+                                <div class="col-12 col-md-6 col-lg-4">
+                                    <div class="box service-box wow fadeInUp" data-wow-offset="0" data-wow-delay=".1s">
+                                        <div class="service-icon">
+                                            <img class="img-icon" src="~/UploadOSPhoto/@os.OS_Photo" alt="OSPhoto image" draggable="false" />
+                                        </div>
+                                        <div class="service-content">
+                                            <h2 class="service-title">@os.OS_Name @os.OS_Surname</h2>
+                                            <h3 class="service-title">@os.OS_Degree</h3>
+                                            <p class="service-text">@os.OS_Comment</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row gx-4 gy-4 services-row text-center">
-            <div class="col-12 col-md-6  col-lg-4 mx-auto ">
-                <!--Start First service box-->
-                <div class="box service-box  wow fadeInUp" data-wow-offset="0" data-wow-delay=".1s">
-                    <div class="service-icon"><img class="img-icon" src="assets/images/services/1.png" alt="service image" draggable="false" /></div>
-                    <div class="service-content">
-                        <h3 class="service-title">web development</h3>
-                        <p class="service-text">
-                            Lorem ipsum dolor sit amet consecltetur adipisicing elit. Omnis tempore
-                            perfe rendis
-                            explicabo.
-                        </p>
-                    </div>
-                </div>
-                <!-- End First service box   -->
-            </div>
-            <div class="col-12 col-md-6  col-lg-4 mx-auto ">
-                <!--Start Second service box-->
-                <div class="box service-box  wow fadeInUp" data-wow-offset="0" data-wow-delay=".2s">
-                    <div class="service-icon"><img class="img-icon" src="assets/images/services/2.png" alt="service image" draggable="false" /></div>
-                    <div class="service-content">
-                        <h3 class="service-title">Digital Marketing</h3>
-                        <p class="service-text">
-                            Lorem ipsum dolor sit amet consecltetur adipisicing elit. Omnis tempore
-                            perfe rendis
-                            explicabo.
-                        </p>
-                    </div>
-                </div>
-                <!-- End Second service box-->
-            </div>
-            <div class="col-12 col-md-6  col-lg-4 mx-auto  ">
-                <!--Start Third service box-->
-                <div class="box service-box  wow fadeInUp" data-wow-offset="0" data-wow-delay=".3s">
-                    <div class="service-icon"><img class="img-icon" src="assets/images/services/3.png" alt="service image" draggable="false" /></div>
-                    <div class="service-content">
-                        <h3 class="service-title">SaaS products </h3>
-                        <p class="service-text">
-                            Lorem ipsum dolor sit amet consecltetur adipisicing elit. Omnis tempore
-                            perfe rendis
-                            explicabo.
-                        </p>
-                    </div>
-                </div>
-                <!-- End Third service box-->
-            </div>
-            <div class="col-12 col-md-6  col-lg-4 mx-auto  ">
-                <!--Start fourth service box-->
-                <div class="box service-box  wow fadeInUp" data-wow-offset="0" data-wow-delay=".4s">
-                    <div class="service-icon"><img class="img-icon" src="assets/images/services/4.png" alt="service image" draggable="false" /></div>
-                    <div class="service-content">
-                        <h3 class="service-title">Apps development</h3>
-                        <p class="service-text">
-                            Lorem ipsum dolor sit amet consecltetur adipisicing elit. Omnis tempore
-                            perfe rendis
-                            explicabo.
-                        </p>
-                    </div>
-                </div>
-                <!-- End fourth service box   -->
-            </div>
-            <div class="col-12 col-md-6  col-lg-4 mx-auto  ">
-                <!--Start 5th service box-->
-                <div class="box service-box  wow fadeInUp" data-wow-offset="0" data-wow-delay=".5s">
-                    <div class="service-icon"><img class="img-icon" src="assets/images/services/5.png" alt="service image" draggable="false" /></div>
-                    <div class="service-content">
-                        <h3 class="service-title">SEO services</h3>
-                        <p class="service-text">
-                            Lorem ipsum dolor sit amet consecltetur adipisicing elit. Omnis tempore
-                            perfe rendis
-                            explicabo.
-                        </p>
-                    </div>
-                </div>
-                <!-- End 5th service box-->
-            </div>
-            <div class="col-12 col-md-6  col-lg-4 mx-auto  ">
-                <!--Start 5th service box-->
-                <div class="box service-box  wow fadeInUp" data-wow-offset="0" data-wow-delay=".5s">
-                    <div class="service-icon"><img class="img-icon" src="assets/images/services/5.png" alt="service image" draggable="false" /></div>
-                    <div class="service-content">
-                        <h3 class="service-title">SEO services</h3>
-                        <p class="service-text">
-                            Lorem ipsum dolor sit amet consecltetur adipisicing elit. Omnis tempore
-                            perfe rendis
-                            explicabo.
-                        </p>
-                    </div>
-                </div>
-                <!-- End 5th service box-->
-            </div>
-            <div class="col-12 col-md-6  col-lg-4 mx-auto  ">
-                <!--Start 5th service box-->
-                <div class="box service-box  wow fadeInUp" data-wow-offset="0" data-wow-delay=".5s">
-                    <div class="service-icon"><img class="img-icon" src="assets/images/services/5.png" alt="service image" draggable="false" /></div>
-                    <div class="service-content">
-                        <h3 class="service-title">SEO services</h3>
-                        <p class="service-text">
-                            Lorem ipsum dolor sit amet consecltetur adipisicing elit. Omnis tempore
-                            perfe rendis
-                            explicabo.
-                        </p>
-                    </div>
-                </div>
-                <!-- End 5th service box-->
-            </div>
-                        <div class="col-12 col-md-6  col-lg-4 mx-auto  ">
-                <!--Start 5th service box-->
-                <div class="box service-box  wow fadeInUp" data-wow-offset="0" data-wow-delay=".5s">
-                    <div class="service-icon"><img class="img-icon" src="assets/images/services/5.png" alt="service image" draggable="false" /></div>
-                    <div class="service-content">
-                        <h3 class="service-title">SEO services</h3>
-                        <p class="service-text">
-                            Lorem ipsum dolor sit amet consecltetur adipisicing elit. Omnis tempore
-                            perfe rendis
-                            explicabo.
-                        </p>
-                    </div>
-                </div>
-                <!-- End 5th service box-->
-            </div>
-            <div class="col-12 col-md-6  col-lg-4 mx-auto  ">
-                <!--Start 5th service box-->
-                <div class="box service-box  wow fadeInUp" data-wow-offset="0" data-wow-delay=".5s">
-                    <div class="service-icon"><img class="img-icon" src="assets/images/services/5.png" alt="service image" draggable="false" /></div>
-                    <div class="service-content">
-                        <h3 class="service-title">SEO services</h3>
-                        <p class="service-text">
-                            Lorem ipsum dolor sit amet consecltetur adipisicing elit. Omnis tempore
-                            perfe rendis
-                            explicabo.
-                        </p>
-                    </div>
+                    }
+                    else
+                    {
+                        <p class="text-center text-muted">Hiç kayıt bulunamadı.</p>
+                    }
                 </div>
             </div>
         </div>
@@ -197,5 +92,38 @@
 
     <div class="back-to-top" id="back-to-top"><i class="fas fa-arrow-up icon"></i></div>
 
+    <style>
+        .service-box {
+            min-height: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background: #fff;
+        }
+
+        .leader-box {
+            max-width: 300px;
+            margin: 0 auto 30px;
+        }
+
+        .service-box img {
+            width: 200px; /* Fotoğraf boyutunu büyüttüm */
+            height: 200px;
+            object-fit: initial;
+            border-radius: 50%;
+            transform: rotate(0deg); /* Dönmeyi engeller */
+        }
+
+
+        .service-content h2, .service-content h3 {
+            margin-top: 10px;
+            font-size: 1.1em;
+        }
+    </style>
 </body>
 </html>

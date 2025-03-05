@@ -32,7 +32,13 @@ namespace bursaKasder.Controllers
         }
         public IActionResult KasderStructure()
         {
-            return View();
+            var structureData = _context.BKD_OrganizationalStructure.ToList();
+
+            if (structureData == null)
+            {
+                return NotFound("Teşkilat Yapısı Hakkında Bilgi bulunamadı.");
+            }
+            return View(structureData);
         }
 
         public IActionResult contact_us()
