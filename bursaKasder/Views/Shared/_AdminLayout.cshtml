@@ -1,4 +1,4 @@
-﻿
+﻿@* @model bursaKasder.Models.BKD_OrganizationInformation *@
 <!DOCTYPE html>
 <html lang="en">
 <!-- [Head] start -->
@@ -56,10 +56,8 @@
     <nav class="pc-sidebar">
         <div class="navbar-wrapper">
             <div class="m-header">
-                <a asp-action="Index" asp-controller="Home" class="b-brand text-primary">
                     <!-- ========   Change your logo from here   ============ -->
-                    <img src="../assets/images/logo-dark.svg" class="img-fluid logo-lg" alt="logo">
-                </a>
+                @* <img src="@Url.Content("~/UploadsOIPhoto/" + Model.OI_Logo)" class="img-fluid logo-lg" alt="logo"> *@
             </div>
             <div class="navbar-content">
                 <ul class="pc-navbar">
@@ -75,7 +73,7 @@
                         <i class="ti ti-dashboard"></i>
                     </li>
                     <li class="pc-item">
-                        <a asp-controller="Admin" asp-action="addAbout" class="pc-link">
+                        <a asp-controller="Admin" asp-action="#" class="pc-link">
 
                             <span class="pc-mtext">Hakkınızda</span>
                         </a>
@@ -117,6 +115,7 @@
 
                             <li class="pc-item"><a class="pc-link" asp-controller="Admin" asp-action="addOI">Dernek Bilgileri Ekle</a></li>
 
+                            <li class="pc-item"><a class="pc-link" asp-controller="Admin" asp-action="addNewsFromUs">Haber Ekle</a></li>
                             <li class="pc-item"><a class="pc-link" asp-controller="Admin" asp-action="">Hakkımızda Ekle</a></li>
 
                         </ul>
@@ -174,7 +173,7 @@
                 <div class="col-sm my-1 text-center">
                     <p class="m-0">
                         &copy; 2025 <strong>ELSA YAZILIM</strong> |
-                        <a href="https://www.elsayazilim.com/" target="_blank">BURSA KASTAMONULULAR DAYANIŞMA DERNEĞİ</a>
+                        <a href="https://www.elsayazilim.com/" target="_blank">Bursa </a>
                         | Tüm Hakları Saklıdır.
                     </p>
                 </div>

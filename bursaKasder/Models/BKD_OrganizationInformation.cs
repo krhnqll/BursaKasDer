@@ -14,6 +14,8 @@ namespace bursaKasder.Models
         [Required]
         public string? OI_StatuePhoto { get; set; }
         [Required]
+        public string OI_Indexphoto { get; set; }
+        [Required]
         public int? OI_Status { get; set; }
 
     }

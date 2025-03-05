@@ -1846,8 +1846,8 @@ body.hard-squared-btns .portfolio-btn {
     z-index: 0;
     min-height: 100vh;
     padding: 120px 0;
-    background: #1366e2;
-    background: -webkit-linear-gradient(45deg, #1b4d48, #1366e2);
+    background: url('/UploadsOIPhoto/40bb9361-925b-446d-b93a-94ba123b2a7d.jpg') no-repeat center center;
+    background-size: cover;
 }
 
 @media (max-width: 991px) {

@@ -1,4 +1,5 @@
-﻿@{
+﻿@model bursaKasder.Models.BKD_OrganizationInformation
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -8,22 +9,13 @@
 <body class=" overlay-is-linear-gradient ">
 
     <section class="page-hero hero-swiper-slider slider-parallax d-flex align-items-center " id="page-hero">
-        <div class="social-icons ">
-            <div class="sc-wraper dir-row sc-flat sc-size-40">
-                <ul class="sc-list">
-                    <li class="sc-item" title="Facebook"><a class="sc-link" href="#0"><i class="fab fa-facebook-f sc-icon"></i></a></li>
-                    <li class="sc-item" title="youtube"><a class="sc-link" href="#0"><i class="fab fa-youtube sc-icon"></i></a></li>
-                    <li class="sc-item" title="instagram"><a class="sc-link" href="#0"><i class="fab fa-instagram sc-icon"></i></a></li>
-                    <li class="sc-item" title="X"><a class="sc-link" href="#0"><i class="fab fa-x-twitter sc-icon"></i></a></li>
-                </ul>
-            </div>
-        </div>
         <!--Start  Swiper JS slider-->
         <div class="slider swiper-container">
             <div class="swiper-wrapper text-center">
                 <!--first slider-->
                 <div class="swiper-slide">
-                    <div class="slider-bg" data-background="assets/images/hero/hero-slider-bg-img-1.jpg">
+                    <div class="slider-bg" data-background="@Url.Content("~/UploadsOIPhoto/" + Model.OI_Indexphoto)">
+                        
                         <div class="overlay-color"></div>
                     </div>
                     <div class="slide-content">
@@ -35,9 +27,6 @@
                                     </div>
                                     <div class="col-9  col-md-10 col-lg-8 mx-auto ">
                                         <p class="slide-subtitle narrow-centerd-text " data-splitting="words">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Autem recusandae reiciendis esse? Corporis, quo eum.</p>
-                                    </div>
-                                    <div class="col-12 ">
-                                        <div class="cta-links-area "><a class=" ma-btn-primary cta-link cta-link-primary  " href="#0">start now</a><a class=" ma-btn-primary cta-link  " href="#0">Contact us</a></div>
                                     </div>
                                 </div>
                             </div>
@@ -77,28 +66,6 @@
                     </div>
                 </div>
                 <!--third slider-->
-                <div class="swiper-slide">
-                    <div class="slider-bg" data-background="assets/images/hero/hero-slider-bg-img-3.jpg">
-                        <div class="overlay-color"></div>
-                    </div>
-                    <div class="slide-content">
-                        <div class="container">
-                            <div class="hero-text-area  ">
-                                <div class="row justify-content-center">
-                                    <div class="col-12 col-lg-8 mx-auto ">
-                                        <h1 class="slide-title   wow  fadeInUp " data-splitting="words"><span class="hollow-text">download</span> our app to start your journy  </h1>
-                                    </div>
-                                    <div class="col-9  col-md-10 col-lg-8 mx-auto ">
-                                        <p class="slide-subtitle narrow-centerd-text   " data-splitting="words">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Autem recusandae reiciendis esse? Corporis, quo eum.</p>
-                                    </div>
-                                    <div class="col-12 ">
-                                        <div class="cta-links-area "><a class=" ma-btn-primary cta-link cta-link-primary  " href="#0">download now</a></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
             <!--navigation buttons-->
             <div class="swiper-button-prev  wow fadeInUp" data-wow-offset="0" data-wow-delay=".4s">

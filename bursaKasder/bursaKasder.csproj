@@ -45,8 +45,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\UploadNewsUsPhoto\" />
+    <Folder Include="wwwroot\UploadEventPhoto\" />
     <Folder Include="wwwroot\UploadsAboutPhoto\" />
-    <Folder Include="wwwroot\UploadsOIPhoto\" />
     <Folder Include="wwwroot\UploadsAnnouncementsPhoto\" />
   </ItemGroup>
 

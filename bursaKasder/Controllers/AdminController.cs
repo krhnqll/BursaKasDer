@@ -6,6 +6,7 @@ using bursaKasder.Models;
 using bursaKasder.Models.EntityModels;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using NuGet.Protocol;
+using bursaKasder.Migrations;
 
 
 namespace bursaKasder.Controllers
@@ -32,7 +33,15 @@ namespace bursaKasder.Controllers
             ViewData["UserName"] = HttpContext.Session.GetString("Admin_name");
             ViewData["UserSurname"] = HttpContext.Session.GetString("Admin_surname");
 
-            return View();
+            var OIData = _context.BKD_OrganizationInformation.FirstOrDefault();
+
+            if (OIData == null)
+            {
+                return NotFound("Hakkımızda bilgisi bulunamadı.");
+            }
+            
+
+            return View(OIData);
         }
 
         //--------------------------------- User Operations -------------------------------------------
@@ -334,16 +343,7 @@ namespace bursaKasder.Controllers
         {
             return View();
         }
-
-       
-
-        //NewsFromUsGet&Post
-        public IActionResult addNewsFromUs()
-        {
-            return View();
-        }
-
-        
+   
         //OrganizationalStructureGet&Post
         public IActionResult addOrgStructure()
         {
@@ -444,6 +444,90 @@ namespace bursaKasder.Controllers
 
             return RedirectToAction("Index", "Admin");
             
+        }
+
+        [HttpGet]
+        public IActionResult addOI()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult addOI(addOIimage OI)
+        {
+            BKD_OrganizationInformation w = new BKD_OrganizationInformation();
+
+            if (OI.OI_Logo != null && OI.OI_StatuePhoto != null && OI.OI_Indexphoto != null)
+            {
+                var OILogo = Path.GetExtension(OI.OI_Logo.FileName);
+                var OIStatue = Path.GetExtension(OI.OI_StatuePhoto.FileName);
+                var OIIndex = Path.GetExtension(OI.OI_Indexphoto.FileName);
+
+                var newImageLogo = Guid.NewGuid() + OILogo;
+                var newImageStatue = Guid.NewGuid() + OIStatue;
+                var newImageIndex = Guid.NewGuid() + OIIndex;
+
+                var location1 = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UploadsOIPhoto/", newImageLogo);
+                var location = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UploadsOIPhoto/", newImageStatue);
+                var location2 = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UploadsOIPhoto/", newImageIndex);
+
+                var stream1 = new FileStream(location1, FileMode.Create);
+                var stream = new FileStream(location, FileMode.Create);
+                var stream2 = new FileStream(location2, FileMode.Create);
+
+                OI.OI_StatuePhoto.CopyTo(stream);
+                OI.OI_Logo.CopyTo(stream1);
+                OI.OI_Indexphoto.CopyTo(stream2);
+
+                w.OI_Logo = newImageLogo;
+                w.OI_StatuePhoto = newImageStatue;
+                w.OI_Indexphoto = newImageIndex;
+            }
+
+            w.OI_Name = OI.OI_Name;
+            w.OI_Status = 0;
+            
+
+
+            _context.BKD_OrganizationInformation.Add(w);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index", "Admin");
+        }
+
+        [HttpGet]
+        public IActionResult addNewsFromUs()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult addNewsFromUs(addNewsFromUs tt)
+        {
+            BKD_NewsFromUs m = new BKD_NewsFromUs();
+
+            if (tt.newsU_Photo != null )
+            {
+                var OILogo = Path.GetExtension(tt.newsU_Photo.FileName);
+                var newImageLogo = Guid.NewGuid() + OILogo;
+                var location1 = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UploadNewsUsPhoto/", newImageLogo);
+                var stream1 = new FileStream(location1, FileMode.Create);
+                tt.newsU_Photo.CopyTo(stream1);
+                m.newsU_Photo = newImageLogo;
+
+            }
+
+            m.newsU_Title = tt.newsU_Title;
+            m.newsU_Status = 0;
+            m.newsU_Content = tt.newsU_Content;
+            m.newsU_Date = tt.newsU_Date;
+
+
+
+            _context.BKD_NewsFromUs.Add(m);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index", "Admin");
         }
     }
 }

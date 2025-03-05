@@ -220,9 +220,6 @@ namespace bursaKasder.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("evP_ID"));
 
-                    b.Property<int?>("Eventev_ID")
-                        .HasColumnType("int");
-
                     b.Property<int>("evP_EventId")
                         .HasColumnType("int");
 
@@ -235,7 +232,7 @@ namespace bursaKasder.Migrations
 
                     b.HasKey("evP_ID");
 
-                    b.HasIndex("Eventev_ID");
+                    b.HasIndex("evP_EventId");
 
                     b.ToTable("BKD_EventPhotos");
                 });
@@ -333,6 +330,10 @@ namespace bursaKasder.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OI_ID"));
 
+                    b.Property<string>("OI_Indexphoto")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("OI_Logo")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -387,11 +388,13 @@ namespace bursaKasder.Migrations
 
             modelBuilder.Entity("bursaKasder.Models.BKD_EventPhotos", b =>
                 {
-                    b.HasOne("bursaKasder.Models.BKD_Events", "Event")
+                    b.HasOne("bursaKasder.Models.BKD_Events", "events")
                         .WithMany("EventPhotos")
-                        .HasForeignKey("Eventev_ID");
+                        .HasForeignKey("evP_EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Event");
+                    b.Navigation("events");
                 });
 
             modelBuilder.Entity("bursaKasder.Models.BKD_Events", b =>

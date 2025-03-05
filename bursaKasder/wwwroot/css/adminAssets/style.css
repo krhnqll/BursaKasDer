@@ -19211,11 +19211,11 @@ pre[class*=language-] {
         }
 
         .pc-header .pcm-logo {
-            margin-left: 30px;
+            margin-left: 15px;
         }
 
             .pc-header .pcm-logo img {
-                max-width: 160px;
+                max-width: 100px;
             }
 
         .pc-header.mob-header-active {

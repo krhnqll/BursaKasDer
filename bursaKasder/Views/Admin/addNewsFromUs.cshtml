@@ -1,0 +1,46 @@
+﻿@model bursaKasder.Models.EntityModels.addNewsFromUs
+
+@{
+    ViewData["Title"] = "addNewsFromUs";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+<form class="form-group" method="post" enctype="multipart/form-data" asp-action="addNewsFromUs" as-controller="Admin">
+    <div class="pc-container">
+        <div class="pc-content">
+            <div class="col-12 grid-margin stretched-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Yeni Duyuru Ekle</h4>
+                        <div class="forms-sample">
+                            <div class="form-group">
+                                <label for="newsU_Title">Başlık</label>
+                                @Html.TextBoxFor(x => x.newsU_Title, new { @class = "form-control", placeholder = "Duyuru Başlığını Girin" })
+                            </div>
+                            <div class="form-group">
+                                <label for="newsU_Date">Tarih</label>
+                                @Html.TextBoxFor(x => x.newsU_Date, new { @class = "form-control", type = "date" })
+                            </div>
+                            <div class="form-group">
+                                <label for="newsU_Content">Açıklama</label>
+                                @Html.TextAreaFor(x => x.newsU_Content, new { @class = "form-control", rows = "4", placeholder = "Duyuru Açıklamasını Girin" })
+                            </div>
+                            <div class="form-group">
+                                <label for="newsU_Photo">Görsel</label>
+                                <input type="file" name="newsU_Photo" class="form-control-file" />
+                            </div>
+                            <button type="submit" class="btn btn-gradient-primary mr-2">Ekle</button>
+                            <a href="@Url.Action("Index", "Announcements")" class="btn btn-light">İptal</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+

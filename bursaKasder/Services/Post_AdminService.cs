@@ -271,5 +271,45 @@ namespace bursaKasder.Services
 
         }
 
+        public async Task<bool> AddEventWithPhotos(BKD_Events newEvent, List<string> photoPaths)
+        {
+            using (var transaction = await _context.Database.BeginTransactionAsync())
+            {
+                try
+                {
+                    // 1. Etkinliği ekle
+                    _context.BKD_Events.Add(newEvent);
+                    await _context.SaveChangesAsync();
+
+                    // 2. Etkinlik ID’sini al
+                    int eventId = newEvent.ev_ID;
+
+                    // 3. Fotoğrafları ekle
+                    foreach (var photoPath in photoPaths)
+                    {
+                        var eventPhoto = new BKD_EventPhotos
+                        {
+                            evP_Photo = photoPath,
+                            evP_EventId = eventId
+                        };
+                        _context.BKD_EventPhotos.Add(eventPhoto);
+                    }
+
+                    await _context.SaveChangesAsync();
+
+                    // 4. İşlemi tamamla
+                    await transaction.CommitAsync();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    // Hata olursa geri al
+                    await transaction.RollbackAsync();
+                    return false;
+                }
+            }
+        }
+
+
     }
 }

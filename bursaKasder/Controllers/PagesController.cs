@@ -17,9 +17,17 @@ namespace bursaKasder.Controllers
             _context = context;
             _postAdminService = postAdminService;
             _getAdminService = getAdminService;
+
+
         }
         public IActionResult Index()
         {
+            var MainData = _context.BKD_OrganizationInformation.FirstOrDefault();
+
+            if (MainData == null)
+            {
+                return NotFound("Veri bulunamadı.");
+            }
             return View();
         }
         public IActionResult KasderStructure()
@@ -47,12 +55,22 @@ namespace bursaKasder.Controllers
                 return NotFound("Hakkımızda bilgisi bulunamadı.");
             }
 
+            var MainData = _context.BKD_OrganizationInformation.FirstOrDefault();
+
+            ViewBag.MainPhoto = MainData.OI_Indexphoto;
+
             return View(aboutData);
         }
         
         public IActionResult news_FromUs()
         {
-            return View();
+            var newsData = _context.BKD_NewsFromUs.ToList();
+
+            if (newsData == null)
+            {
+                return NotFound("Veri bulunamadı");
+            }
+            return View(newsData);
         }
         public IActionResult news_FromKast()
         {

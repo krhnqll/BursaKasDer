@@ -1,0 +1,44 @@
+﻿@model bursaKasder.Models.EntityModels.addOIimage
+@{
+    ViewData["Title"] = "addOI";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+<form class="form-group" method="post" enctype="multipart/form-data" asp-action="addOI" as-controller="Admin">
+    <div class="pc-container">
+        <div class="pc-content">
+            <div class="col-12 grid-margin stretched-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Yeni Dernek Bilgileri Ekle</h4>
+                        <div class="forms-sample">
+                            <div class="form-group">
+                                <label for="OI_Name">his</label>
+                                @Html.TextBoxFor(x => x.OI_Name, new { @class = "form-control", placeholder = "Dernek Adı Giriniz. " })
+                            </div>
+                            <div class="form-group">
+                                <label for="OI_Logo">Görsel Logo</label>
+                                <input type="file" name="OI_Logo" class="form-control-file" />
+                            </div>
+                            <div class="form-group">
+                                <label for="OI_StatuePhoto">Görsel Statue </label>
+                                <input type="file" name="OI_StatuePhoto" class="form-control-file" />
+                            </div>
+                            <div class="form-group">
+                                <label for="OI_Indexphoto">Görsel Index </label>
+                                <input type="file" name="OI_Indexphoto" class="form-control-file" />
+                            </div>
+                            <button type="submit" class="btn btn-gradient-primary mr-2">Ekle</button>
+                            <a href="@Url.Action("Index", "Announcements")" class="btn btn-light">İptal</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
