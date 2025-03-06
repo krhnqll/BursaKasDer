@@ -12,6 +12,7 @@ namespace bursaKasder.Models.EntityModels
         public string? OS_Surname { get; set; }
         public string? OS_Degree { get; set; }
         public IFormFile OS_Photo { get; set; }
+        public string OS_PhotoPath { get; set; }
         public string? OS_Comment { get; set; }
         public int OS_Status { get; set; }
     }

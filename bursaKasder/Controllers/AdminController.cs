@@ -151,8 +151,6 @@ namespace bursaKasder.Controllers
             return View();
         }
 
-
-
         public IActionResult editEvents()
         {
             return View();
@@ -190,22 +188,6 @@ namespace bursaKasder.Controllers
             return View(updatedAbout);
         }
 
-
-
-        public IActionResult AnnouncementsList()
-        {
-            var announcements = _context.BKD_Announcements.ToList();
-
-            if (announcements == null)
-            {
-                announcements = new List<BKD_Announcements>(); // Boş bir liste gönder
-            }
-
-            return View(announcements);
-        }
-
-
-
         //------------------------------------ Delete Functions ------------------------------------------
 
         [HttpPost]
@@ -240,37 +222,6 @@ namespace bursaKasder.Controllers
         }
 
         [HttpPost]
-        public IActionResult deleteAnnouncements(int id)
-        {
-            if (id == 0)
-            {
-                return RedirectToAction("Index", "Admin");
-            }
-
-            try
-            {
-                var data = _context.BKD_Announcements.FirstOrDefault(d => d.ann_ID == id);
-
-                if (data != null)
-                {
-                    data.ann_Status = 2;
-
-                    _context.SaveChanges();
-
-                    return RedirectToAction("AnnouncementsList", "Admin");
-                }
-            }
-
-            catch (Exception)
-            {
-                return RedirectToAction("AnnouncementsList");
-            }
-
-
-            return RedirectToAction("AnnouncementsList");
-        }
-
-        [HttpPost]
         public IActionResult deleteEvents(int id)
         {
             if (id == 0)
@@ -302,79 +253,12 @@ namespace bursaKasder.Controllers
         }
 
 
-        [HttpPost]
-        public IActionResult deleteNewsFromUs(int id)
-        {
-            if (id == 0)
-            {
-                return RedirectToAction("Index", "Admin");
-            }
-
-            try
-            {
-                var data = _context.BKD_NewsFromUs.FirstOrDefault(d => d.newsU_ID == id);
-
-                if (data != null)
-                {
-                    data.newsU_Status = 2;
-
-                    _context.SaveChanges();
-
-                    return RedirectToAction("NewsUsList", "Admin");
-                }
-            }
-
-            catch (Exception)
-            {
-                return RedirectToAction("NewsUsList");
-            }
-
-
-            return RedirectToAction("NewsUsList");
-        }
-
 
         //------------------------------------ Add Functions ------------------------------------------
-
 
         public IActionResult addEvents()
         {
             return View();
-        }
-
-        [HttpGet]
-        public IActionResult addAnnouncements()
-        {
-            var model = new addAnnouncementsImage();
-            return PartialView("~/Views/Admin/_addAnnouncements.cshtml", model);
-        }
-
-        [HttpPost]
-        public IActionResult addAnnouncements(addAnnouncementsImage p)
-        {
-            BKD_Announcements w = new BKD_Announcements();
-
-            if (p.ann_Photo != null)
-            {
-                var extension = Path.GetExtension(p.ann_Photo.FileName);
-                var newImageName = Guid.NewGuid() + extension;
-                var location = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UploadsAnnouncementsPhoto/", newImageName);
-
-                var stream = new FileStream(location, FileMode.Create);
-
-                p.ann_Photo.CopyTo(stream);
-                w.ann_Photo = newImageName;
-            }
-
-            w.ann_Title = p.ann_Title;
-            w.ann_Status = 0;
-            w.ann_Date = p.ann_Date;
-            w.ann_Content = p.ann_Content;
-
-            _context.BKD_Announcements.Add(w);
-            _context.SaveChanges();
-
-            return RedirectToAction("AnnouncementsList", "Admin");
         }
 
         [HttpGet]
@@ -486,39 +370,7 @@ namespace bursaKasder.Controllers
             return RedirectToAction("Index", "Admin");
         }
 
-        [HttpGet]
-        public IActionResult addOS()
-        {
-            return View();
-        }
 
-        [HttpPost]
-        public IActionResult addOS(addOSImage OS)
-        {
-            BKD_OrganizationalStructure m = new BKD_OrganizationalStructure();
-
-            if (OS.OS_Photo != null)
-            {
-                var OILogo = Path.GetExtension(OS.OS_Photo.FileName);
-                var newImageLogo = Guid.NewGuid() + OILogo;
-                var location1 = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UploadOSPhoto/", newImageLogo);
-                var stream1 = new FileStream(location1, FileMode.Create);
-                OS.OS_Photo.CopyTo(stream1);
-                m.OS_Photo = newImageLogo;
-
-            }
-
-            m.OS_Name = OS.OS_Name;
-            m.OS_Status = 0;
-            m.OS_Surname = OS.OS_Surname;
-            m.OS_Degree = OS.OS_Degree;
-            m.OS_Comment = OS.OS_Comment;
-
-            _context.BKD_OrganizationalStructure.Add(m);
-            _context.SaveChanges();
-
-            return RedirectToAction("Index", "Admin");
-        }
 
 
         // --------- Bizden Haberler Fonksiyonları
@@ -637,6 +489,202 @@ namespace bursaKasder.Controllers
         }
 
 
+        [HttpPost]
+        public IActionResult deleteNewsFromUs(int id)
+        {
+            if (id == 0)
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+
+            try
+            {
+                var data = _context.BKD_NewsFromUs.FirstOrDefault(d => d.newsU_ID == id);
+
+                if (data != null)
+                {
+                    data.newsU_Status = 2;
+
+                    _context.SaveChanges();
+
+                    return RedirectToAction("NewsUsList", "Admin");
+                }
+            }
+
+            catch (Exception)
+            {
+                return RedirectToAction("NewsUsList");
+            }
+
+
+            return RedirectToAction("NewsUsList");
+        }
+
+
         // --------- Duyuru Fonksiyonları
+        public IActionResult AnnouncementsList()
+        {
+            var announcements = _context.BKD_Announcements.Select(n => new addAnnouncementsImage
+            {
+                ann_ID = n.ann_ID,
+                ann_Title = n.ann_Title,
+                ann_Content = n.ann_Content,
+                ann_PhotoPath = n.ann_Photo,
+
+            }).ToList();
+
+            if (announcements == null)
+            {
+                announcements = new List<addAnnouncementsImage>(); // Boş bir liste gönder
+            }
+
+            return View(announcements);
+        }
+
+        [HttpGet]
+        public IActionResult addAnnouncements()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult addAnnouncements(addAnnouncementsImage p)
+        {
+            BKD_Announcements w = new BKD_Announcements();
+
+            if (p.ann_Photo != null)
+            {
+                var extension = Path.GetExtension(p.ann_Photo.FileName);
+                var newImageName = Guid.NewGuid() + extension;
+                var location = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UploadsAnnouncementsPhoto/", newImageName);
+
+                var stream = new FileStream(location, FileMode.Create);
+
+                p.ann_Photo.CopyTo(stream);
+                w.ann_Photo = newImageName;
+            }
+
+            w.ann_Title = p.ann_Title;
+            w.ann_Status = 0;
+            w.ann_Date = p.ann_Date;
+            w.ann_Content = p.ann_Content;
+
+            _context.BKD_Announcements.Add(w);
+            _context.SaveChanges();
+
+            return RedirectToAction("AnnouncementsList", "Admin");
+        }
+
+        [HttpGet]
+        public IActionResult editAnnouncement()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult editAnnouncement(addAnnouncementsImage model)
+        {
+            return RedirectToAction();
+        }
+
+        [HttpPost]
+        public IActionResult deleteAnnouncements(int id)
+        {
+            if (id == 0)
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+
+            try
+            {
+                var data = _context.BKD_Announcements.FirstOrDefault(d => d.ann_ID == id);
+
+                if (data != null)
+                {
+                    data.ann_Status = 2;
+
+                    _context.SaveChanges();
+
+                    return RedirectToAction("AnnouncementsList", "Admin");
+                }
+            }
+
+            catch (Exception)
+            {
+                return RedirectToAction("AnnouncementsList");
+            }
+
+
+            return RedirectToAction("AnnouncementsList");
+        }
+
+        // ----------- Teşkilat Yapısı Fonksiyonları
+        public IActionResult OSStructureList()
+        {
+            var structures = _context.BKD_OrganizationalStructure.Select(n => new addOSImage {
+                OS_ID = n.OS_ID,
+                OS_Name = n.OS_Name,
+                OS_Surname = n.OS_Surname,
+                OS_PhotoPath = n.OS_Photo,
+                OS_Comment = n.OS_Comment,
+                OS_Status = n.OS_Status,
+                OS_Degree = n.OS_Degree
+
+            }).ToList();
+
+            return View(structures);
+        }
+
+        [HttpGet]
+        public IActionResult addOS()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult addOS(addOSImage OS)
+        {
+            BKD_OrganizationalStructure m = new BKD_OrganizationalStructure();
+
+            if (OS.OS_Photo != null)
+            {
+                var OILogo = Path.GetExtension(OS.OS_Photo.FileName);
+                var newImageLogo = Guid.NewGuid() + OILogo;
+                var location1 = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UploadOSPhoto/", newImageLogo);
+                var stream1 = new FileStream(location1, FileMode.Create);
+                OS.OS_Photo.CopyTo(stream1);
+                m.OS_Photo = newImageLogo;
+
+            }
+
+            m.OS_Name = OS.OS_Name;
+            m.OS_Status = 0;
+            m.OS_Surname = OS.OS_Surname;
+            m.OS_Degree = OS.OS_Degree;
+            m.OS_Comment = OS.OS_Comment;
+
+            _context.BKD_OrganizationalStructure.Add(m);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index", "Admin");
+        }
+
+        [HttpGet]
+        public IActionResult editStructure()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult editStructure(int id)
+        {
+            return View(id);
+        }
+
+        [HttpPost]
+        public IActionResult deleteOS(int id)
+        {
+            return View();
+        }
     }
 }

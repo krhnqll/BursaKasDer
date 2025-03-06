@@ -13,6 +13,8 @@ namespace bursaKasder.Models.EntityModels
         [Required]
         public IFormFile ann_Photo { get; set; }
         [Required]
+        public string ann_PhotoPath { get; set; }
+        [Required]
         public DateTime ann_Date { get; set; }
         [Required]
         public int ann_Status { get; set; }

@@ -1,0 +1,59 @@
+﻿@model List<bursaKasder.Models.EntityModels.addOSImage>
+@{
+    ViewData["Title"] = "OSStructureList";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>OSStructureList</h1>
+
+<div class="pc-container">
+    <div class="pc-content">
+        <button class="btn btn-success addStudentModal" data-bs-toggle="modal" data-bs-target="#addStudentModal">
+            <i class="bi bi-person-plus-fill"></i> Yeni Haber Ekle
+        </button>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Ad - Soyad</th>
+                    <th>Ünvan / Açıklama</th>
+                    <th>Fotoğraf</th>
+                    <th>İşlemler</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.OS_Name @item.OS_Surname</td>
+                        <td>@item.OS_Degree / @item.OS_Comment</td>
+                        <td>
+                            @if (!string.IsNullOrEmpty(item.OS_PhotoPath))
+                            {
+                                <img src="~/UploadOSPhoto/@item.OS_PhotoPath" alt="Haber Fotoğrafı" width="100">
+                            }
+                            else
+                            {
+                                <span>Fotoğraf Yok</span>
+                            }
+                        </td>
+                        <td>
+                            <button class="btn btn-success editUserBtn" data-bs-toggle="modal" data-bs-target="#editStudentModal" data-id="@item.OS_ID">
+                                <i class="bi bi-person-plus-fill"></i> Düzenle
+                            </button>
+
+
+                            <form action="@Url.Action("PageRemoveStudent", "Admin")" method="post" class="d-inline">
+                                <input type="hidden" name="RemoStudent" value="@item.OS_ID" />
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Kaydı silmek istediğinize emin misiniz?');">
+                                    <i class="ti ti-trash"></i> Sil
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>
