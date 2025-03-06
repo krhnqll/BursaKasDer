@@ -1,0 +1,73 @@
+﻿@model bursaKasder.Models.EntityModels.addAboutImage
+@{
+    ViewData["Title"] = "aboutInfo";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>aboutInfo</h1>
+
+<div class="pc-container">
+    <div class="pc-content">
+        <div class="container mt-4">
+
+            <!-- Düzenleme Butonu -->
+            <div class="text-end mb-3">
+                <a href="/Admin/EditAbout/@Model.ab_ID" class="btn btn-warning">
+                    <i class="bi bi-pencil-square"></i> Düzenle
+                </a>
+            </div>
+
+            <!-- Tarihçe Kartı -->
+            <div class="card shadow-lg p-3 mb-4">
+                <div class="row g-0">
+                    <div class="col-md-4 text-center">
+                        <img src="~/UploadsAboutPhoto/@Model.ab_HistoryPhotoPath" alt="Tarihçe Fotoğrafı"
+                             class="img-fluid rounded" style="max-width: 100%; height: auto;">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="bi bi-clock-history"></i> Tarihçe</h5>
+                            <hr>
+                            <p>@Model.ab_History</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vizyon Kartı -->
+            <div class="card shadow-lg p-3 mb-4">
+                <div class="row g-0">
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="bi bi-eye"></i> Vizyon</h5>
+                            <hr>
+                            <p>@Model.ab_Vision</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <img src="~/UploadsAboutPhoto/@Model.ab_MisVisPhotoPath" alt="Vizyon Fotoğrafı"
+                             class="img-fluid rounded" style="max-width: 100%; height: auto;">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Misyon Kartı -->
+            <div class="card shadow-lg p-3 mb-4">
+                <div class="row g-0">
+                    <div class="col-md-4 text-center">
+                        <img src="~/UploadsAboutPhoto/@Model.ab_MisVisPhotoPath" alt="Misyon Fotoğrafı"
+                             class="img-fluid rounded" style="max-width: 100%; height: auto;">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="bi bi-flag"></i> Misyon</h5>
+                            <hr>
+                            <p>@Model.ab_Mission</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

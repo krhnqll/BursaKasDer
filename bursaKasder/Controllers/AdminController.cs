@@ -135,37 +135,6 @@ namespace bursaKasder.Controllers
 
         //-------------------------------- Edit Operations -----------------------------------------------
 
-        // Edit işlemleri aynı sayfada olacak şekilde düzenlemek mantıklı olabilir. Tek bir model kullanılabilir.
-        public IActionResult EditAbout()
-        {
-            return View();
-        }
-
-        public IActionResult EditOrganizationInfo()
-        {
-            return View();
-        }
-
-        public IActionResult EditOrganizational_Struct()
-        {
-            return View();
-        }
-
-        public IActionResult editEvents()
-        {
-            return View();
-        }
-
-        public IActionResult editContact()
-        {
-            return View();
-        }
-
-        public IActionResult editAnnouncements()
-        {
-            return View();
-        }
-
         [HttpPost]
         public async Task<IActionResult> admin_Edit_About(BKD_About updatedAbout)
         {
@@ -628,7 +597,7 @@ namespace bursaKasder.Controllers
                 OS_PhotoPath = n.OS_Photo,
                 OS_Comment = n.OS_Comment,
                 OS_Status = n.OS_Status,
-                OS_Degree = n.OS_Degree
+                OS_Degree = n.OS_Degree,
 
             }).ToList();
 
@@ -683,6 +652,131 @@ namespace bursaKasder.Controllers
 
         [HttpPost]
         public IActionResult deleteOS(int id)
+        {
+            return View();
+        }
+
+
+        // -------------------- İletişim bilgileri 
+
+        public IActionResult contactInfo()
+        {
+            var contactData = _context.BKD_Contact.FirstOrDefault();
+
+            if (contactData == null)
+            {
+                return NotFound();
+            }
+
+            return View(contactData);
+        }
+
+        [HttpGet]
+        public IActionResult editContact(int id)
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult editContact(BKD_Contact  contact)
+        {
+            return View();
+        }
+
+        // ------------------ Dernek Bilgileri 
+
+        [HttpGet]
+        public IActionResult bkdInfo()
+        {
+            var bkdDATA = _context.BKD_OrganizationInformation.Select(n => new addOIimage
+            {
+                OI_ID = n.OI_ID,
+                OI_Name = n.OI_Name,
+                OI_LogoPath = n.OI_Logo,
+                OI_StatuePhotoPath = n.OI_StatuePhoto,
+                OI_IndexphotoPath = n.OI_Indexphoto,
+                OI_Status = n.OI_Status,
+            }).FirstOrDefault();
+
+            return View(bkdDATA);
+        }
+
+        [HttpGet]
+        public IActionResult editBkd(int id)
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult editBkd(addOIimage OI)
+        {
+            return View();
+        }
+
+        // -------- Hakkında Bilgileri
+
+        [HttpGet]
+        public IActionResult aboutInfo()
+        {
+            var aboutData = _context.BKD_About.Select(n => new addAboutImage
+            {
+                ab_ID = n.ab_ID,
+                ab_History = n.ab_History,
+                ab_HistoryPhotoPath = n.ab_HistoryPhoto,
+                ab_Vision = n.ab_Vision,
+                ab_MisVisPhotoPath = n.ab_MisVisPhoto,
+                ab_Mission = n.ab_Mission,
+                ab_Status = n.ab_Status,
+
+            }).FirstOrDefault();
+
+            return View(aboutData);
+        }
+        [HttpGet]
+        public IActionResult editAbout(int id)
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult editAbout(addAboutImage about)
+        {
+            return View();
+        }
+
+        // -------- Etkinlik Fonksiyonları
+
+        [HttpGet]
+        public IActionResult eventList()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult addEvent()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult addEvent(EventViewModel ev)
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult delEvent(int id)
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult editEvent(int id)
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult editEvent(EventViewModel ev)
         {
             return View();
         }

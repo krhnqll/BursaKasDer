@@ -8,8 +8,8 @@
 
 <div class="pc-container">
     <div class="pc-content">
-        <button class="btn btn-success addStudentModal" data-bs-toggle="modal" data-bs-target="#addStudentModal">
-            <i class="bi bi-person-plus-fill"></i> Yeni Haber Ekle
+        <button class="btn btn-success addStudentModal mt-2 mb-3" data-bs-toggle="modal" data-bs-target="#addStudentModal">
+            <i class="bi bi-person-plus-fill"></i> Yeni Yapı Üyesi Ekle
         </button>
         <table class="table table-bordered">
             <thead>
@@ -30,7 +30,7 @@
                         <td>
                             @if (!string.IsNullOrEmpty(item.OS_PhotoPath))
                             {
-                                <img src="~/UploadOSPhoto/@item.OS_PhotoPath" alt="Haber Fotoğrafı" width="100">
+                                <img src="~/UploadOSPhoto/@item.OS_PhotoPath" alt="Dernek Sorumlusu Fotoğrafı" width="100">
                             }
                             else
                             {
@@ -57,3 +57,116 @@
 
     </div>
 </div>
+
+<div class="modal fade" id="addStudentModal" tabindex="-1" aria-labelledby="addStudentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addStudentModalLabel">Dernek Sorumlusu Ekle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="addStudentFormContainer"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editStudentModal" tabindex="-1" aria-labelledby="editStudentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editStudentModalLabel">Dernek Sorumlusunu Düzenle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="editStudentFormContainer"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.js"></script>
+<script>
+    $(document).ready(function () {
+           // Modal açıldığında formu AJAX ile yükle
+           $('#addStudentModal').on('show.bs.modal', function () {
+               $.get('@Url.Action("addOS", "Admin")', function (data) {
+                   $('#addStudentFormContainer').html(data);
+
+                   // Form gönderimini AJAX ile yap
+                   $('#addStudentFormContainer').find('form').on('submit', function (event) {
+                       event.preventDefault(); // Sayfanın yenilenmesini engelle
+
+                       var formData = new FormData(this); // Dosya yükleme için FormData kullan
+
+                       $.ajax({
+                           url: $(this).attr('action'),
+                           type: $(this).attr('method'),
+                           data: formData,
+                           processData: false,  // FormData için gerekli
+                           contentType: false,  // FormData için gerekli
+                           success: function (response) {
+                               alert("Haber başarıyla eklendi!");
+                               location.reload(); // Sayfayı yenileyerek güncellenmiş listeyi göster
+                           },
+                           error: function () {
+                               alert("Hata oluştu, lütfen tekrar deneyin.");
+                           }
+                       });
+                   });
+               });
+           });
+       });
+
+           $(document).ready(function () {
+        $(".editUserBtn").click(function () {
+            var newsId = $(this).data("id"); // Haber ID'sini al
+            console.log("Tıklanan butonun News ID'si:", newsId); // ✅ Debug için ekledik
+
+            var editUrl = '@Url.Action("editOS", "Admin")';
+            console.log("Edit URL:", editUrl); // ✅ Edit URL'si doğru mu?
+
+            $.get(editUrl, { id: newsId }, function (data) {
+                console.log("Sunucudan gelen HTML:", data); // ✅ Gelen response'u kontrol et
+                $("#editStudentFormContainer").html(data); // Modal içine view'ı yükle
+
+                // Form gönderimini AJAX ile yap
+                $("#editStudentFormContainer").find("form").on("submit", function (event) {
+                    event.preventDefault();
+                    console.log("Form gönderildi!"); // ✅ Formun gönderilip gönderilmediğini kontrol et
+
+                    var formData = new FormData(this);
+                    console.log("Form Data:", formData); // ✅ FormData içeriğini görmek için
+
+                    $.ajax({
+                        url: $(this).attr("action"),
+                        type: $(this).attr("method"),
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function (response) {
+                            console.log("AJAX Başarılı:", response); // ✅ Sunucu yanıtı kontrol et
+                            if (response.success) {
+                                alert("Haber başarıyla güncellendi!");
+                                location.reload();
+                            } else {
+                                alert("Hata oluştu, tekrar deneyin.");
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error("AJAX Hata:", error, "Durum:", status, "XHR:", xhr); // ✅ AJAX hata logu
+                            alert("Hata oluştu, lütfen tekrar deneyin.");
+                        }
+                    });
+                });
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                console.error("GET İsteği Hatası:", textStatus, errorThrown); // ✅ GET isteği başarısızsa logla
+            });
+        });
+    });
+
+
+</script>

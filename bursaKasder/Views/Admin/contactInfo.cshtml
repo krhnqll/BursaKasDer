@@ -1,0 +1,110 @@
+﻿@model bursaKasder.Models.BKD_Contact
+
+@{
+    ViewData["Title"] = "Admin - İletişim Bilgileri";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="pc-container">
+    <div class="pc-content">
+        <div class="container-fluid mt-4">
+            <div class="row">
+                <!-- Sayfa Başlığı -->
+                <div class="col-12">
+                    <h4 class="mb-3"><i class="bi bi-telephone-fill"></i> İletişim Bilgileri</h4>
+                </div>
+
+                <!-- Düzenleme Butonu -->
+                <div class="col-12 mb-3 ">
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editContactModal">
+                        <i class="bi bi-pencil-square"></i> Bilgileri Düzenle
+                    </button>
+                </div>
+
+                <!-- İletişim Kartı -->
+                <div class="col-lg-6">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="bi bi-geo-alt-fill"></i> Adres</h5>
+                            <p class="card-text text-muted">@Model.con_Adress</p>
+
+                            <h5 class="card-title"><i class="bi bi-telephone"></i> Telefon</h5>
+                            <p class="card-text"><i class="bi bi-phone"></i> @Model.con_Phone</p>
+                            <p class="card-text"><i class="bi bi-phone"></i> @Model.con_PhoneSecond</p>
+
+                            <h5 class="card-title"><i class="bi bi-envelope-fill"></i> E-Posta</h5>
+                            <p class="card-text"><i class="bi bi-envelope"></i> @Model.con_Email</p>
+                            <p class="card-text"><i class="bi bi-envelope"></i> @Model.con_EmailSecond</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sosyal Medya Kartı -->
+                <div class="col-lg-6">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="bi bi-globe"></i> Sosyal Medya</h5>
+                            <p><a href="@Model.con_URLFacebook" class="text-decoration-none" target="_blank"><i class="bi bi-facebook text-primary"></i> Facebook</a></p>
+                            <p><a href="@Model.con_URLYoutube" class="text-decoration-none" target="_blank"><i class="bi bi-youtube text-danger"></i> YouTube</a></p>
+                            <p><a href="@Model.con_URLInstagram" class="text-decoration-none" target="_blank"><i class="bi bi-instagram text-danger"></i> Instagram</a></p>
+                            <p><a href="@Model.con_URLX" class="text-decoration-none" target="_blank"><i class="bi bi-twitter text-info"></i> X (Twitter)</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Düzenleme Modalı -->
+<div class="modal fade" id="editContactModal" tabindex="-1" aria-labelledby="editContactModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editContactModalLabel">İletişim Bilgilerini Düzenle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="EditContact" method="post">
+                    <div class="mb-3">
+                        <label class="form-label">Adres</label>
+                        <input type="text" class="form-control" name="con_Adress" value="@Model.con_Adress">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Telefon</label>
+                        <input type="text" class="form-control" name="con_Phone" value="@Model.con_Phone">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Telefon (2)</label>
+                        <input type="text" class="form-control" name="con_PhoneSecond" value="@Model.con_PhoneSecond">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">E-Posta</label>
+                        <input type="email" class="form-control" name="con_Email" value="@Model.con_Email">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">E-Posta (2)</label>
+                        <input type="email" class="form-control" name="con_EmailSecond" value="@Model.con_EmailSecond">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Facebook URL</label>
+                        <input type="text" class="form-control" name="con_URLFacebook" value="@Model.con_URLFacebook">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">YouTube URL</label>
+                        <input type="text" class="form-control" name="con_URLYoutube" value="@Model.con_URLYoutube">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Instagram URL</label>
+                        <input type="text" class="form-control" name="con_URLInstagram" value="@Model.con_URLInstagram">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">X (Twitter) URL</label>
+                        <input type="text" class="form-control" name="con_URLX" value="@Model.con_URLX">
+                    </div>
+                    <button type="submit" class="btn btn-success w-100">Kaydet</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
