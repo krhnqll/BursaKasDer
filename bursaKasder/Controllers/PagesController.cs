@@ -1,4 +1,5 @@
 ﻿using bursaKasder.HelperClasses;
+using bursaKasder.Models;
 using bursaKasder.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -85,6 +86,18 @@ namespace bursaKasder.Controllers
         public IActionResult events()
         {
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult ContactUsAdd(BKD_ContactUs cUS)
+        {
+            cUS.conU_DateMessage = DateTime.Now;
+            cUS.conU_Status = 0;
+
+            _context.BKD_ContactUs.Add(cUS);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index","Home");
         }
     }
 }

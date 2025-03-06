@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.Identity.Client;
+using System.ComponentModel.DataAnnotations;
 
 namespace bursaKasder.Models.EntityModels
 {
@@ -11,7 +12,9 @@ namespace bursaKasder.Models.EntityModels
         [Required]
         public string newsU_Content { get; set; }
         [Required]
-        public IFormFile newsU_Photo { get; set; }
+        public IFormFile? newsU_Photo { get; set; }
+
+        public string? newsU_PhotoPath { get; set; }
         [Required]
         public DateTime newsU_Date { get; set; }
         [Required]

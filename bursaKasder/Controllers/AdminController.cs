@@ -7,11 +7,12 @@ using bursaKasder.Models.EntityModels;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using NuGet.Protocol;
 using bursaKasder.Migrations;
+using Microsoft.AspNetCore.Hosting;
 
 
 namespace bursaKasder.Controllers
 {
-   
+
     public class AdminController : Controller
     {
         private readonly SessionClass _sessionClass;
@@ -39,7 +40,7 @@ namespace bursaKasder.Controllers
             {
                 return NotFound("Hakkımızda bilgisi bulunamadı.");
             }
-            
+
 
             return View(OIData);
         }
@@ -98,7 +99,7 @@ namespace bursaKasder.Controllers
                     bool result = await _postAdminService.Post_admin_add_NewUser(newUser);
                     if (result)
                     {
-                        return RedirectToAction("UserList","Admin");
+                        return RedirectToAction("UserList", "Admin");
                     }
                 }
                 catch (Exception)
@@ -124,7 +125,7 @@ namespace bursaKasder.Controllers
                         return RedirectToAction("UserList", "Admin");
                     }
                 }
-                catch (Exception )
+                catch (Exception)
                 {
                     return View(updatedUser);
                 }
@@ -149,11 +150,8 @@ namespace bursaKasder.Controllers
         {
             return View();
         }
-      
-        public IActionResult editNewsFromUs()
-        {
-            return View();
-        }
+
+
 
         public IActionResult editEvents()
         {
@@ -192,7 +190,7 @@ namespace bursaKasder.Controllers
             return View(updatedAbout);
         }
 
-        
+
 
         public IActionResult AnnouncementsList()
         {
@@ -209,7 +207,7 @@ namespace bursaKasder.Controllers
 
 
         //------------------------------------ Delete Functions ------------------------------------------
-        
+
         [HttpPost]
         public IActionResult deleteUser(int id)
         {
@@ -338,18 +336,11 @@ namespace bursaKasder.Controllers
 
         //------------------------------------ Add Functions ------------------------------------------
 
-        //EventsGet&Post
+
         public IActionResult addEvents()
         {
             return View();
         }
-   
-        //OrganizationalStructureGet&Post
-        public IActionResult addOrgStructure()
-        {
-            return View();
-        }
-
 
         [HttpGet]
         public IActionResult addAnnouncements()
@@ -419,13 +410,13 @@ namespace bursaKasder.Controllers
             w.ab_Vision = about.ab_Vision;
             w.ab_Status = 0;
             w.ab_History = about.ab_History;
-         
+
 
             _context.BKD_About.Add(w);
             _context.SaveChanges();
 
             return RedirectToAction("AnnouncementsList", "Admin");
-            
+
         }
 
         [HttpGet]
@@ -443,7 +434,7 @@ namespace bursaKasder.Controllers
             _context.SaveChanges();
 
             return RedirectToAction("Index", "Admin");
-            
+
         }
 
         [HttpGet]
@@ -486,43 +477,10 @@ namespace bursaKasder.Controllers
 
             w.OI_Name = OI.OI_Name;
             w.OI_Status = 0;
-            
+
 
 
             _context.BKD_OrganizationInformation.Add(w);
-            _context.SaveChanges();
-
-            return RedirectToAction("Index", "Admin");
-        }
-
-        [HttpGet]
-        public IActionResult addNewsFromUs()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult addNewsFromUs(addNewsFromUs tt)
-        {
-            BKD_NewsFromUs m = new BKD_NewsFromUs();
-
-            if (tt.newsU_Photo != null )
-            {
-                var OILogo = Path.GetExtension(tt.newsU_Photo.FileName);
-                var newImageLogo = Guid.NewGuid() + OILogo;
-                var location1 = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UploadNewsUsPhoto/", newImageLogo);
-                var stream1 = new FileStream(location1, FileMode.Create);
-                tt.newsU_Photo.CopyTo(stream1);
-                m.newsU_Photo = newImageLogo;
-
-            }
-
-            m.newsU_Title = tt.newsU_Title;
-            m.newsU_Status = 0;
-            m.newsU_Content = tt.newsU_Content;
-            m.newsU_Date = tt.newsU_Date;
-
-            _context.BKD_NewsFromUs.Add(m);
             _context.SaveChanges();
 
             return RedirectToAction("Index", "Admin");
@@ -561,5 +519,124 @@ namespace bursaKasder.Controllers
 
             return RedirectToAction("Index", "Admin");
         }
+
+
+        // --------- Bizden Haberler Fonksiyonları
+        public IActionResult NewsList()
+        {
+            var newsList = _context.BKD_NewsFromUs.Select(n => new addNewsFromUs
+            {
+                newsU_ID = n.newsU_ID,
+                newsU_Title = n.newsU_Title,
+                newsU_Content = n.newsU_Content,
+                newsU_PhotoPath = n.newsU_Photo, // Veritabanındaki fotoğraf yolunu atıyoruz
+                newsU_Date = n.newsU_Date,
+                newsU_Status = n.newsU_Status
+
+            }).ToList();
+
+
+            return View(newsList);
+        }
+
+        [HttpGet]
+        public IActionResult addNewsFromUs()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult addNewsFromUs(addNewsFromUs tt)
+        {
+
+
+            BKD_NewsFromUs m = new BKD_NewsFromUs();
+
+            if (tt.newsU_Photo != null)
+            {
+                var extension = Path.GetExtension(tt.newsU_Photo.FileName);
+                var newFileName = Guid.NewGuid() + extension;
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UploadNewsUsPhoto/", newFileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    tt.newsU_Photo.CopyTo(stream);
+                }
+
+                m.newsU_Photo = newFileName;
+            }
+            else
+            {
+                m.newsU_Photo = "default.jpg"; // Varsayılan resim eklenebilir
+            }
+
+            m.newsU_Title = tt.newsU_Title;
+            m.newsU_Status = 0;
+            m.newsU_Content = tt.newsU_Content;
+            m.newsU_Date = tt.newsU_Date == default ? DateTime.Now : tt.newsU_Date; // Tarih boşsa bugünün tarihi atanır
+
+            _context.BKD_NewsFromUs.Add(m);
+            _context.SaveChanges();
+
+            return RedirectToAction("NewsList", "Admin"); // Başarılı ekleme sonrası listeye yönlendir
+        }
+
+        [HttpGet]
+        public IActionResult editNewsFromUs(int id)
+        {
+            var news = _context.BKD_NewsFromUs
+                .Where(n => n.newsU_ID == id)
+                .Select(n => new addNewsFromUs
+                {
+                    newsU_ID = n.newsU_ID,
+                    newsU_Title = n.newsU_Title,
+                    newsU_Content = n.newsU_Content,
+                    newsU_PhotoPath = n.newsU_Photo,
+                    newsU_Date = n.newsU_Date
+
+                }).FirstOrDefault();
+
+            if (news == null)
+            {
+                return NotFound();
+            }
+
+            return PartialView("editNewsFromUs", news);
+        }
+
+        [HttpPost]
+        public IActionResult editNewsFromUs(addNewsFromUs model)
+        {
+            var news = _context.BKD_NewsFromUs.Find(model.newsU_ID);
+
+            if (news == null)
+            {
+                return NotFound();
+            }
+
+            news.newsU_Title = model.newsU_Title;
+            news.newsU_Content = model.newsU_Content;
+            news.newsU_Date = DateTime.Now;
+            news.newsU_Status = 1;
+
+            if (model.newsU_Photo != null)
+            {
+                string filePath = Path.Combine("wwwroot/UploadNewsUsPhoto", model.newsU_Photo.FileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    model.newsU_Photo.CopyTo(stream);
+                }
+
+                news.newsU_Photo = "/UploadNewsUsPhoto/" + model.newsU_Photo.FileName;
+            }
+
+            _context.SaveChanges();
+
+            return RedirectToAction("Index","Admin");
+        }
+
+
+        // --------- Duyuru Fonksiyonları
     }
 }

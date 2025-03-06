@@ -14,7 +14,7 @@ namespace bursaKasder.Models
         [Required]
         public string conU_Email { get; set; }
         [Required]
-        public string conU_Phone { get; set; }
+        public string conU_Title { get; set; }
         [Required]
         public string conU_Message { get; set; }
         [Required]
