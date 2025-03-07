@@ -40,7 +40,7 @@
                             }
                         </td>
                         <td>
-                            <button class="btn btn-success editUserBtn" data-bs-toggle="modal" data-bs-target="#editStudentModal" data-id="@item.ann_ID">
+                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editStudentModal" data-id="@item.ann_ID">
                                 <i class="bi bi-person-plus-fill"></i> Düzenle
                             </button>
 
@@ -77,8 +77,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editStudentModalLabel">Düzenle</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title" id="editStudentModalLabel">Duyuru Düzenle</h5>
             </div>
             <div class="modal-body">
                 <div id="editStudentFormContainer"></div>
@@ -124,48 +123,12 @@
        });
 
            $(document).ready(function () {
-        $(".editUserBtn").click(function () {
-            var newsId = $(this).data("id"); // Haber ID'sini al
-            console.log("Tıklanan butonun News ID'si:", newsId); // ✅ Debug için ekledik
+        $('#editStudentModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Butonu al
+            var id = button.data('id'); // Butonun data-id değerini al
 
-            var editUrl = '@Url.Action("editAnnouncement", "Admin")';
-            console.log("Edit URL:", editUrl); // ✅ Edit URL'si doğru mu?
-
-            $.get(editUrl, { id: newsId }, function (data) {
-                console.log("Sunucudan gelen HTML:", data); // ✅ Gelen response'u kontrol et
-                $("#editStudentFormContainer").html(data); // Modal içine view'ı yükle
-
-                // Form gönderimini AJAX ile yap
-                $("#editStudentFormContainer").find("form").on("submit", function (event) {
-                    event.preventDefault();
-                    console.log("Form gönderildi!"); // ✅ Formun gönderilip gönderilmediğini kontrol et
-
-                    var formData = new FormData(this);
-                    console.log("Form Data:", formData); // ✅ FormData içeriğini görmek için
-
-                    $.ajax({
-                        url: $(this).attr("action"),
-                        type: $(this).attr("method"),
-                        data: formData,
-                        processData: false,
-                        contentType: false,
-                        success: function (response) {
-                            console.log("AJAX Başarılı:", response); // ✅ Sunucu yanıtı kontrol et
-                            if (response.success) {
-                                alert("Haber başarıyla güncellendi!");
-                                location.reload();
-                            } else {
-                                alert("Hata oluştu, tekrar deneyin.");
-                            }
-                        },
-                        error: function (xhr, status, error) {
-                            console.error("AJAX Hata:", error, "Durum:", status, "XHR:", xhr); // ✅ AJAX hata logu
-                            alert("Hata oluştu, lütfen tekrar deneyin.");
-                        }
-                    });
-                });
-            }).fail(function (jqXHR, textStatus, errorThrown) {
-                console.error("GET İsteği Hatası:", textStatus, errorThrown); // ✅ GET isteği başarısızsa logla
+            $.get('@Url.Action("editAnnouncement", "Admin")', { id: id }, function (data) {
+                $('#editStudentFormContainer').html(data);
             });
         });
     });

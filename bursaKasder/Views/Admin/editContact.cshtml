@@ -1,0 +1,66 @@
+﻿@model bursaKasder.Models.BKD_Contact
+@{
+    ViewData["Title"] = "editContact";
+    Layout = null;
+}
+
+<html>
+<head>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</head>
+<body>
+
+    <form method="post" asp-action="editContact" asp-asp-controller="Admin">
+        <input type="hidden"  />
+
+        <div class="form-group">
+            <label for="con_Adress">Adres</label>
+            <textarea class="form-control" asp-for="con_Adress" rows="4" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="con_Phone">Birincil Telefon Numarası</label>
+            <input type="text" class="form-control" asp-for="con_Phone" required />
+            
+        </div>
+
+        <div class="form-group">
+            <label for="con_PhoneSecond">İkincil Telefon Numarası</label>
+            <input type="text" class="form-control" asp-for="con_PhoneSecond" required />
+        </div>
+        <div class="form-group">
+            <label for="con_Email">Birincil E-mail Adresi</label>
+            <input type="text" class="form-control" asp-for="con_Email" required />
+        </div>
+        <div class="form-group">
+            <label for="con_EmailSecond">İkincil E-mail Adresi</label>
+            <input type="text" class="form-control" asp-for="con_EmailSecond" required />
+        </div>
+        <div class="form-group">
+            <label for="con_URLFacebook">Facebook URL</label>
+            <input type="text" class="form-control" asp-for="con_URLFacebook" required />
+        </div>
+        <div class="form-group">
+            <label for="con_URLInstagram">Instagram URL</label>
+            <input type="text" class="form-control" asp-for="con_URLInstagram" required />
+        </div>
+        <div class="form-group">
+            <label for="con_URLX">X URL</label>
+            <input type="text" class="form-control" asp-for="con_URLX" required />
+        </div>
+        <div class="form-group">
+            <label for="con_URLYoutube">Youtube URL</label>
+            <input type="text" class="form-control" asp-for="con_URLYoutube" required />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Güncelle</button>
+        <a href="@Url.Action("contactInfo")" class="btn btn-secondary">İptal</a>
+    </form>
+</body>
+</html>
+

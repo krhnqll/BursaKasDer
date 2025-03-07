@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using NuGet.Protocol;
 using bursaKasder.Migrations;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace bursaKasder.Controllers
@@ -442,19 +443,19 @@ namespace bursaKasder.Controllers
 
             if (model.newsU_Photo != null)
             {
-                string filePath = Path.Combine("wwwroot/UploadNewsUsPhoto", model.newsU_Photo.FileName);
+                string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UploadNewsUsPhoto", model.newsU_Photo.FileName);
 
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     model.newsU_Photo.CopyTo(stream);
                 }
 
-                news.newsU_Photo = "/UploadNewsUsPhoto/" + model.newsU_Photo.FileName;
+                news.newsU_Photo = model.newsU_Photo.FileName;
             }
 
             _context.SaveChanges();
 
-            return RedirectToAction("Index","Admin");
+            return RedirectToAction("NewsList", "Admin");
         }
 
 
@@ -545,15 +546,59 @@ namespace bursaKasder.Controllers
         }
 
         [HttpGet]
-        public IActionResult editAnnouncement()
+        public IActionResult editAnnouncement(int id)
         {
-            return View();
+            var news = _context.BKD_Announcements
+               .Where(n => n.ann_ID == id)
+               .Select(n => new addAnnouncementsImage
+               {
+                   ann_ID = n.ann_ID,
+                   ann_Title = n.ann_Title,
+                   ann_Content = n.ann_Content,
+                   ann_PhotoPath = n.ann_Photo,
+                   ann_Date = n.ann_Date
+
+               }).FirstOrDefault();
+
+            if (news == null)
+            {
+                return NotFound();
+            }
+
+            return PartialView("editAnnouncement", news);
         }
+
 
         [HttpPost]
         public IActionResult editAnnouncement(addAnnouncementsImage model)
         {
-            return RedirectToAction();
+            var news = _context.BKD_Announcements.Find(model.ann_ID);
+
+            if (news == null)
+            {
+                return NotFound();
+            }
+
+            news.ann_Title = model.ann_Title;
+            news.ann_Content = model.ann_Content;
+            news.ann_Date = DateTime.Now;
+            news.ann_Status = 1;
+
+            if (model.ann_Photo != null)
+            {
+                string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UploadsAnnouncementsPhoto", model.ann_Photo.FileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    model.ann_Photo.CopyTo(stream);
+                }
+
+                news.ann_Photo = model.ann_Photo.FileName;
+            }
+
+            _context.SaveChanges();
+
+            return RedirectToAction("AnnouncementsList", "Admin");
         }
 
         [HttpPost]
@@ -590,7 +635,8 @@ namespace bursaKasder.Controllers
         // ----------- Teşkilat Yapısı Fonksiyonları
         public IActionResult OSStructureList()
         {
-            var structures = _context.BKD_OrganizationalStructure.Select(n => new addOSImage {
+            var structures = _context.BKD_OrganizationalStructure.Select(n => new addOSImage
+            {
                 OS_ID = n.OS_ID,
                 OS_Name = n.OS_Name,
                 OS_Surname = n.OS_Surname,
@@ -639,15 +685,60 @@ namespace bursaKasder.Controllers
         }
 
         [HttpGet]
-        public IActionResult editStructure()
+        public IActionResult editStructure(int id)
         {
-            return View();
+            var news = _context.BKD_OrganizationalStructure
+               .Where(n => n.OS_ID == id)
+               .Select(n => new addOSImage
+               {
+                   OS_ID = n.OS_ID,
+                   OS_Name = n.OS_Name,
+                   OS_Surname = n.OS_Surname,
+                   OS_Degree = n.OS_Degree,
+                   OS_PhotoPath = n.OS_Photo,
+                   OS_Comment = n.OS_Comment,
+
+               }).FirstOrDefault();
+
+            if (news == null)
+            {
+                return NotFound();
+            }
+
+            return PartialView("editStructure", news);
         }
 
         [HttpPost]
-        public IActionResult editStructure(int id)
+        public IActionResult editStructure(addOSImage model)
         {
-            return View(id);
+            var news = _context.BKD_OrganizationalStructure.Find(model.OS_ID);
+
+            if (news == null)
+            {
+                return NotFound();
+            }
+
+            news.OS_Name = model.OS_Name;
+            news.OS_Surname = model.OS_Surname;
+            news.OS_Degree = model.OS_Degree;
+            news.OS_Comment = model.OS_Comment;
+            news.OS_Status = 1;
+
+            if (model.OS_Photo != null)
+            {
+                string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UploadOSPhoto", model.OS_Photo.FileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    model.OS_Photo.CopyTo(stream);
+                }
+
+                news.OS_Photo = model.OS_Photo.FileName;
+            }
+
+            _context.SaveChanges();
+
+            return RedirectToAction("OSStructureList", "Admin");
         }
 
         [HttpPost]
@@ -672,15 +763,45 @@ namespace bursaKasder.Controllers
         }
 
         [HttpGet]
-        public IActionResult editContact(int id)
+        public IActionResult editContact()
         {
+
+            var findData = _context.BKD_Contact.FirstOrDefault();
+
+            if (findData != null)
+            {
+                return PartialView("editContact", findData);
+            }
+
+
             return View();
         }
 
         [HttpPost]
-        public IActionResult editContact(BKD_Contact  contact)
+        public IActionResult editContact(BKD_Contact contact)
         {
-            return View();
+            var existingData = _context.BKD_Contact.FirstOrDefault();
+
+            if (existingData != null)
+            {
+                existingData.con_Adress = contact.con_Adress;
+                existingData.con_Phone = contact.con_Phone;
+                existingData.con_PhoneSecond = contact.con_PhoneSecond;
+                existingData.con_Email = contact.con_Email;
+                existingData.con_EmailSecond = contact.con_EmailSecond;
+                existingData.con_URLX = contact.con_URLX;
+                existingData.con_URLFacebook = contact.con_URLFacebook;
+                existingData.con_URLInstagram = contact.con_URLInstagram;
+                existingData.con_URLYoutube = contact.con_URLYoutube;
+                existingData.con_Status = 1;
+
+                _context.Entry(existingData).State = EntityState.Modified;
+                _context.SaveChanges();
+
+                return RedirectToAction("contactInfo", "Admin");
+
+            }
+            return View(contact);
         }
 
         // ------------------ Dernek Bilgileri 
@@ -702,15 +823,84 @@ namespace bursaKasder.Controllers
         }
 
         [HttpGet]
-        public IActionResult editBkd(int id)
+        public IActionResult editBkd()
         {
-            return View();
+            var news = _context.BKD_OrganizationInformation.Select(n => new addOIimage
+            {
+                OI_ID = n.OI_ID,
+                OI_Name = n.OI_Name,
+                OI_LogoPath = n.OI_Logo,
+                OI_StatuePhotoPath = n.OI_StatuePhoto,
+                OI_IndexphotoPath = n.OI_Indexphoto,
+
+            }).FirstOrDefault();
+
+            if (news != null)
+            {
+                return PartialView("editBkd", news);
+            }
+
+            return NotFound();
         }
 
         [HttpPost]
-        public IActionResult editBkd(addOIimage OI)
+        public IActionResult editBkd(addOIimage model)
         {
-            return View();
+            var news = _context.BKD_OrganizationInformation.Find(model.OI_ID);
+
+            if (news == null)
+            {
+                return NotFound();
+            }
+
+            news.OI_Name = model.OI_Name;
+            news.OI_Status = 1;
+
+            var files = new Dictionary<string, IFormFile>
+            {
+                { "OI_Logo", model.OI_Logo },
+                { "OI_StatuePhoto", model.OI_StatuePhoto },
+                { "OI_Indexphoto", model.OI_Indexphoto }
+            };
+
+            foreach (var file in files)
+            {
+                if (file.Value != null)
+                {
+                    string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(file.Value.FileName);
+                    string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UploadsOIPhoto", uniqueFileName);
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        file.Value.CopyTo(stream);
+                    }
+
+                    // Veritabanındaki ilgili alanı güncelliyoruz
+                    switch (file.Key)
+                    {
+                        case "OI_Logo":
+                            news.OI_Logo = uniqueFileName;
+                            break;
+                        case "OI_StatuePhoto":
+                            news.OI_StatuePhoto = uniqueFileName;
+                            break;
+                        case "OI_Indexphoto":
+                            news.OI_Indexphoto = uniqueFileName;
+                            break;
+                    }
+                }
+            }
+
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Veritabanına kaydedilirken hata oluştu: " + ex.Message);
+            }
+
+            return RedirectToAction("bkdInfo", "Admin");
         }
 
         // -------- Hakkında Bilgileri
@@ -733,14 +923,86 @@ namespace bursaKasder.Controllers
             return View(aboutData);
         }
         [HttpGet]
-        public IActionResult editAbout(int id)
+        public IActionResult editAbout()
         {
-            return View();
+            var news = _context.BKD_About
+              .Select(n => new addAboutImage
+              {
+                  ab_ID = n.ab_ID,
+                  ab_History = n.ab_History,
+                  ab_Vision = n.ab_Vision,
+                  ab_Mission = n.ab_Mission,
+                  ab_HistoryPhotoPath = n.ab_HistoryPhoto,
+                  ab_MisVisPhotoPath = n.ab_MisVisPhoto,
+
+              }).FirstOrDefault();
+
+            if (news != null)
+            {
+                return PartialView("editAbout", news);
+            }
+
+            return NotFound();
         }
+
         [HttpPost]
-        public IActionResult editAbout(addAboutImage about)
+        public IActionResult editAbout(addAboutImage model)
         {
-            return View();
+            var news = _context.BKD_About.Find(model.ab_ID);
+
+            if (news == null)
+            {
+                return NotFound();
+            }
+
+            news.ab_History = model.ab_History;
+            news.ab_Vision = model.ab_Vision;
+            news.ab_Mission = model.ab_Mission;
+            news.ab_Status = 1;
+
+            var files = new Dictionary<string, IFormFile>
+            {
+                { "ab_HistoryPhoto", model.ab_HistoryPhoto },
+                { "ab_MisVisPhoto", model.ab_MisVisPhoto },
+
+            };
+
+            foreach (var file in files)
+            {
+                if (file.Value != null)
+                {
+                    string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(file.Value.FileName);
+                    string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UploadsAboutPhoto", uniqueFileName);
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        file.Value.CopyTo(stream);
+                    }
+
+                    // Veritabanındaki ilgili alanı güncelliyoruz
+                    switch (file.Key)
+                    {
+                        case "OI_Logo":
+                            news.ab_HistoryPhoto = uniqueFileName;
+                            break;
+                        case "OI_StatuePhoto":
+                            news.ab_MisVisPhoto = uniqueFileName;
+                            break;
+
+                    }
+                }
+            }
+
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Veritabanına kaydedilirken hata oluştu: " + ex.Message);
+            }
+
+            return RedirectToAction("aboutInfo", "Admin");
         }
 
         // -------- Etkinlik Fonksiyonları

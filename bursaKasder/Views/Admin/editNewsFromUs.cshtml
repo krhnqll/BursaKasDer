@@ -8,7 +8,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.8/inputmask.min.js"></script>
 
-<form method="post" enctype="multipart/form-data" asp-action="EditNews" asp-asp-controller="Admin">
+<form method="post" enctype="multipart/form-data" asp-action="editNewsFromUs" asp-asp-controller="Admin">
     <input type="hidden" asp-for="newsU_ID" />
 
     <div class="form-group">
@@ -32,7 +32,7 @@
 
         @if (!string.IsNullOrEmpty(Model.newsU_PhotoPath))
         {
-            <img src="@Model.newsU_PhotoPath" alt="Mevcut Fotoğraf" width="200" />
+            <img src="~/UploadNewsUsPhoto/@Model.newsU_PhotoPath" alt="Mevcut Fotoğraf" width="200" />
         }
     </div>
 

@@ -1,6 +1,9 @@
+using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using bursaKasder.HelperClasses;
 using bursaKasder.Models;
+using bursaKasder.Models.EntityModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,23 +17,29 @@ namespace bursaKasder.Controllers
         public HomeController(ILogger<HomeController> logger, DbContextManager context)
         {
             _logger = logger;
-            _context= context;
+            _context = context;
         }
 
         public IActionResult Index()
         {
 
-            ViewData["UserName"] = HttpContext.Session.GetString("Admin_name");
-            ViewData["UserSurname"] = HttpContext.Session.GetString("Admin_surname");
 
-            var IndexData = _context.BKD_OrganizationInformation.FirstOrDefault();
+            var OIData = _context.BKD_OrganizationInformation.FirstOrDefault();
+            var NEWSData = _context.BKD_NewsFromUs.OrderByDescending(n => n.newsU_ID).ToList();
+            var OSData = _context.BKD_OrganizationalStructure.OrderBy(n => n.OS_ID).Take(3).ToList();
+            var AnnouncementsData = _context.BKD_Announcements.OrderByDescending(n => n.ann_ID).Take(3).ToList();
 
-            if (IndexData == null)
+            var model = new IndexViewModel
             {
-                return NotFound("Hakkımızda bilgisi bulunamadı.");
-            }
-            return View(IndexData);
-            
+                DataOI = OIData,
+                ListOS = OSData,
+                ListNews = NEWSData,
+                ListAnnouncements = AnnouncementsData
+            };
+
+
+            return View(model);
+
         }
 
 
