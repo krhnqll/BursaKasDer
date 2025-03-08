@@ -45,8 +45,8 @@
                             </button>
 
 
-                            <form action="@Url.Action("PageRemoveStudent", "Admin")" method="post" class="d-inline">
-                                <input type="hidden" name="RemoStudent" value="@item.ann_ID" />
+                            <form action="@Url.Action("deleteAnnouncements", "Admin")" method="post" class="d-inline">
+                                <input type="hidden" name="id" value="@item.ann_ID" />
                                 <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Kaydı silmek istediğinize emin misiniz?');">
                                     <i class="ti ti-trash"></i> Sil
                                 </button>

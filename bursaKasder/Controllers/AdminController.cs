@@ -46,7 +46,7 @@ namespace bursaKasder.Controllers
             return View(OIData);
         }
 
-        //--------------------------------- User Operations -------------------------------------------
+        //-------------- Kullanıcı Fonksiyonları
         [HttpGet]
         public async Task<IActionResult> UserList()
         {
@@ -134,8 +134,6 @@ namespace bursaKasder.Controllers
             return View(updatedUser);
         }
 
-        //-------------------------------- Edit Operations -----------------------------------------------
-
         [HttpPost]
         public async Task<IActionResult> admin_Edit_About(BKD_About updatedAbout)
         {
@@ -158,14 +156,13 @@ namespace bursaKasder.Controllers
             return View(updatedAbout);
         }
 
-        //------------------------------------ Delete Functions ------------------------------------------
-
         [HttpPost]
-        public IActionResult deleteUser(int id)
+        public IActionResult deleteUser(int? id)
         {
-            if (id == 0)
+            if (id == null)
             {
-                return RedirectToAction("Index", "Admin");
+                TempData["ErrorMessage"] = "Geçersiz haber ID!";
+                return RedirectToAction("UserList", "Admin");
             }
 
             try
@@ -174,57 +171,27 @@ namespace bursaKasder.Controllers
 
                 if (data != null)
                 {
-                    data.adm_Status = 2;
-
+                    data.adm_Status = 1; // Silme yerine pasif hale getirme
+                    _context.BKD_Admins.Update(data); // Güncelleme işlemini belirt
                     _context.SaveChanges();
 
-                    return RedirectToAction("UserList", "Admin");
+                    TempData["SuccessMessage"] = "Haber başarıyla silindi!";
                 }
-            }
-
-            catch (Exception)
-            {
-                return RedirectToAction("UserList");
-            }
-
-
-            return RedirectToAction("UserList");
-        }
-
-        [HttpPost]
-        public IActionResult deleteEvents(int id)
-        {
-            if (id == 0)
-            {
-                return RedirectToAction("Index", "Admin");
-            }
-
-            try
-            {
-                var data = _context.BKD_Events.FirstOrDefault(d => d.ev_ID == id);
-
-                if (data != null)
+                else
                 {
-                    data.ev_Status = 2;
-
-                    _context.SaveChanges();
-
-                    return RedirectToAction("EventList", "Admin");
+                    TempData["ErrorMessage"] = "Haber bulunamadı!";
                 }
             }
-
             catch (Exception)
             {
-                return RedirectToAction("EventList");
+                TempData["ErrorMessage"] = "Haber silinirken bir hata oluştu!";
             }
 
-
-            return RedirectToAction("EventList");
+            return RedirectToAction("UserList", "Admin");
         }
 
 
-
-        //------------------------------------ Add Functions ------------------------------------------
+        //------------- Hakkında 
 
         [HttpGet]
         public IActionResult addAbout()
@@ -341,7 +308,7 @@ namespace bursaKasder.Controllers
         // --------- Bizden Haberler Fonksiyonları
         public IActionResult NewsList()
         {
-            var newsList = _context.BKD_NewsFromUs.Select(n => new addNewsFromUs
+            var newsList = _context.BKD_NewsFromUs.Where(s => s.newsU_Status == 0).Select(n => new addNewsFromUs
             {
                 newsU_ID = n.newsU_ID,
                 newsU_Title = n.newsU_Title,
@@ -434,7 +401,7 @@ namespace bursaKasder.Controllers
             news.newsU_Title = model.newsU_Title;
             news.newsU_Content = model.newsU_Content;
             news.newsU_Date = DateTime.Now;
-            news.newsU_Status = 1;
+            
 
             if (model.newsU_Photo != null)
             {
@@ -455,11 +422,12 @@ namespace bursaKasder.Controllers
 
 
         [HttpPost]
-        public IActionResult deleteNewsFromUs(int id)
+        public IActionResult deleteNewsFromUs(int? id)
         {
-            if (id == 0)
+            if (id == null)
             {
-                return RedirectToAction("Index", "Admin");
+                TempData["ErrorMessage"] = "Geçersiz haber ID!";
+                return RedirectToAction("NewsList", "Admin");
             }
 
             try
@@ -468,28 +436,31 @@ namespace bursaKasder.Controllers
 
                 if (data != null)
                 {
-                    data.newsU_Status = 2;
-
+                    data.newsU_Status = 1; // Silme yerine pasif hale getirme
+                    _context.BKD_NewsFromUs.Update(data); // Güncelleme işlemini belirt
                     _context.SaveChanges();
 
-                    return RedirectToAction("NewsUsList", "Admin");
+                    TempData["SuccessMessage"] = "Haber başarıyla silindi!";
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "Haber bulunamadı!";
                 }
             }
-
             catch (Exception)
             {
-                return RedirectToAction("NewsUsList");
+                TempData["ErrorMessage"] = "Haber silinirken bir hata oluştu!";
             }
 
-
-            return RedirectToAction("NewsUsList");
+            return RedirectToAction("NewsList", "Admin");
         }
+
 
 
         // --------- Duyuru Fonksiyonları
         public IActionResult AnnouncementsList()
         {
-            var announcements = _context.BKD_Announcements.Select(n => new addAnnouncementsImage
+            var announcements = _context.BKD_Announcements.Where(s => s.ann_Status == 0).Select(n => new addAnnouncementsImage
             {
                 ann_ID = n.ann_ID,
                 ann_Title = n.ann_Title,
@@ -577,7 +548,7 @@ namespace bursaKasder.Controllers
             news.ann_Title = model.ann_Title;
             news.ann_Content = model.ann_Content;
             news.ann_Date = DateTime.Now;
-            news.ann_Status = 1;
+            
 
             if (model.ann_Photo != null)
             {
@@ -597,11 +568,12 @@ namespace bursaKasder.Controllers
         }
 
         [HttpPost]
-        public IActionResult deleteAnnouncements(int id)
+        public IActionResult deleteAnnouncements(int? id)
         {
-            if (id == 0)
+            if (id == null)
             {
-                return RedirectToAction("Index", "Admin");
+                TempData["ErrorMessage"] = "Geçersiz haber ID!";
+                return RedirectToAction("AnnouncementList", "Admin");
             }
 
             try
@@ -610,27 +582,29 @@ namespace bursaKasder.Controllers
 
                 if (data != null)
                 {
-                    data.ann_Status = 2;
-
+                    data.ann_Status = 1; // Silme yerine pasif hale getirme
+                    _context.BKD_Announcements.Update(data); // Güncelleme işlemini belirt
                     _context.SaveChanges();
 
-                    return RedirectToAction("AnnouncementsList", "Admin");
+                    TempData["SuccessMessage"] = "Haber başarıyla silindi!";
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "Haber bulunamadı!";
                 }
             }
-
             catch (Exception)
             {
-                return RedirectToAction("AnnouncementsList");
+                TempData["ErrorMessage"] = "Haber silinirken bir hata oluştu!";
             }
 
-
-            return RedirectToAction("AnnouncementsList");
+            return RedirectToAction("AnnouncementList", "Admin");
         }
 
         // ----------- Teşkilat Yapısı Fonksiyonları
         public IActionResult OSStructureList()
         {
-            var structures = _context.BKD_OrganizationalStructure.Select(n => new addOSImage
+            var structures = _context.BKD_OrganizationalStructure.Where(s => s.OS_Status == 0).Select(n => new addOSImage
             {
                 OS_ID = n.OS_ID,
                 OS_Name = n.OS_Name,
@@ -717,7 +691,7 @@ namespace bursaKasder.Controllers
             news.OS_Surname = model.OS_Surname;
             news.OS_Degree = model.OS_Degree;
             news.OS_Comment = model.OS_Comment;
-            news.OS_Status = 1;
+            
 
             if (model.OS_Photo != null)
             {
@@ -737,9 +711,37 @@ namespace bursaKasder.Controllers
         }
 
         [HttpPost]
-        public IActionResult deleteOS(int id)
+        public IActionResult deleteOS(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                TempData["ErrorMessage"] = "Geçersiz haber ID!";
+                return RedirectToAction("OSStructureList", "Admin");
+            }
+
+            try
+            {
+                var data = _context.BKD_OrganizationalStructure.FirstOrDefault(d => d.OS_ID == id);
+
+                if (data != null)
+                {
+                    data.OS_Status = 1; // Silme yerine pasif hale getirme
+                    _context.BKD_OrganizationalStructure.Update(data); // Güncelleme işlemini belirt
+                    _context.SaveChanges();
+
+                    TempData["SuccessMessage"] = "Haber başarıyla silindi!";
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "Haber bulunamadı!";
+                }
+            }
+            catch (Exception)
+            {
+                TempData["ErrorMessage"] = "Haber silinirken bir hata oluştu!";
+            }
+
+            return RedirectToAction("OSStructureList", "Admin");
         }
 
 
@@ -1005,7 +1007,7 @@ namespace bursaKasder.Controllers
         [HttpGet]
         public IActionResult eventList()
         {
-            var eventData = _context.BKD_Events.Select(e => new EventViewModel
+            var eventData = _context.BKD_Events.Where(s => s.ev_Status == 0).Select(e => new EventViewModel
             {
                 ev_ID = e.ev_ID,
                 ev_Title = e.ev_Title,
@@ -1077,7 +1079,7 @@ namespace bursaKasder.Controllers
                         {
                             evP_Photo = newFileName,
                             evP_EventId = newEvent.ev_ID,
-                            evP_Status = 1
+                            evP_Status = 0
                         };
 
                         _context.BKD_EventPhotos.Add(eventPhoto);
@@ -1092,9 +1094,37 @@ namespace bursaKasder.Controllers
 
 
         [HttpPost]
-        public IActionResult delEvent(int id)
+        public IActionResult delEvent(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                TempData["ErrorMessage"] = "Geçersiz haber ID!";
+                return RedirectToAction("eventList", "Admin");
+            }
+
+            try
+            {
+                var data = _context.BKD_Events.FirstOrDefault(d => d.ev_ID == id);
+
+                if (data != null)
+                {
+                    data.ev_Status = 1; // Silme yerine pasif hale getirme
+                    _context.BKD_Events.Update(data); // Güncelleme işlemini belirt
+                    _context.SaveChanges();
+
+                    TempData["SuccessMessage"] = "Haber başarıyla silindi!";
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "Haber bulunamadı!";
+                }
+            }
+            catch (Exception)
+            {
+                TempData["ErrorMessage"] = "Haber silinirken bir hata oluştu!";
+            }
+
+            return RedirectToAction("eventList", "Admin");
         }
 
         [HttpGet]

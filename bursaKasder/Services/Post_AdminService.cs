@@ -52,7 +52,7 @@ namespace bursaKasder.Services
             existingUser.adm_Surname = UpdatedUser.adm_Surname;
             existingUser.adm_Username = UpdatedUser.adm_Username;
             existingUser.adm_Password = UpdatedUser.adm_Password;
-            SetStatus(existingUser, AdminStatus.Active);
+            
 
             _context.BKD_Admins.Update(existingUser);
             return await _context.SaveChangesAsync() > 0 ? true : throw new Exception("Database update failed.");

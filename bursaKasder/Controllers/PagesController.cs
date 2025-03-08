@@ -33,7 +33,7 @@ namespace bursaKasder.Controllers
         }
         public IActionResult KasderStructure()
         {
-            var structureData = _context.BKD_OrganizationalStructure.ToList();
+            var structureData = _context.BKD_OrganizationalStructure.Where(s => s.OS_Status == 0).ToList();
 
             if (structureData == null)
             {
@@ -71,7 +71,7 @@ namespace bursaKasder.Controllers
         
         public IActionResult news_FromUs()
         {
-            var newsData = _context.BKD_NewsFromUs.ToList();
+            var newsData = _context.BKD_NewsFromUs.Where(s => s.newsU_Status == 0).ToList();
 
             if (newsData == null)
             {
@@ -85,7 +85,7 @@ namespace bursaKasder.Controllers
         }
         public IActionResult events()
         {
-            var eventData = _context.BKD_Events.ToList();
+            var eventData = _context.BKD_Events.Where(s => s.ev_Status == 0).ToList();
 
             if (eventData == null) { return NotFound(); }
 
