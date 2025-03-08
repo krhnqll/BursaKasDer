@@ -1,0 +1,43 @@
+﻿@model bursaKasder.Models.EntityModels.EventViewModel
+@{
+    ViewData["Title"] = "addEvent";
+    Layout = null;
+}
+
+<h1>addEvent</h1>
+
+<form asp-action="addEvent" method="post" asp-controller="Admin" enctype="multipart/form-data">
+    <div class="pc-container">
+        <div class="pc-content">
+            <div>
+                <label>Başlık:</label>
+                <input asp-for="ev_Title" class="form-control" required />
+            </div>
+
+            <div>
+                <label>İçerik:</label>
+                <textarea asp-for="ev_Content" class="form-control" required></textarea>
+            </div>
+
+            <div>
+                <label>Tarih:</label>
+                <input asp-for="ev_Date" type="datetime-local" class="form-control" required />
+            </div>
+
+            <div>
+                <label>Ana Fotoğraf:</label>
+                <input asp-for="MainPhotoFile" type="file" class="form-control" />
+            </div>
+
+            <div>
+                <label>Ekstra Fotoğraflar:</label>
+                <input asp-for="NewPhotos" name="NewPhotos" type="file" class="form-control" multiple />
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Etkinliği Kaydet</button>
+        </div>
+    </div>
+
+
+</form>
+
+

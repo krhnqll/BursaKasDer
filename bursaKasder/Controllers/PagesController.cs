@@ -85,7 +85,11 @@ namespace bursaKasder.Controllers
         }
         public IActionResult events()
         {
-            return View();
+            var eventData = _context.BKD_Events.ToList();
+
+            if (eventData == null) { return NotFound(); }
+
+            return View(eventData);
         }
 
         [HttpPost]

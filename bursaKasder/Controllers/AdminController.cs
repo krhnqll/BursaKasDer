@@ -226,11 +226,6 @@ namespace bursaKasder.Controllers
 
         //------------------------------------ Add Functions ------------------------------------------
 
-        public IActionResult addEvents()
-        {
-            return View();
-        }
-
         [HttpGet]
         public IActionResult addAbout()
         {
@@ -1010,7 +1005,17 @@ namespace bursaKasder.Controllers
         [HttpGet]
         public IActionResult eventList()
         {
-            return View();
+            var eventData = _context.BKD_Events.Select(e => new EventViewModel
+            {
+                ev_ID = e.ev_ID,
+                ev_Title = e.ev_Title,
+                ev_Content = e.ev_Content,
+                ev_Date = e.ev_Date,
+                ev_MainPhoto = e.ev_MainPhoto
+
+            }).ToList();
+
+            return View(eventData);
         }
 
         [HttpGet]
@@ -1020,10 +1025,71 @@ namespace bursaKasder.Controllers
         }
 
         [HttpPost]
-        public IActionResult addEvent(EventViewModel ev)
+        public async Task<IActionResult> addEvent(EventViewModel model)
         {
-            return View();
+            BKD_Events newEvent = new BKD_Events
+            {
+                ev_Title = model.ev_Title,
+                ev_Content = model.ev_Content,
+                ev_Date = model.ev_Date == default ? DateTime.Now : model.ev_Date,
+                ev_Status = 0
+            };
+
+            // **Ana Fotoğraf Yükleme**
+            if (model.MainPhotoFile != null)
+            {
+                var extension = Path.GetExtension(model.MainPhotoFile.FileName);
+                var newFileName = Guid.NewGuid() + extension;
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UploadEventPhoto/", newFileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await model.MainPhotoFile.CopyToAsync(stream);
+                }
+
+                newEvent.ev_MainPhoto = newFileName;
+            }
+            else
+            {
+                newEvent.ev_MainPhoto = "default.jpg";
+            }
+
+            _context.BKD_Events.Add(newEvent);
+            await _context.SaveChangesAsync();
+
+            // **Ekstra Fotoğrafları Kaydetme (Yöntem 1: Model Binding ile)**
+            if (model.NewPhotos != null && model.NewPhotos.Count > 0)
+            {
+                foreach (var file in model.NewPhotos)
+                {
+                    if (file != null && file.Length > 0)
+                    {
+                        var extension = Path.GetExtension(file.FileName);
+                        var newFileName = Guid.NewGuid() + extension;
+                        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UploadEventPhoto/", newFileName);
+
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await file.CopyToAsync(stream);
+                        }
+
+                        BKD_EventPhotos eventPhoto = new BKD_EventPhotos
+                        {
+                            evP_Photo = newFileName,
+                            evP_EventId = newEvent.ev_ID,
+                            evP_Status = 1
+                        };
+
+                        _context.BKD_EventPhotos.Add(eventPhoto);
+                    }
+                }
+
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction("Index", "Admin");
         }
+
 
         [HttpPost]
         public IActionResult delEvent(int id)
@@ -1038,7 +1104,7 @@ namespace bursaKasder.Controllers
         }
 
         [HttpPost]
-        public IActionResult editEvent(EventViewModel ev)
+        public IActionResult editEvent(EventViewModel model)
         {
             return View();
         }

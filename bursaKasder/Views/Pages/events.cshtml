@@ -1,5 +1,8 @@
-﻿@{
+﻿@model List<bursaKasder.Models.BKD_Events>
+
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    int itemsPerPage = 6;
 }
 
 <section class="d-flex align-items-center page-hero inner-page-hero " id="page-hero">
@@ -22,165 +25,119 @@
 <!-- End inner Page hero-->
 <!-- Start _3-col-left-sidebar-->
 <section class="blog blog-home mega-section">
-    <div class="container ">
-        <div class="row ">
-            <div class="col-12 ">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-12 ">
                 <div class="posts-grid">
-                    <div class="row">
-                        <div class="col-12 col-lg-4 ">
-                            <div class="post-box">
-                                <a class="post-link" href="post-single-featured-image.html">
-                                    <div class="post-img-wraper">
-                                        <div class="overlay-color"></div><i class="fas fa-search icon ">           </i><img class="post-img" src="assets/images/blog/post-images/1.jpg" alt="">
-                                    </div>
-                                </a>
-                                <div class="post-summary">
-                                    <div class="post-info"><a class="post-cat" href="#"> <i class=" fas fa-list-alt icon"></i>cloud</a><span class="post-date"> <i class=" fas fa-history icon"></i>23/2/2020</span><a class="post-author" href="#"> <i class=" fas fa-user icon"></i>Allan Moore</a></div>
-                                    <div class="post-text">
-                                        <a class="post-link" href="post-single-featured-image.html">
-                                            <h2 class="post-title">asking big questions on your mind?</h2>
+                    <div class="row" id="newsContainer">
+                        @if (!Model.Any())
+                        {
+                            <p class="text-center text-muted">Hiç kayıt bulunamadı.</p>
+                        }
+                        else
+                        {
+                            int index = 0;
+                            foreach (var news in Model)
+                            {
+                                <div class="col-12 col-md-6 col-lg-4 news-item" data-index="@index">
+                                    <div class="post-box">
+                                        <a class="post-link" href="post-single-featured-image_dark.html">
+                                            <div class="post-img-wraper">
+                                                <div class="overlay-color"></div>
+                                                <i class="fas fa-search icon"></i>
+                                                <img class="post-img" src="~/UploadEventPhoto/@news.ev_MainPhoto" alt="">
+                                            </div>
                                         </a>
-                                        <p class="post-excerpt">
-                                            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                                            Iure nulla dolorem, voluptates molestiae
-
-                                        </p><a class="read-more" href="post-single-featured-image.html">read more<i class="fas fa-arrow-right icon "></i></a>
+                                        <div class="post-summary">
+                                            <div class="post-info">
+                                                <span class="post-date">
+                                                    <i class="fas fa-history icon"></i> @news.ev_Date
+                                                </span>
+                                            </div>
+                                            <div class="post-text">
+                                                <a class="post-link" href="post-single-featured-image_dark.html">
+                                                    <h2 class="post-title">@news.ev_Title</h2>
+                                                </a>
+                                                <p class="post-excerpt">
+                                                    @news.ev_Content
+                                                </p>
+                                                <a class="read-more" href="post-single-featured-image_dark.html">
+                                                    Devamını Oku <i class="fas fa-arrow-right icon"></i>
+                                                </a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-lg-4 ">
-                            <div class="post-box">
-                                <a class="post-link" href="post-single-featured-image.html">
-                                    <div class="post-img-wraper">
-                                        <div class="overlay-color"></div><i class="fas fa-search icon ">         </i><img class="post-img" src="assets/images/blog/post-images/2.jpg" alt="">
-                                    </div>
-                                </a>
-                                <div class="post-summary">
-                                    <div class="post-info"><a class="post-cat" href="#"> <i class=" fas fa-list-alt icon"></i>design</a><span class="post-date"> <i class=" fas fa-history icon"></i>23/2/2020</span><a class="post-author" href="#"><i class=" fas fa-user icon"></i>mhmd amin</a></div>
-                                    <div class="post-text">
-                                        <a class="post-link" href="post-single-featured-image.html">
-                                            <h2 class="post-title">world want a new kind of super heros</h2>
-                                        </a>
-                                        <p class="post-excerpt">
-                                            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                                            Iure nulla dolorem, voluptates molestiae
+                                index++;
+                            }
+                        }
+                    </div>
 
-
-                                        </p><a class="read-more" href="post-single-featured-image.html">read more<i class="fas fa-arrow-right icon "></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-lg-4 ">
-                            <div class="post-box">
-                                <a class="post-link" href="post-single-featured-image.html">
-                                    <div class="post-img-wraper">
-                                        <div class="overlay-color"></div><i class="fas fa-search icon ">         </i><img class="post-img" src="assets/images/blog/post-images/3.jpg" alt="">
-                                    </div>
-                                </a>
-                                <div class="post-summary">
-                                    <div class="post-info"><a class="post-cat" href="#"> <i class=" fas fa-list-alt icon"></i>life style</a><span class="post-date"> <i class=" fas fa-history icon"></i>23/3/2020</span><a class="post-author" href="#"><i class=" fas fa-user icon"></i>yusuf amin</a></div>
-                                    <div class="post-text">
-                                        <a class="post-link" href="post-single-featured-image.html">
-                                            <h2 class="post-title">helping others can boost you happiness</h2>
-                                        </a>
-                                        <p class="post-excerpt">
-                                            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                                            Iure nulla dolorem, voluptates molestiae.
-
-
-                                        </p><a class="read-more" href="post-single-featured-image.html">read more<i class="fas fa-arrow-right icon "></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-lg-4 ">
-                            <div class="post-box">
-                                <a class="post-link" href="post-single-featured-image.html">
-                                    <div class="post-img-wraper">
-                                        <div class="overlay-color"></div><i class="fas fa-search icon ">         </i><img class="post-img" src="assets/images/blog/post-images/5.jpg" alt="">
-                                    </div>
-                                </a>
-                                <div class="post-summary">
-                                    <div class="post-info"><a class="post-cat" href="#"> <i class=" fas fa-list-alt icon"></i>life style</a><span class="post-date"> <i class=" fas fa-history icon"></i>23/3/2020</span><a class="post-author" href="#"><i class=" fas fa-user icon"></i>yusuf amin</a></div>
-                                    <div class="post-text">
-                                        <a class="post-link" href="post-single-featured-image.html">
-                                            <h2 class="post-title">helping others can boost you happiness</h2>
-                                        </a>
-                                        <p class="post-excerpt">
-                                            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                                            Iure nulla dolorem, voluptates molestiae.
-
-
-                                        </p><a class="read-more" href="post-single-featured-image.html">read more<i class="fas fa-arrow-right icon "></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-lg-4 ">
-                            <div class="post-box">
-                                <a class="post-link" href="post-single-featured-image.html">
-                                    <div class="post-img-wraper">
-                                        <div class="overlay-color"></div><i class="fas fa-search icon ">         </i><img class="post-img" src="assets/images/blog/post-images/6.jpg" alt="">
-                                    </div>
-                                </a>
-                                <div class="post-summary">
-                                    <div class="post-info"><a class="post-cat" href="#"> <i class=" fas fa-list-alt icon"></i>life style</a><span class="post-date"> <i class=" fas fa-history icon"></i>23/3/2020</span><a class="post-author" href="#"><i class=" fas fa-user icon"></i>yusuf amin</a></div>
-                                    <div class="post-text">
-                                        <a class="post-link" href="post-single-featured-image.html">
-                                            <h2 class="post-title">helping others can boost you happiness</h2>
-                                        </a>
-                                        <p class="post-excerpt">
-                                            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                                            Iure nulla dolorem, voluptates molestiae.
-
-
-                                        </p><a class="read-more" href="post-single-featured-image.html">read more<i class="fas fa-arrow-right icon "></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-lg-4 ">
-                            <div class="post-box">
-                                <a class="post-link" href="post-single-featured-image.html">
-                                    <div class="post-img-wraper">
-                                        <div class="overlay-color"></div><i class="fas fa-search icon ">         </i><img class="post-img" src="assets/images/blog/post-images/4.jpg" alt="">
-                                    </div>
-                                </a>
-                                <div class="post-summary">
-                                    <div class="post-info"><a class="post-cat" href="#"> <i class=" fas fa-list-alt icon"></i>life style</a><span class="post-date"> <i class=" fas fa-history icon"></i>23/3/2020</span><a class="post-author" href="#"><i class=" fas fa-user icon"></i>yusuf amin</a></div>
-                                    <div class="post-text">
-                                        <a class="post-link" href="post-single-featured-image.html">
-                                            <h2 class="post-title">helping others can boost you happiness</h2>
-                                        </a>
-                                        <p class="post-excerpt">
-                                            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                                            Iure nulla dolorem, voluptates molestiae.
-
-
-                                        </p><a class="read-more" href="post-single-featured-image.html">read more<i class="fas fa-arrow-right icon "></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--Start Posts pagination-->
-                        <div class="col-12">
-                            <nav class="posts-pagination">
-                                <ul class="pagination justify-content-center">
-                                    <li class="posts-page-item deactive-posts-page-item"><a class="posts-page-link " href="#" title="Previous Post"><i class="fas fa-arrow-left icon "></i></a></li>
-                                    <li class="posts-page-item active"><a class="posts-page-link " href="#">1</a></li>
-                                    <li class="posts-page-item"><a class="posts-page-link" href="#">2</a></li>
-                                    <li class="posts-page-item"><a class="posts-page-link" href="#">3</a></li>
-                                    <li class="posts-page-item"><a class="posts-page-link" href="#">4</a></li>
-                                    <li class="posts-page-item"><a class="posts-page-link" href="#">5</a></li>
-                                    <li class="posts-page-item"><a class="posts-page-link" href="#" title="Next Post"><i class="fas fa-arrow-right icon "></i></a></li>
-                                </ul>
-                            </nav>
-                        </div>
+                    <!-- Sayfalama Butonları -->
+                    <div class="col-12">
+                        <nav class="posts-pagination">
+                            <ul class="pagination justify-content-center" id="paginationControls"></ul>
+                        </nav>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="col-12 col-lg-4">
+        <div class="blog-sidebar">
+        </div>
+    </div>
+
+
 </section>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var itemsPerPage = @itemsPerPage; // Razor değişkenini JS içinde kullanıyoruz
+        var totalItems = $(".news-item").length;
+        var totalPages = Math.ceil(totalItems / itemsPerPage);
+        var currentPage = 1;
+
+        function showPage(page) {
+            $(".news-item").hide();
+            var start = (page - 1) * itemsPerPage;
+            var end = start + itemsPerPage;
+            $(".news-item").slice(start, end).fadeIn();
+        }
+
+        function createPagination() {
+            $("#paginationControls").html("");
+            if (totalPages > 1) {
+                $("#paginationControls").append('<li class="page-item"><a class="page-link prev" href="#">«</a></li>');
+                for (var i = 1; i <= totalPages; i++) {
+                    $("#paginationControls").append('<li class="page-item"><a class="page-link page-number" href="#">' + i + '</a></li>');
+                }
+                $("#paginationControls").append('<li class="page-item"><a class="page-link next" href="#">»</a></li>');
+            }
+        }
+
+        $(document).on("click", ".page-number", function () {
+            currentPage = parseInt($(this).text());
+            showPage(currentPage);
+        });
+
+        $(document).on("click", ".prev", function () {
+            if (currentPage > 1) {
+                currentPage--;
+                showPage(currentPage);
+            }
+        });
+
+        $(document).on("click", ".next", function () {
+            if (currentPage < totalPages) {
+                currentPage++;
+                showPage(currentPage);
+            }
+        });
+
+        showPage(currentPage);
+        createPagination();
+    });
+</script>
