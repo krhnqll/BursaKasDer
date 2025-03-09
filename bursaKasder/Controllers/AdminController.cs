@@ -457,6 +457,8 @@ namespace bursaKasder.Controllers
 
 
 
+
+
         // --------- Duyuru Fonksiyonları
         public IActionResult AnnouncementsList()
         {
@@ -1227,6 +1229,8 @@ namespace bursaKasder.Controllers
 
             return RedirectToAction("Index", "Admin");
         }
+
+
 
     }
 }

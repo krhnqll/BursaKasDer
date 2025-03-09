@@ -80,9 +80,10 @@
                                                 <p class="post-excerpt">
                                                     @news.newsU_Content
                                                 </p>
-                                                <a class="read-more" href="post-single-featured-image_dark.html">
+                                                <a class="read-more" href="@Url.Action("showNewsDetail", "Pages", new { id = news.newsU_ID })">
                                                     Devamını Oku <i class="fas fa-arrow-right icon"></i>
                                                 </a>
+
                                             </div>
                                         </div>
                                     </div>

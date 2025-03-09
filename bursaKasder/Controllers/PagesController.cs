@@ -1,8 +1,10 @@
 ﻿using bursaKasder.HelperClasses;
 using bursaKasder.Models;
+using bursaKasder.Models.EntityModels;
 using bursaKasder.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 
 namespace bursaKasder.Controllers
 {
@@ -79,6 +81,18 @@ namespace bursaKasder.Controllers
             }
             return View(newsData);
         }
+
+        [HttpGet]
+        public IActionResult showNewsDetail(int? id)
+        {
+            var postDetail = _context.BKD_NewsFromUs.FirstOrDefault(n => n.newsU_ID == id);
+            if (postDetail == null)
+            {
+                return NotFound();
+            }
+            return View(postDetail);
+        }
+
         public IActionResult news_FromKast()
         {
             return View();
@@ -90,6 +104,29 @@ namespace bursaKasder.Controllers
             if (eventData == null) { return NotFound(); }
 
             return View(eventData);
+        }
+
+        [HttpGet]
+        public IActionResult showEventDetail(int id)
+        {
+            var eventDetail = _context.BKD_Events.Where(s => s.ev_Status == 0 ).Include(e => e.EventPhotos).FirstOrDefault(e => e.ev_ID == id);
+
+            if (eventDetail == null)
+            {
+                return NotFound();
+            }
+
+            var viewModel = new EventViewModel
+            {
+                ev_ID = eventDetail.ev_ID,
+                ev_Title = eventDetail.ev_Title,
+                ev_Content = eventDetail.ev_Content,
+                ev_Date = eventDetail.ev_Date,
+                ev_MainPhoto = eventDetail.ev_MainPhoto,
+                EventPhotos = eventDetail.EventPhotos.Select(p => p.evP_Photo).ToList()
+            };
+
+            return View(viewModel);
         }
 
         [HttpPost]

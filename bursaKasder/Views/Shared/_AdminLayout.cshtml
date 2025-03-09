@@ -67,19 +67,32 @@
                             <span class="pc-mtext">Anasayfa</span>
                         </a>
                     </li>
-
-                    <li class="pc-item pc-caption">
-                        <label>Site Yönetimi</label>
-                        <i class="ti ti-dashboard"></i>
-                    </li>
                     <li class="pc-item">
-                        <a asp-controller="Admin" asp-action="#" class="pc-link">
+                        <a href="/Admin/UserList" class="pc-link">
 
-                            <span class="pc-mtext">Hakkınızda</span>
+                            <span class="pc-mtext">Admin Paneli Kullanıcıları</span>
                         </a>
                     </li>
                     <li class="pc-item">
-                        <a href="../elements/bc_color.html" class="pc-link">
+                        <a href="#" class="pc-link">
+
+                            <span class="pc-mtext">Bizimle İletişime Geçenler</span>
+                        </a>
+                    </li>
+
+                    <li class="pc-item pc-caption">
+                        <label>-- Site Yönetimi</label>
+                        <i class="ti ti-dashboard"></i>
+                    </li>
+
+                    <li class="pc-item">
+                        <a asp-controller="Admin" asp-action="NewsList" class="pc-link">
+
+                            <span class="pc-mtext">Haberler</span>
+                        </a>
+                    </li>
+                    <li class="pc-item">
+                        <a asp-controller="Admin" asp-action="eventList" class="pc-link">
 
                             <span class="pc-mtext">Etkinlikler</span>
                         </a>
@@ -90,19 +103,40 @@
                             <span class="pc-mtext">Duyurular</span>
                         </a>
                     </li>
-                    <li class="pc-item">
-                        <a href="../elements/icon-tabler.html" class="pc-link">
 
-                            <span class="pc-mtext">Bizimle İletişime Geçenler</span>
+
+
+                    <li class="pc-item pc-caption">
+                        <label>-- Genel Bilgiler</label>
+                        <i class="ti ti-dashboard"></i>
+                    </li>
+                    <li class="pc-item">
+                        <a asp-controller="Admin" asp-action="bkdInfo" class="pc-link">
+
+                            <span class="pc-mtext">Ana Bilgiler</span>
                         </a>
                     </li>
                     <li class="pc-item">
-                        <a href="/Admin/UserList" class="pc-link" >
+                        <a asp-controller="Admin" asp-action="aboutInfo" class="pc-link">
 
-                            <span class="pc-mtext">Kullanıcılar</span>
+                            <span class="pc-mtext">Hakkında Bilgileri</span>
                         </a>
                     </li>
-                    <li class="pc-item pc-hasmenu">
+                    <li class="pc-item">
+                        <a asp-controller="Admin" asp-action="contactInfo" class="pc-link">
+
+                            <span class="pc-mtext">İletişim Bilgileri</span>
+                        </a>
+                    </li>
+                    <li class="pc-item">
+                        <a asp-controller="Admin" asp-action="OSStructureList" class="pc-link">
+
+                            <span class="pc-mtext">Teşkilat Yapısı</span>
+                        </a>
+                    </li>
+
+
+                   @*  <li class="pc-item pc-hasmenu">
                         <a href="#!" class="pc-link">
                             <span class="pc-micon"><i class="ti ti-menu"></i></span><span class="pc-mtext">
                                 Diğer İşlemler
@@ -128,7 +162,7 @@
                             <li class="pc-item"><a class="pc-link" asp-controller="Admin" asp-action="bkdInfo">Ana Bilgiler</a></li>
 
                         </ul>
-                    </li>
+                    </li> *@
                 </ul>
 
             </div>
