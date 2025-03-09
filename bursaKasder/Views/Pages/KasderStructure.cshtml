@@ -5,7 +5,54 @@
 
 <!DOCTYPE html>
 <html lang="zxx">
+<head>
+    <style>
+        /* Tüm kutuların aynı yüksekliğe sahip olması için */
+        .service-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            text-align: center;
+            height: 100%; /* Kutuların yüksekliği eşit olsun */
+            padding: 20px;
+            background: #fff; /* Arka plan rengi */
+            border-radius: 10px; /* Kenar yuvarlatma */
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Hafif gölge efekti */
+        }
 
+        /* İçerik hizalama */
+        .service-content {
+            flex-grow: 1; /* İçeriğin kutu içinde esnek büyümesini sağlar */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Başkan ve diğer üyelerin fotoğrafları için */
+        .img-icon {
+            width: 120px; /* Fotoğrafların sabit genişliği */
+            height: 120px;
+            object-fit: cover; /* Fotoğraf boyutunu koruyarak kırpar */
+            border-radius: 50%; /* Yuvarlak fotoğraf */
+            margin-bottom: 15px;
+        }
+
+        /* Grid yapısını düzenleme */
+        .services-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px; /* Sabit boşluk */
+            justify-content: center; /* Ortaya hizalama */
+        }
+
+        /* Başkan kutusunun hizalanması */
+        .leader-box {
+            margin-bottom: 40px;
+        }
+
+    </style>
+</head>
 <body class=" overlay-is-linear-gradient ">
 
     <section class="d-flex align-items-center page-hero inner-page-hero " id="page-hero">
@@ -25,62 +72,62 @@
             </div>
         </div>
     </section>
-    <section class="services-boxed mega-section section-bg-shade">
-        <div class="container">
-            <div class="section-heading center-heading">
-                <h2 class="section-title wow" data-splitting="words">Bursa Kastamonulular Dayanışma Derneği</h2>
-                <div class="line line-solid-main-color wow fadeIn" data-wow-delay="1s"></div>
-            </div>
+        <section class="services-boxed mega-section section-bg-shade">
+            <div class="container">
+                <div class="section-heading center-heading">
+                    <h2 class="section-title wow" data-splitting="words">Bursa Kastamonulular Dayanışma Derneği</h2>
+                    <div class="line line-solid-main-color wow fadeIn" data-wow-delay="1s"></div>
+                </div>
 
-            <div class="row gx-4 gy-4 services-row">
-                <div class="col-12">
-                    @if (Model.Any())
-                    {
-                        var president = Model.FirstOrDefault(x => x.OS_Degree == "Yönetim Kurulu Başkanı");
-                        var others = Model.Where(x => x.OS_Degree != "Yönetim Kurulu Başkanı").ToList();
-
-                        @if (president != null)
+                <div class="row gx-4 gy-4 services-row">
+                    <div class="col-12">
+                        @if (Model.Any())
                         {
-                            <div class="col-12 text-center leader-box">
-                                <div class="box service-box wow fadeInUp" data-wow-offset="0" data-wow-delay=".1s">
-                                    <div class="service-icon">
-                                        <img class="img-icon" src="~/UploadOSPhoto/@president.OS_Photo" alt="OSPhoto image" draggable="false" />
-                                    </div>
-                                    <div class="service-content">
-                                        <h2 class="service-title">@president.OS_Name @president.OS_Surname</h2>
-                                        <h3 class="service-title">@president.OS_Degree</h3>
-                                        <p class="service-text">@president.OS_Comment</p>
-                                    </div>
-                                </div>
-                            </div>
-                        }
+                            var president = Model.FirstOrDefault(x => x.OS_Degree == "Yönetim Kurulu Başkanı");
+                            var others = Model.Where(x => x.OS_Degree != "Yönetim Kurulu Başkanı").ToList();
 
-                        <div class="row col-12 services-row">
-                            @foreach (var os in others)
+                            @if (president != null)
                             {
-                                <div class="col-12 col-md-6 col-lg-4">
+                                <div class="col-12 text-center leader-box">
                                     <div class="box service-box wow fadeInUp" data-wow-offset="0" data-wow-delay=".1s">
                                         <div class="service-icon">
-                                            <img class="img-icon" src="~/UploadOSPhoto/@os.OS_Photo" alt="OSPhoto image" draggable="false" />
+                                            <img class="img-icon" src="~/UploadOSPhoto/@president.OS_Photo" alt="OSPhoto image" draggable="false" />
                                         </div>
                                         <div class="service-content">
-                                            <h2 class="service-title">@os.OS_Name @os.OS_Surname</h2>
-                                            <h3 class="service-title">@os.OS_Degree</h3>
-                                            <p class="service-text">@os.OS_Comment</p>
+                                            <h2 class="service-title">@president.OS_Name @president.OS_Surname</h2>
+                                            <h3 class="service-title">@president.OS_Degree</h3>
+                                            <p class="service-text">@president.OS_Comment</p>
                                         </div>
                                     </div>
                                 </div>
                             }
-                        </div>
-                    }
-                    else
-                    {
-                        <p class="text-center text-muted">Hiç kayıt bulunamadı.</p>
-                    }
+
+                            <div class="row col-12 services-row">
+                                @foreach (var os in others)
+                                {
+                                    <div class="col-12 col-md-6 col-lg-4">
+                                        <div class="box service-box wow fadeInUp" data-wow-offset="0" data-wow-delay=".1s">
+                                            <div class="service-icon">
+                                                <img class="img-icon" src="~/UploadOSPhoto/@os.OS_Photo" alt="OSPhoto image" draggable="false" />
+                                            </div>
+                                            <div class="service-content">
+                                                <h2 class="service-title">@os.OS_Name @os.OS_Surname</h2>
+                                                <h3 class="service-title">@os.OS_Degree</h3>
+                                                <p class="service-text">@os.OS_Comment</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <p class="text-center text-muted">Hiç kayıt bulunamadı.</p>
+                        }
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
     <div class="loading-screen" id="loading-screen">
         <div class="spinner">

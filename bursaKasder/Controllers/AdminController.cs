@@ -1130,13 +1130,103 @@ namespace bursaKasder.Controllers
         [HttpGet]
         public IActionResult editEvent(int id)
         {
-            return View();
+            var eventToEdit = _context.BKD_Events
+                .Include(e => e.EventPhotos) // İlişkili fotoğrafları da çekiyoruz
+                .FirstOrDefault(e => e.ev_ID == id);
+
+            if (eventToEdit == null)
+            {
+                return NotFound();
+            }
+
+            EventViewModel model = new EventViewModel
+            {
+                ev_ID = eventToEdit.ev_ID,
+                ev_Title = eventToEdit.ev_Title,
+                ev_Content = eventToEdit.ev_Content,
+                ev_Date = eventToEdit.ev_Date,
+                ev_MainPhoto = eventToEdit.ev_MainPhoto,
+                EventPhotos = eventToEdit.EventPhotos.Select(p => p.evP_Photo).ToList()
+            };
+
+            return View(model);
         }
 
         [HttpPost]
-        public IActionResult editEvent(EventViewModel model)
+        public async Task<IActionResult> editEvent(EventViewModel model)
         {
-            return View();
+            var eventToUpdate = _context.BKD_Events
+                .Include(e => e.EventPhotos)
+                .FirstOrDefault(e => e.ev_ID == model.ev_ID);
+
+            if (eventToUpdate == null)
+            {
+                return NotFound();
+            }
+
+            // Güncellenen Bilgiler
+            eventToUpdate.ev_Title = model.ev_Title;
+            eventToUpdate.ev_Content = model.ev_Content;
+            eventToUpdate.ev_Date = model.ev_Date;
+
+            // **Ana Fotoğraf Güncelleme**
+            if (model.MainPhotoFile != null)
+            {
+                // Eski fotoğrafı sil
+                if (!string.IsNullOrEmpty(eventToUpdate.ev_MainPhoto) && eventToUpdate.ev_MainPhoto != "default.jpg")
+                {
+                    var oldFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UploadEventPhoto/", eventToUpdate.ev_MainPhoto);
+                    if (System.IO.File.Exists(oldFilePath))
+                    {
+                        System.IO.File.Delete(oldFilePath);
+                    }
+                }
+
+                // Yeni fotoğrafı kaydet
+                var extension = Path.GetExtension(model.MainPhotoFile.FileName);
+                var newFileName = Guid.NewGuid() + extension;
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UploadEventPhoto/", newFileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await model.MainPhotoFile.CopyToAsync(stream);
+                }
+
+                eventToUpdate.ev_MainPhoto = newFileName;
+            }
+
+            // **Ekstra Fotoğrafları Güncelleme**
+            if (model.NewPhotos != null && model.NewPhotos.Count > 0)
+            {
+                foreach (var file in model.NewPhotos)
+                {
+                    if (file != null && file.Length > 0)
+                    {
+                        var extension = Path.GetExtension(file.FileName);
+                        var newFileName = Guid.NewGuid() + extension;
+                        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UploadEventPhoto/", newFileName);
+
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await file.CopyToAsync(stream);
+                        }
+
+                        BKD_EventPhotos eventPhoto = new BKD_EventPhotos
+                        {
+                            evP_Photo = newFileName,
+                            evP_EventId = eventToUpdate.ev_ID,
+                            
+                        };
+
+                        _context.BKD_EventPhotos.Add(eventPhoto);
+                    }
+                }
+            }
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index", "Admin");
         }
+
     }
 }

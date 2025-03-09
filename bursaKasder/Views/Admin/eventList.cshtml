@@ -4,6 +4,22 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
+<style>
+    #addStudentFormContainer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+
+    .modal-dialog {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh; /* Ekran yüksekliği kadar ortalama yap */
+    }
+
+</style>
 <div class="pc-container">
     <div class="pc-content">
         <button class="btn btn-success addStudentModal mt-2 mb-3" data-bs-toggle="modal" data-bs-target="#addStudentModal">
@@ -60,12 +76,8 @@
 <div class="modal fade" id="addStudentModal" tabindex="-1" aria-labelledby="addStudentModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addStudentModalLabel">Yeni Etkinlik Ekle</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
             <div class="modal-body">
-                <div id="addStudentFormContainer"></div>
+                <div class="" id="addStudentFormContainer"></div>
             </div>
         </div>
     </div>

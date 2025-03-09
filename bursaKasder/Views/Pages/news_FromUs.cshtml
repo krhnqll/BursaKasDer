@@ -4,6 +4,26 @@
     int itemsPerPage = 6;
 }
 
+<head>
+    <style>
+        .post-img-wraper {
+            width: 100%; /* Container genişliğini korur */
+            height: 250px; /* Sabit yükseklik */
+            overflow: hidden; /* Taşan içeriği gizler */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .post-img {
+            width: 100%; /* Genişliği tam alana yay */
+            height: 100%; /* Yüksekliği kapsayacak şekilde ayarla */
+            object-fit: cover; /* Oranları bozmadan kırpar */
+            border-radius: 10px; /* Hafif köşe yuvarlama */
+        }
+
+    </style>
+</head>
 <section class="d-flex align-items-center page-hero inner-page-hero " id="page-hero">
     <div class="overlay-photo-image-bg "></div>
     <div class="overlay-color"></div>

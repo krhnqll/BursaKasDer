@@ -5,55 +5,185 @@
 
 <!DOCTYPE html>
 <html lang="zxx">
+<head>
+    <style>
+        .event-slider .swiper-slide {
+            display: flex;
+            justify-content: center;
+        }
 
+        .service-box {
+            width: 300px;
+            text-align: center;
+            background: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .service-icon img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .service-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .service-text {
+            font-size: 14px;
+            color: #555;
+        }
+
+        /* HERO Bölümü */
+        #page-hero, #news-section {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Arka Plan */
+        .slider-bg, .news-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            filter: brightness(0.6);
+            z-index: -1;
+        }
+
+        /* Swiper Alanı */
+        .swiper-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .swiper-slide {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 80px; /* Yukarıdan 50px kadar aşağıya kaydır */
+        }
+
+        /* Haber Kutusu */
+        .news-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            width: 80%;
+            max-width: 850px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+            .news-box:hover {
+                transform: translateY(-5px);
+            }
+
+        /* Haber Görseli */
+        .news-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Haber Başlığı ve İçeriği */
+        .slide-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .slide-subtitle {
+            font-size: 18px;
+            opacity: 0.85;
+            line-height: 1.6;
+        }
+
+        /* Navigasyon Butonları */
+        .swiper-button-prev, .swiper-button-next {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+        }
+
+            .swiper-button-prev:hover, .swiper-button-next:hover {
+                background: rgba(255, 255, 255, 0.5);
+            }
+
+            .swiper-button-prev i, .swiper-button-next i {
+                font-size: 24px;
+                color: white;
+            }
+
+        /* Pagination (Slider Dotları) */
+        .swiper-pagination-bullet {
+            width: 12px;
+            height: 12px;
+            background: white;
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+        }
+
+        .swiper-pagination-bullet-active {
+            opacity: 1;
+            background: #ffcc00;
+        }
+
+
+    </style>
+</head>
 <body class=" overlay-is-linear-gradient ">
 
-    <section class="page-hero hero-swiper-slider slider-parallax d-flex align-items-center " id="page-hero">
+    <section id="news-section">
+        <div class="news-bg" style="background-image: url('@Url.Content("~/UploadsOIPhoto/" + Model.DataOI.OI_StatuePhoto)');"></div>
         <div class="slider swiper-container">
             <div class="swiper-wrapper text-center">
-                <div class="slider-bg" data-background="@Url.Content("~/UploadsOIPhoto/" + Model.DataOI.OI_StatuePhoto)">
-                    <div class="overlay-color"></div>
-                </div>
                 @foreach (var item in Model.ListNews)
                 {
                     <div class="swiper-slide">
-                        <div class="slide-content">
-                            <div class="container">
-                                <div class="hero-text-area position-relative">
-                                    <div class="news-box position-absolute top-50 start-50 translate-middle p-4 rounded"
-                                         style="background: rgba(0, 0, 0, 0.85); color: white; width: 60%; max-width: 800px; min-height: 250px; text-align: center;
-     display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; border-radius: 10px;">
-                                        <h1 class="slide-title" data-splitting="words" style="font-size: 2rem; font-weight: bold; margin-bottom: 15px;">
-                                            <span class="hollow-text">@item.newsU_Title</span>
-                                        </h1>
-                                        <p class="slide-subtitle narrow-centerd-text" data-splitting="words" style="font-size: 1.2rem; line-height: 1.5;">
-                                            @item.newsU_Content
-                                        </p>
-                                    </div>
-
-                                </div>
-                            </div>
+                        <div class="news-box">
+                            <img class="news-image" src="~/UploadNewsUsPhoto/@item.newsU_Photo" alt="Haber Görseli">
+                            <h1 class="slide-title">@item.newsU_Title</h1>
+                            <p class="slide-subtitle">@item.newsU_Content</p>
                         </div>
                     </div>
                 }
             </div>
-
-            <!-- Navigation Buttons -->
-            <div class="swiper-button-prev wow fadeInUp" data-wow-offset="0" data-wow-delay=".4s">
-                <div class="left-arrow">
-                    <i class="fas fa-arrow-left icon "></i>
-                </div>
+            <div class="swiper-button-prev">
+                <i class="fas fa-arrow-left"></i>
             </div>
-            <div class="swiper-button-next wow fadeInUp" data-wow-offset="0" data-wow-delay=".4s">
-                <div class="right-arrow">
-                    <i class="fas fa-arrow-right icon "></i>
-                </div>
+            <div class="swiper-button-next">
+                <i class="fas fa-arrow-right"></i>
             </div>
-
-            <!-- Pagination -->
             <div class="swiper-pagination"></div>
         </div>
     </section>
+
     <!-- End  Page hero-->
     <!-- Start  services_img-icon_center-aligned-->
     <section class="portfolio portfolio-slider mega-section">
@@ -65,23 +195,23 @@
             </div>
         </div>
         <div class="container-fluid p-0">
-            <!--Swiper-->
-            <div class="swiper-container wow fadeInUp" data-wow-delay=".5s">
+            <!-- Swiper -->
+            <div class="swiper-container event-slider wow fadeInUp" data-wow-delay=".5s">
                 <div class="swiper-wrapper">
-                    @foreach (var item in Model.ListNews)
+                    @foreach (var item in Model.ListEvents)
                     {
                         <div class="swiper-slide">
-                            <div class="box service-box wow fadeInUp" data-wow-offset="0" data-wow-delay=".1s">
+                            <div class="box service-box">
                                 <div class="service-icon">
-                                    <img class="img-icon" src="assets/images/services/1.png" alt="service image" draggable="false" />
+                                    <img class="img-icon" src="~/UploadEventPhoto/@item.ev_MainPhoto" alt="service image" draggable="false" />
                                 </div>
                                 <div class="service-content">
-                                    <h3 class="service-title">@item.newsU_Title</h3>
+                                    <h3 class="service-title">@item.ev_Title</h3>
                                     <p class="service-text">
-                                        @item.newsU_Content
+                                        @item.ev_Content
                                     </p>
                                 </div>
-                                <a class="read-more" href="service-single.html">read more<i class="fas fa-arrow-right icon"></i></a>
+                                <a class="read-more" href="service-single.html">Devamını Oku<i class="fas fa-arrow-right icon"></i></a>
                             </div>
                         </div>
                     }
@@ -201,6 +331,7 @@
     </div>
         
     <div class="back-to-top" id="back-to-top"><i class="fas fa-arrow-up icon"></i></div>
+
 
     <script>
             document.addEventListener("DOMContentLoaded", function () {

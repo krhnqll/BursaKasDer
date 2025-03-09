@@ -25,16 +25,20 @@ namespace bursaKasder.Controllers
 
 
             var OIData = _context.BKD_OrganizationInformation.FirstOrDefault();
+            //var AboutData = _context.BKD_About.FirstOrDefault();
             var NEWSData = _context.BKD_NewsFromUs.Where(s => s.newsU_Status == 0).OrderByDescending(n => n.newsU_ID).ToList();
             var OSData = _context.BKD_OrganizationalStructure.Where(s => s.OS_Status == 0).OrderBy(n => n.OS_ID).Take(3).ToList();
             var AnnouncementsData = _context.BKD_Announcements.Where(s => s.ann_Status == 0).OrderByDescending(n => n.ann_ID).Take(3).ToList();
+            var EventData = _context.BKD_Events.Where(s => s.ev_Status == 0).OrderByDescending(n => n.ev_ID).Take(6).ToList();
 
             var model = new IndexViewModel
             {
                 DataOI = OIData,
                 ListOS = OSData,
                 ListNews = NEWSData,
-                ListAnnouncements = AnnouncementsData
+                ListAnnouncements = AnnouncementsData,
+                ListEvents = EventData,
+                //DataAbout = AboutData,
             };
 
 
