@@ -57,23 +57,25 @@ namespace bursaKasder.Controllers
 
         public IActionResult about_us()
         {
-           var aboutData = _context.BKD_About.FirstOrDefault();
+            var aboutData = _context.BKD_About.FirstOrDefault();
+
 
             if (aboutData == null)
             {
                 return NotFound("Hakkımızda bilgisi bulunamadı.");
             }
 
-            var MainData = _context.BKD_OrganizationInformation.FirstOrDefault();
-
-            ViewBag.MainPhoto = MainData.OI_Indexphoto;
 
             return View(aboutData);
         }
-        
+
+
         public IActionResult news_FromUs()
         {
             var newsData = _context.BKD_NewsFromUs.Where(s => s.newsU_Status == 0).ToList();
+
+            var OIData = _context.BKD_OrganizationInformation.FirstOrDefault();
+            ViewBag.Logo = OIData.OI_Logo;
 
             if (newsData == null)
             {
@@ -129,16 +131,29 @@ namespace bursaKasder.Controllers
             return View(viewModel);
         }
 
+        [HttpGet]
+        public IActionResult ContactUsAdd()
+        {
+            return View();
+        }
+
         [HttpPost]
         public IActionResult ContactUsAdd(BKD_ContactUs cUS)
         {
-            cUS.conU_DateMessage = DateTime.Now;
-            cUS.conU_Status = 0;
+            if (ModelState.IsValid)
+            {
+                cUS.conU_DateMessage = DateTime.Now;
+                cUS.conU_Status = 0;
 
-            _context.BKD_ContactUs.Add(cUS);
-            _context.SaveChanges();
+                _context.BKD_ContactUs.Add(cUS);
+                _context.SaveChanges();
 
-            return RedirectToAction("Index","Home");
+                TempData["SuccessMessage"] = "Mesajınız başarıyla gönderildi.";
+                return RedirectToAction("Index", "Home");
+            }
+
+            TempData["ErrorMessage"] = "Mesaj gönderme başarısız! Lütfen tüm alanları doldurduğunuzdan emin olun.";
+            return View(cUS);
         }
     }
 }

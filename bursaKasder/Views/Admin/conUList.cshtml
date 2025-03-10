@@ -1,0 +1,96 @@
+﻿@model List<bursaKasder.Models.BKD_ContactUs>
+@{
+    ViewData["Title"] = "conUList";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="pc-container">
+    <div class="pc-content">
+        <div class="card shadow-lg mt-3">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h4 class="mb-0">Bize Ulaşanlar</h4>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="usersTable" class="table table-striped table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Ad / Soyad</th>
+                                <th>E-Mail</th>
+                                <th>Konu Başlığı</th>
+                                <th>Tarih</th>
+                                <th>İşlem</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model == null || !Model.Any())
+                            {
+                                <tr>
+                                    <td colspan="6" class="text-center text-muted">Kayıt bulunamadı.</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                @foreach (var user in Model)
+                                {
+                                    <tr>
+                                        <td>@user.conU_Name @user.conU_Surname</td>
+                                        <td>@user.conU_Email</td>
+                                        <td>@user.conU_Title</td>
+                                        <td>@user.conU_DateMessage.ToString("dd.MM.yyyy HH:mm")</td>
+                                        <td>
+                                            <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#messageModal"
+                                                    onclick="showMessage('@user.conU_Title', '@user.conU_Message', '@user.conU_Name @user.conU_Surname')">
+                                                Detay
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="messageModalLabel">Mesaj Detayı</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <strong>Gönderen:</strong> <span id="modalSender"></span><br>
+                <strong>Konu:</strong> <span id="modalTitle"></span><br>
+                <hr>
+                <p id="modalMessage" class="text-break"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showMessage(title, message, sender) {
+        document.getElementById('modalTitle').textContent = title;
+        document.getElementById('modalMessage').textContent = message;
+        document.getElementById('modalSender').textContent = sender;
+    }
+
+    $(document).ready(function () {
+        $('#usersTable').DataTable({
+            "language": {
+                "url": "/cdn.datatables.net/plug-ins/1.11.5/i18n/Turkish.json"
+            },
+            "ordering": true,
+            "paging": true,
+            "searching": true
+        });
+    });
+</script>

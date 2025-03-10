@@ -1,4 +1,4 @@
-﻿@* @model bursaKasder.Models.BKD_OrganizationInformation *@
+﻿
 <!DOCTYPE html>
 <html lang="en">
 <!-- [Head] start -->
@@ -23,7 +23,7 @@
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap" id="main-font-link">
 
-    <link rel="stylesheet" href="~/css/adminAssets/fonts/tabler-icons.min.css">
+    @* <link rel="stylesheet" href="~/css/adminAssets/fonts/tabler-icons.min.css"> *@
 
     <link rel="stylesheet" href="~/css/adminAssets/fonts/feather.css">
 
@@ -57,7 +57,7 @@
         <div class="navbar-wrapper">
             <div class="m-header">
                     <!-- ========   Change your logo from here   ============ -->
-                @* <img src="@Url.Content("~/UploadsOIPhoto/" + Model.OI_Logo)" class="img-fluid logo-lg" alt="logo"> *@
+                @* <img src="~/UploadsOIPhoto/e6d40bf8-95d6-4c8a-98aa-5f2ef060a181.png" class="img-fluid logo-lg" alt="logo"> *@
             </div>
             <div class="navbar-content">
                 <ul class="pc-navbar">
@@ -74,7 +74,7 @@
                         </a>
                     </li>
                     <li class="pc-item">
-                        <a href="#" class="pc-link">
+                        <a href="/Admin/conUList" class="pc-link">
 
                             <span class="pc-mtext">Bizimle İletişime Geçenler</span>
                         </a>

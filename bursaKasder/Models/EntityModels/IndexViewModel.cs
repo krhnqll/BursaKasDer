@@ -11,11 +11,13 @@ namespace bursaKasder.Models.EntityModels
         public List<BKD_NewsFromUs>? ListNews {  get; set; }
         public List<BKD_Announcements>? ListAnnouncements { get; set; }
         public List<BKD_Events>? ListEvents { get; set; }
-
+        public List<BKD_EventPhotos>? ListEventsPhotos { get; set; }
 
         public BKD_OrganizationInformation? DataOI { get; set; }
         public BKD_About? DataAbout { get; set; }
-       public BKD_Contact? DataContact { get; set; }
+
+        public BKD_Contact? DataContact { get; set; }
+        
         
 
 

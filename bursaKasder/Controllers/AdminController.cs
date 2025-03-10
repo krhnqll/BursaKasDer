@@ -308,7 +308,7 @@ namespace bursaKasder.Controllers
         // --------- Bizden Haberler Fonksiyonları
         public IActionResult NewsList()
         {
-            var newsList = _context.BKD_NewsFromUs.Where(s => s.newsU_Status == 0).Select(n => new addNewsFromUs
+            var newsList = _context.BKD_NewsFromUs.Where(s => s.newsU_Status == 0).OrderByDescending(e => e.newsU_Date).Select(n => new addNewsFromUs
             {
                 newsU_ID = n.newsU_ID,
                 newsU_Title = n.newsU_Title,
@@ -462,7 +462,7 @@ namespace bursaKasder.Controllers
         // --------- Duyuru Fonksiyonları
         public IActionResult AnnouncementsList()
         {
-            var announcements = _context.BKD_Announcements.Where(s => s.ann_Status == 0).Select(n => new addAnnouncementsImage
+            var announcements = _context.BKD_Announcements.Where(s => s.ann_Status == 0).OrderByDescending(e => e.ann_Date).Select(n => new addAnnouncementsImage
             {
                 ann_ID = n.ann_ID,
                 ann_Title = n.ann_Title,
@@ -1009,7 +1009,7 @@ namespace bursaKasder.Controllers
         [HttpGet]
         public IActionResult eventList()
         {
-            var eventData = _context.BKD_Events.Where(s => s.ev_Status == 0).Select(e => new EventViewModel
+            var eventData = _context.BKD_Events.Where(s => s.ev_Status == 0).OrderByDescending(e => e.ev_Date).Select(e => new EventViewModel
             {
                 ev_ID = e.ev_ID,
                 ev_Title = e.ev_Title,
@@ -1091,7 +1091,7 @@ namespace bursaKasder.Controllers
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToAction("Index", "Admin");
+            return RedirectToAction("eventList", "Admin");
         }
 
 
@@ -1230,7 +1230,16 @@ namespace bursaKasder.Controllers
             return RedirectToAction("Index", "Admin");
         }
 
+        //------ İletişime Geçenler
 
+        [HttpGet]
+        public IActionResult conUList()
+        {
+            var messages = _context.BKD_ContactUs
+                            .OrderByDescending(m => m.conU_DateMessage) // En yeni mesaj en üstte
+                            .ToList();
+            return View(messages);
+        }
 
     }
 }

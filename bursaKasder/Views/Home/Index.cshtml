@@ -154,6 +154,64 @@
             background: #ffcc00;
         }
 
+        .portfolio-slider {
+            padding: 50px 0;
+        }
+
+        .service-box {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            padding: 20px;
+            transition: all 0.3s ease-in-out;
+        }
+
+            .service-box:hover {
+                transform: translateY(-5px);
+                box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
+            }
+
+        .service-image img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .service-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-top: 15px;
+        }
+
+        .service-text {
+            font-size: 14px;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        .read-more {
+            display: inline-flex;
+            align-items: center;
+            margin-top: 15px;
+            font-size: 14px;
+            color: #007bff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+            .read-more i {
+                margin-left: 5px;
+            }
+
+        .swiper-button-prev, .swiper-button-next {
+            color: #007bff !important;
+        }
+
+        .swiper-pagination-bullet {
+            background: #007bff !important;
+        }
 
     </style>
 </head>
@@ -202,120 +260,59 @@
                     {
                         <div class="swiper-slide">
                             <div class="box service-box">
-                                <div class="service-icon">
-                                    <img class="img-icon" src="~/UploadEventPhoto/@item.ev_MainPhoto" alt="service image" draggable="false" />
+                                <div class="service-image">
+                                    <img src="~/UploadEventPhoto/@item.ev_MainPhoto" alt="@item.ev_Title" draggable="false" />
                                 </div>
                                 <div class="service-content">
                                     <h3 class="service-title">@item.ev_Title</h3>
-                                    <p class="service-text">
-                                        @item.ev_Content
-                                    </p>
+                                    <p class="service-text">@item.ev_Content</p>
                                 </div>
                                 <a class="read-more" href="service-single.html">Devamını Oku<i class="fas fa-arrow-right icon"></i></a>
                             </div>
                         </div>
                     }
                 </div>
-                <div class="swiper-button-prev">
-                    <div class="left-arrow">
-                        <i class="fas fa-arrow-left icon"></i>
-                    </div>
-                </div>
-                <div class="swiper-button-next">
-                    <div class="right-arrow">
-                        <i class="fas fa-arrow-right icon"></i>
-                    </div>
-                </div>
+                <!-- Pagination ve Navigation -->
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
             </div>
         </div>
     </section>
 
+
     <!-- End  services_img-icon_center-aligned   -->
     <!-- Start  portfolio Section-->
-    <section class="portfolio mega-section section-bg-shade" id="portfolio">
+    <section class="announcements-section mega-section section-bg-shade" id="announcements">
         <div class="container">
             <div class="section-heading center-heading text-center">
-                <h2 class="section-title wow" data-splitting="words">Haberler - Duyurular</h2>
+                <h2 class="section-title wow" data-splitting="words">Duyurular</h2>
                 <p class="section-subtitle wow fadeInUp" data-wow-delay=".5s">
-                    Bursa Kastamonulular Dayanışma Derneği Son Dönem Haber ve Duyuruları.
+                    Bursa Kastamonulular Dayanışma Derneği Güncel Duyuruları
                 </p>
                 <div class="line line-solid-main-color wow fadeIn" data-wow-delay="1s"></div>
             </div>
 
             <div class="row">
-                <!-- Sol Taraf: Haberler / Duyurular -->
-                <div class="col-lg-7">
-                    <div class="swiper-container news-slider wow fadeInUp" data-wow-delay=".5s">
-                        <div class="swiper-wrapper">
-                            @foreach (var item in Model.ListNews)
-                            {
-                                <div class="swiper-slide">
-                                    <div class="news-card shadow-sm p-2 rounded d-flex align-items-center">
-                                        <div class="news-img me-3 flex-shrink-0">
-                                            <img src="~/UploadNewsUsPhoto/@item.newsU_Photo" class="img-fluid rounded" width="80" height="80" alt="Haber Resmi">
-                                        </div>
-                                        <div class="news-content">
-                                            <h6 class="news-title">@item.newsU_Title</h6>
-                                            <p class="news-text small mb-1">@item.newsU_Content</p>
-                                            <a class="read-more btn btn-primary btn-sm" href="service-single.html">
-                                                Daha Fazla<i class="fas fa-arrow-right ms-2"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                        </div>
-                        <div class="swiper-button-prev">
-                            <i class="fas fa-arrow-left"></i>
-                        </div>
-                        <div class="swiper-button-next">
-                            <i class="fas fa-arrow-right"></i>
-                        </div>
-                    </div>
+                <!-- Sol Taraf: Fotoğraf -->
+                <div class="col-lg-4 d-flex align-items-center justify-content-center">
+                    <img src="~/UploadsOIPhoto/@Model.DataOI.OI_StatuePhoto" class="img-fluid rounded shadow-sm" alt="Duyurular Fotoğrafı" width="100%">
                 </div>
 
                 <!-- Sağ Taraf: Duyurular -->
-                <div class="col-lg-5">
+                <div class="col-lg-8">
                     <div class="sidebar-box recent-posts">
-                        <h6 class="sidebar-box-title">
-                            <i class="fas fa-bullhorn me-2"></i>Duyurular
-                        </h6>
                         <ul class="sidebar-list r-posts-list list-unstyled">
                             @foreach (var item in Model.ListAnnouncements)
                             {
-                                <li class="r-post-item d-flex align-items-center mb-2">
-                                    <div class="r-post-img-wrap me-2 flex-shrink-0">
-                                        <img class="r-post-img rounded" src="~/UploadsAnnouncementsPhoto/@item.ann_Photo" width="60" height="60" alt="Duyuru Resmi">
-                                    </div>
+                                <li class="r-post-item d-flex align-items-center mb-3 p-3 shadow-sm rounded bg-white">
                                     <div class="content">
-                                        <h6 class="r-post-title mb-1">@item.ann_Title</h6>
-                                        <span class="r-post-date text-muted small">@item.ann_Content</span>
+                                        <h6 class="r-post-title mb-1 text-primary">@item.ann_Title</h6>
+                                        <p class="r-post-date text-muted small mb-0">@item.ann_Content</p>
                                     </div>
                                 </li>
                             }
                         </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Start  our-clients Section-->
-    <section class="our-clients   elf-section" id="our-clients">
-        <div class="container">
-            <div class="section-heading d-none ">
-                <h4 class="section-title ">our great clients</h4>
-                <p class="section-subtitle">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt, architecto cupiditate odio rerum est</p>
-                <div class="line-gradient-color">       </div>
-            </div>
-            <div class=" clients-logos d-flex align-items-center justify-content-around flex-wrap">
-                <!--Swiper-->
-                <div class="swiper-container">
-                    <div class="swiper-wrapper clients-logo-wraper">
-                        @foreach (var item in Model.ListNews) {
-                            <div class="swiper-slide">
-                                <div class="client-logo  wow fadeInUp" data-wow-delay=".2s"><a href="#0"><img class="img-fluid logo " src="~/UploadNewsUsPhoto/@item.newsU_Photo" alt=" "></a></div>
-                            </div>
-                        }
                     </div>
                 </div>
             </div>
@@ -329,7 +326,7 @@
             <div class="bounce3"></div>
         </div>
     </div>
-        
+
     <div class="back-to-top" id="back-to-top"><i class="fas fa-arrow-up icon"></i></div>
 
 
@@ -352,6 +349,30 @@
                     clickable: true
                 }
             });
+
+                    var swiper = new Swiper(".event-slider", {
+            slidesPerView: 3,   // Aynı anda 3 etkinlik göster
+            spaceBetween: 20,   // Kartlar arası boşluğu optimize et
+            loop: true,
+            autoplay: {
+                delay: 3000, // 3 saniyede bir kaydır
+                disableOnInteraction: false
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true
+            },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev"
+            },
+            breakpoints: {
+                1024: { slidesPerView: 3 },
+                768: { slidesPerView: 2 },
+                480: { slidesPerView: 1 }
+            }
+        });
+
         });
     </script>
 

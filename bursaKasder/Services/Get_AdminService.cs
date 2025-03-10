@@ -15,7 +15,7 @@ namespace bursaKasder.Services
 
         public async Task<List<BKD_Admins>> GetAllUsers()
         {
-            return await _context.BKD_Admins.AsNoTracking().Where(adm => adm.adm_Status == 0 ).ToListAsync();
+            return await _context.BKD_Admins.AsNoTracking().Where(adm => adm.adm_Status == 0 ).OrderByDescending(e => e.adm_ID).ToListAsync();
         }
 
         public async Task<BKD_Admins?> Get_UserById(int? id_User)
