@@ -22,17 +22,20 @@ namespace bursaKasder.Controllers
 
         public IActionResult Index()
         {
-            
-
-
+            // Organizasyon bilgisini çek
             var OIData = _context.BKD_OrganizationInformation.FirstOrDefault();
 
-            //var AboutData = _context.BKD_About.FirstOrDefault();
+            if (OIData != null)
+            {
+                // Ziyaretçi sayacını artır
+                OIData.Counter = (OIData.Counter ?? 0) + 1;
+                _context.SaveChanges();
+            }
+
             var NEWSData = _context.BKD_NewsFromUs.Where(s => s.newsU_Status == 0).OrderByDescending(n => n.newsU_ID).ToList();
             var OSData = _context.BKD_OrganizationalStructure.Where(s => s.OS_Status == 0).OrderBy(n => n.OS_ID).Take(3).ToList();
             var AnnouncementsData = _context.BKD_Announcements.Where(s => s.ann_Status == 0).OrderByDescending(n => n.ann_ID).Take(3).ToList();
-            var EventData = _context.BKD_Events.Where(s => s.ev_Status == 0).OrderByDescending(n => n.ev_ID).Take(6).ToList();
-            var EventPhotos = _context.BKD_EventPhotos.Where(s => s.evP_Status == 0).ToList();
+            var EventData = _context.BKD_Events.Where(s => s.ev_Status == 0).OrderByDescending(n => n.ev_ID).ToList();
 
             var model = new IndexViewModel
             {
@@ -41,15 +44,12 @@ namespace bursaKasder.Controllers
                 ListNews = NEWSData,
                 ListAnnouncements = AnnouncementsData,
                 ListEvents = EventData,
-                //DataAbout = AboutData,
-                ListEventsPhotos = EventPhotos,
+                 // Sayaç bilgisini View'e gönder
             };
 
-            
-
             return View(model);
-
         }
+
 
 
 

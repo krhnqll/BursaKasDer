@@ -60,7 +60,7 @@
                             {
                                 <div class="col-12 col-md-6 col-lg-4 news-item" data-index="@index">
                                     <div class="post-box">
-                                        <a class="post-link" href="post-single-featured-image_dark.html">
+                                        <a class="post-link" href="@Url.Action("showNewsDetail", "Pages", new { id = news.newsU_ID })">
                                             <div class="post-img-wraper">
                                                 <div class="overlay-color"></div>
                                                 <i class="fas fa-search icon"></i>
@@ -74,7 +74,7 @@
                                                 </span>
                                             </div>
                                             <div class="post-text">
-                                                <a class="post-link" href="post-single-featured-image_dark.html">
+                                                        <a class="post-link" href="@Url.Action("showNewsDetail", "Pages", new { id = news.newsU_ID })">
                                                     <h2 class="post-title">@news.newsU_Title</h2>
                                                 </a>
                                                 <p class="post-excerpt">

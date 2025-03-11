@@ -72,7 +72,7 @@ namespace bursaKasder.Controllers
 
         public IActionResult news_FromUs()
         {
-            var newsData = _context.BKD_NewsFromUs.Where(s => s.newsU_Status == 0).ToList();
+            var newsData = _context.BKD_NewsFromUs.Where(s => s.newsU_Status == 0).OrderByDescending(n => n.newsU_ID).ToList();
 
             var OIData = _context.BKD_OrganizationInformation.FirstOrDefault();
             ViewBag.Logo = OIData.OI_Logo;
@@ -101,7 +101,7 @@ namespace bursaKasder.Controllers
         }
         public IActionResult events()
         {
-            var eventData = _context.BKD_Events.Where(s => s.ev_Status == 0).ToList();
+            var eventData = _context.BKD_Events.Where(s => s.ev_Status == 0).OrderByDescending(n => n.ev_ID).ToList();
 
             if (eventData == null) { return NotFound(); }
 

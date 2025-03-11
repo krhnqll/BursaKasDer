@@ -31,9 +31,11 @@ namespace bursaKasder.Controllers
 
         public IActionResult Index()
         {
+            var counterValue = _context.BKD_OrganizationInformation.Select(s => s.Counter).FirstOrDefault();
 
-            ViewData["UserName"] = HttpContext.Session.GetString("Admin_name");
-            ViewData["UserSurname"] = HttpContext.Session.GetString("Admin_surname");
+            ViewBag.Name = HttpContext.Session.GetString("Admin_name");
+            ViewBag.Surname = HttpContext.Session.GetString("Admin_surname");
+            ViewBag.Counter = counterValue;
 
             var OIData = _context.BKD_OrganizationInformation.FirstOrDefault();
 
@@ -231,7 +233,7 @@ namespace bursaKasder.Controllers
             _context.BKD_About.Add(w);
             _context.SaveChanges();
 
-            return RedirectToAction("AnnouncementsList", "Admin");
+            return RedirectToAction("aboutInfo", "Admin");
 
         }
 
@@ -249,7 +251,7 @@ namespace bursaKasder.Controllers
             _context.BKD_Contact.Add(contact);
             _context.SaveChanges();
 
-            return RedirectToAction("Index", "Admin");
+            return RedirectToAction("contactInfo", "Admin");
 
         }
 
@@ -299,7 +301,7 @@ namespace bursaKasder.Controllers
             _context.BKD_OrganizationInformation.Add(w);
             _context.SaveChanges();
 
-            return RedirectToAction("Index", "Admin");
+            return RedirectToAction("bkdInfo", "Admin");
         }
 
 
@@ -600,7 +602,7 @@ namespace bursaKasder.Controllers
                 TempData["ErrorMessage"] = "Haber silinirken bir hata oluştu!";
             }
 
-            return RedirectToAction("AnnouncementList", "Admin");
+            return RedirectToAction("AnnouncementsList", "Admin");
         }
 
         // ----------- Teşkilat Yapısı Fonksiyonları
@@ -652,7 +654,7 @@ namespace bursaKasder.Controllers
             _context.BKD_OrganizationalStructure.Add(m);
             _context.SaveChanges();
 
-            return RedirectToAction("Index", "Admin");
+            return RedirectToAction("OSStructureList", "Admin");
         }
 
         [HttpGet]
@@ -1151,7 +1153,7 @@ namespace bursaKasder.Controllers
                 EventPhotos = eventToEdit.EventPhotos.Select(p => p.evP_Photo).ToList()
             };
 
-            return View(model);
+            return PartialView("editEvent", model);
         }
 
         [HttpPost]
@@ -1227,7 +1229,26 @@ namespace bursaKasder.Controllers
 
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("Index", "Admin");
+            return RedirectToAction("eventList", "Admin");
+        }
+
+        [HttpPost]
+        public IActionResult DeletePhoto(string photoName, int eventId)
+        {
+            var photo = _context.BKD_EventPhotos.FirstOrDefault(p => p.evP_Photo == photoName && p.evP_EventId == eventId);
+            if (photo != null)
+            {
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UploadEventPhoto/", photo.evP_Photo);
+                if (System.IO.File.Exists(filePath))
+                {
+                    System.IO.File.Delete(filePath);
+                }
+
+                _context.BKD_EventPhotos.Remove(photo);
+                _context.SaveChanges();
+            }
+
+            return RedirectToAction("editEvent", new { id = eventId });
         }
 
         //------ İletişime Geçenler

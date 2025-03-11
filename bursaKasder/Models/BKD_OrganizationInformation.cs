@@ -18,5 +18,7 @@ namespace bursaKasder.Models
         [Required]
         public int? OI_Status { get; set; }
 
+        public int? Counter { get; set; }
+
     }
 }
