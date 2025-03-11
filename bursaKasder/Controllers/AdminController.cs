@@ -9,6 +9,7 @@ using NuGet.Protocol;
 using bursaKasder.Migrations;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
 
 
 namespace bursaKasder.Controllers
@@ -29,11 +30,27 @@ namespace bursaKasder.Controllers
             _getAdminService = getAdminService;
         }
 
+        private void CheckAdminSession()
+        {
+            if (string.IsNullOrEmpty(_sessionClass.Admin_name))
+            {
+                Response.Redirect("/Login/Index");
+            }
+        }
+
         public IActionResult Index()
         {
+            var adminName = HttpContext.Session.GetString("Admin_name");
+
+            // Kullanıcı oturum açmamışsa giriş sayfasına yönlendir
+            if (string.IsNullOrEmpty(adminName))
+            {
+                return RedirectToAction("Index", "Login"); // "Account" controller'ındaki "Login" action'ına yönlendir
+            }
+
             var counterValue = _context.BKD_OrganizationInformation.Select(s => s.Counter).FirstOrDefault();
 
-            ViewBag.Name = HttpContext.Session.GetString("Admin_name");
+            ViewBag.Name = adminName;
             ViewBag.Surname = HttpContext.Session.GetString("Admin_surname");
             ViewBag.Counter = counterValue;
 
@@ -44,14 +61,15 @@ namespace bursaKasder.Controllers
                 return NotFound("Hakkımızda bilgisi bulunamadı.");
             }
 
-
             return View(OIData);
         }
+
 
         //-------------- Kullanıcı Fonksiyonları
         [HttpGet]
         public async Task<IActionResult> UserList()
         {
+            CheckAdminSession();
             try
             {
                 var result = await _getAdminService.GetAllUsers();
@@ -70,12 +88,14 @@ namespace bursaKasder.Controllers
         [HttpGet]
         public IActionResult admin_add_NewUser()
         {
+            CheckAdminSession();
             return View(new BKD_Admins { });
         }
 
         [HttpGet]
         public async Task<IActionResult> admin_Edit_Profile(int id)
         {
+            CheckAdminSession();
             var adminUser = await _getAdminService.Get_UserById(id);
 
             if (adminUser == null)
@@ -198,6 +218,7 @@ namespace bursaKasder.Controllers
         [HttpGet]
         public IActionResult addAbout()
         {
+            CheckAdminSession();
             return View();
         }
         [HttpPost]
@@ -240,6 +261,7 @@ namespace bursaKasder.Controllers
         [HttpGet]
         public IActionResult addContact()
         {
+            CheckAdminSession();
             return View();
         }
 
@@ -258,6 +280,7 @@ namespace bursaKasder.Controllers
         [HttpGet]
         public IActionResult addOI()
         {
+            CheckAdminSession();
             return View();
         }
 
@@ -310,6 +333,7 @@ namespace bursaKasder.Controllers
         // --------- Bizden Haberler Fonksiyonları
         public IActionResult NewsList()
         {
+            CheckAdminSession();
             var newsList = _context.BKD_NewsFromUs.Where(s => s.newsU_Status == 0).OrderByDescending(e => e.newsU_Date).Select(n => new addNewsFromUs
             {
                 newsU_ID = n.newsU_ID,
@@ -328,6 +352,7 @@ namespace bursaKasder.Controllers
         [HttpGet]
         public IActionResult addNewsFromUs()
         {
+            CheckAdminSession();
             return View();
         }
 
@@ -464,6 +489,7 @@ namespace bursaKasder.Controllers
         // --------- Duyuru Fonksiyonları
         public IActionResult AnnouncementsList()
         {
+            CheckAdminSession();
             var announcements = _context.BKD_Announcements.Where(s => s.ann_Status == 0).OrderByDescending(e => e.ann_Date).Select(n => new addAnnouncementsImage
             {
                 ann_ID = n.ann_ID,
@@ -484,6 +510,7 @@ namespace bursaKasder.Controllers
         [HttpGet]
         public IActionResult addAnnouncements()
         {
+            CheckAdminSession();
             return View();
         }
 
@@ -518,6 +545,7 @@ namespace bursaKasder.Controllers
         [HttpGet]
         public IActionResult editAnnouncement(int id)
         {
+            CheckAdminSession();
             var news = _context.BKD_Announcements
                .Where(n => n.ann_ID == id)
                .Select(n => new addAnnouncementsImage
@@ -608,6 +636,7 @@ namespace bursaKasder.Controllers
         // ----------- Teşkilat Yapısı Fonksiyonları
         public IActionResult OSStructureList()
         {
+            CheckAdminSession();
             var structures = _context.BKD_OrganizationalStructure.Where(s => s.OS_Status == 0).Select(n => new addOSImage
             {
                 OS_ID = n.OS_ID,
@@ -626,12 +655,14 @@ namespace bursaKasder.Controllers
         [HttpGet]
         public IActionResult addOS()
         {
+            CheckAdminSession();
             return View();
         }
 
         [HttpPost]
         public IActionResult addOS(addOSImage OS)
         {
+
             BKD_OrganizationalStructure m = new BKD_OrganizationalStructure();
 
             if (OS.OS_Photo != null)
@@ -753,6 +784,7 @@ namespace bursaKasder.Controllers
 
         public IActionResult contactInfo()
         {
+            CheckAdminSession();
             var contactData = _context.BKD_Contact.FirstOrDefault();
 
             if (contactData == null)
@@ -766,7 +798,7 @@ namespace bursaKasder.Controllers
         [HttpGet]
         public IActionResult editContact()
         {
-
+            CheckAdminSession();
             var findData = _context.BKD_Contact.FirstOrDefault();
 
             if (findData != null)
@@ -810,6 +842,7 @@ namespace bursaKasder.Controllers
         [HttpGet]
         public IActionResult bkdInfo()
         {
+            CheckAdminSession();
             var bkdDATA = _context.BKD_OrganizationInformation.Select(n => new addOIimage
             {
                 OI_ID = n.OI_ID,
@@ -826,6 +859,7 @@ namespace bursaKasder.Controllers
         [HttpGet]
         public IActionResult editBkd()
         {
+            CheckAdminSession();
             var news = _context.BKD_OrganizationInformation.Select(n => new addOIimage
             {
                 OI_ID = n.OI_ID,
@@ -909,6 +943,7 @@ namespace bursaKasder.Controllers
         [HttpGet]
         public IActionResult aboutInfo()
         {
+            CheckAdminSession();
             var aboutData = _context.BKD_About.Select(n => new addAboutImage
             {
                 ab_ID = n.ab_ID,
@@ -926,6 +961,7 @@ namespace bursaKasder.Controllers
         [HttpGet]
         public IActionResult editAbout()
         {
+            CheckAdminSession();
             var news = _context.BKD_About
               .Select(n => new addAboutImage
               {
@@ -1011,6 +1047,7 @@ namespace bursaKasder.Controllers
         [HttpGet]
         public IActionResult eventList()
         {
+            CheckAdminSession();
             var eventData = _context.BKD_Events.Where(s => s.ev_Status == 0).OrderByDescending(e => e.ev_Date).Select(e => new EventViewModel
             {
                 ev_ID = e.ev_ID,
@@ -1027,6 +1064,7 @@ namespace bursaKasder.Controllers
         [HttpGet]
         public IActionResult addEvent()
         {
+            CheckAdminSession();
             return View();
         }
 
@@ -1256,6 +1294,7 @@ namespace bursaKasder.Controllers
         [HttpGet]
         public IActionResult conUList()
         {
+            CheckAdminSession();
             var messages = _context.BKD_ContactUs
                             .OrderByDescending(m => m.conU_DateMessage) // En yeni mesaj en üstte
                             .ToList();
